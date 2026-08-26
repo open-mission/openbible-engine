@@ -8,6 +8,7 @@ import type { DriverFactory } from "./driver.js";
 import { NodeBibleLibrary, NodeBibleInstaller, reconcileNodeDataDir } from "./bible-store.js";
 import type { ReconcileStats } from "./bible-store.js";
 import { NodeSqliteRegistry } from "./registry.js";
+import { basename } from "node:path";
 import type { InstalledBibleRegistry, BibleLibrary, BibleInstaller } from "@openbible/engine";
 
 export interface NodeAdapterOptions {
@@ -34,7 +35,7 @@ export function createNodeAdapter(options: NodeAdapterOptions): NodeAdapter {
   const driverFactory = options.driverFactory ?? nodeSqliteDriverFactory;
   const library = new NodeBibleLibrary(options.dataDir, driverFactory);
   const registry = new NodeSqliteRegistry(options.registryPath, driverFactory);
-  const reconcile = reconcileNodeDataDir(options.dataDir, registry, library);
+  const reconcile = reconcileNodeDataDir(options.dataDir, registry, library, basename(options.registryPath));
   const installer = new NodeBibleInstaller(options.dataDir, registry, library, driverFactory);
   return {
     library,

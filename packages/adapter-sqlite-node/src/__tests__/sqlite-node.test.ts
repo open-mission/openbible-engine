@@ -260,6 +260,28 @@ describe("openbible adapter-sqlite-node (legacy schema)", () => {
       adapter.close();
       reg.close();
     });
+
+    it("a .db without registry (first install interrupted after promote, before registry) is an orphan and is removed (FR-005)", () => {
+      touch(dataDir, "ara.db"); // final present, NO registry entry, no bak/trash
+      const reg = new NodeSqliteRegistry(registryPath, nodeSqliteDriverFactory);
+      const adapter = createNodeAdapter({ dataDir, registryPath });
+      expect(existsSync(join(dataDir, "ara.db"))).toBe(false);
+      expect(adapter.reconcile.removedOrphans).toBe(1);
+      expect(reg.listSync().length).toBe(0);
+      adapter.close();
+      reg.close();
+    });
+
+    it("does not treat the registry DB file (store.db) as an orphan (FR-005)", () => {
+      const reg = new NodeSqliteRegistry(registryPath, nodeSqliteDriverFactory);
+      reg.setSync({ id: "ara", name: "ARA", installedAt: 1, versionCode: 1 });
+      writeFileSync(join(dataDir, "ara.db"), "old");
+      const adapter = createNodeAdapter({ dataDir, registryPath });
+      expect(existsSync(registryPath)).toBe(true); // registry preserved
+      expect(existsSync(join(dataDir, "ara.db"))).toBe(true); // registered bible preserved
+      adapter.close();
+      reg.close();
+    });
   });
 
   it("cancellation at each checkpoint leaves nothing installed and no stray files (US-005 FR-005 NFR-004 AC-025)", async () => {

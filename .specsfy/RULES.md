@@ -26,7 +26,7 @@ Para TypeScript, explicite regras de tipagem estrita e modularização.
 - Vitest runner; Gherkin só na `spec.md` (seção 6), materializado como TDD comportamental com marcador `// SPECSFY: US-XXX FR-XXX NFR-XXX AC-XXX`.
 - TDD comportamental: cada requisito tem teste que FALHA se a capacidade real for removida. NÃO usar marcadores de massa/`traceability-bulk` para satisfazer rastreabilidade.
 - RED válido antes de GREEN; sem mocks que escondam fronteira; contract suite para livros/capítulos/busca; testes arquiteturais para core imports, engine purity (sem SQLite/DOM globals) e exports; conformance CLI via exports públicos sobre SQLite real, provando persistência após fechar/reabrir.
-- Adapter `@openbible/adapter-sqlite-node` (Node.js) testado contra banco SQLite temporário real com o schema legado (`book.id`/`verse.book_id` INTEGER, `metadata` com somente `name`) com consultas reais e limpeza ao final; garante exception-safe e crash-safe via reconciliação; `adapter-sqlite-web` NÃO é tratado como funcional (fatia planejada); `@openbible/adapter-sqlite-native` reservado para o futuro Native SDK.
+- Adapter `@openbible/adapter-sqlite-node` (Node.js) testado contra banco SQLite temporário real com o schema legado (`book.id`/`verse.book_id` INTEGER, `metadata` com somente `name`) com consultas reais e limpeza ao final; garante exception-safe e reconciliação best-effort na inicialização (não crash-safe completa sem journal); `adapter-sqlite-web` NÃO é tratado como funcional (fatia planejada); `@openbible/adapter-sqlite-native` reservado para o futuro Native SDK.
 - Cada US/FR/NFR com ≥3 ACs e ≥3 TDDs; `pnpm turbo run build test typecheck lint check` passam.
 
 ## Segurança e privacidade

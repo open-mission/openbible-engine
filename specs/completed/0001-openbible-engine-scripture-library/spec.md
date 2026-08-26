@@ -194,10 +194,15 @@ Correções incorporadas (Revisão 2):
    após `close()`.
 6. Teste de falha de registro depois do promote: versão anterior intacta byte a
    byte, consultável; registry anterior preservado; sem `.tmp`/`.bak`.
-7. Garantia **crash-safe** implementada: reconciliação de `.tmp`/`.bak`/`.trash`
-   ao abrir o adapter (e **exception-safe** ao longo da instalação), com testes
-   dos estados intermediários (final ausente+bak; final+bak; trash+registry;
-   trash sem registry; tmp abandonado).
+7. Garantia **exception-safe** ao longo da instalação/desinstalação e
+   **reconciliação best-effort na inicialização** (não crash-safe completa):
+   `reconcileNodeDataDir` repara `.tmp`/`.bak`/`.trash` ao abrir o adapter.
+   Um arquivo `.db` sem entrada no registry é tratado como **órfão** e removido
+   (ex.: primeira instalação interrompida após o promote e antes do registro);
+   documentado que `.db + .bak` é **ambíguo sem journal** e resolvido por
+   heurística determinística (rollback ao anterior). Crash-safety completa com
+   journal por operação fica como **spec futura**. Testado também o caso de
+   primeira instalação interrompida após o promote e antes do registry.
 8. `CancellationToken` consultado entre fases (após write, após validação, antes
    de mover o anterior, antes de promover, antes de registrar), com teste de
    cancelamento provocado pelo observer em cada checkpoint.
@@ -220,7 +225,7 @@ fatia SQLite Node compatível com o schema legado.
 - Monorepo pnpm workspace com `turbo.json` (build, test, test:coverage, typecheck, lint, check), `pnpm-workspace.yaml`, catalogs, `workspace:*`, Changesets.
 - `@openbible/engine-core` (zero deps, sync, determinístico, sem plataforma; inclui `CancellationToken`).
 - `@openbible/engine` (portas, casos de uso, façade `createBibleEngine`, depende só de engine-core; port transacional `BibleInstaller`; sem interpretar SQLite nem globals de DOM).
-- `@openbible/adapter-sqlite-node` (adapter **Node.js** REAL sobre arquivo SQLite via driver `node:sqlite` injetável; compatível com o **schema legado** do Open Bible: `book.id INTEGER`, `verse.book_id INTEGER`, `metadata(key,value)` com `name` e `versionId` opcional; `NodeBibleLibrary` leitura + ciclo de conexão, `NodeBibleInstaller` transacional **crash-safe** via reconciliação, `NodeSqliteRegistry` persistente). `@openbible/adapter-sqlite-native` fica reservado para o futuro adapter do Native SDK (runtimes não compartilháveis).
+- `@openbible/adapter-sqlite-node` (adapter **Node.js** REAL sobre arquivo SQLite via driver `node:sqlite` injetável; compatível com o **schema legado** do Open Bible: `book.id INTEGER`, `verse.book_id INTEGER`, `metadata(key,value)` com `name` e `versionId` opcional; `NodeBibleLibrary` leitura + ciclo de conexão, `NodeBibleInstaller` transacional **exception-safe** com **reconciliação best-effort** na inicialização, `NodeSqliteRegistry` persistente). `@openbible/adapter-sqlite-native` fica reservado para o futuro adapter do Native SDK (runtimes não compartilháveis).
 - `@openbible/adapter-sqlite-web` (fatia PLANEJADA — boundary não funcional; requer Worker + SQLite WASM + OPFS/SAHPool em navegador real para ser concluído).
 - `@openbible/adapter-http` (catálogo/download opcional com progresso/cancel).
 - `@openbible/engine-testing` (fixtures, fakes, contract suite, builders — a implementação in-memory vive aqui como `FakeLibrary`/`FakeBibleInstaller`).
@@ -1261,7 +1266,7 @@ Cada tarefa possui exatamente este checklist, atualizado durante a execução:
   - [x] **IMPROVE**: Aplicar melhoria de processo ou justificar nenhuma.
   <!-- specsfy:evidence {"task":"T034","refs":["US-001","US-002","US-003","US-005","FR-006","FR-007","FR-010","NFR-002","NFR-003","NFR-006","AC-006","AC-007","AC-010","AC-017","AC-026"],"files":["packages/engine-testing/src/fakes.ts","packages/engine-testing/src/fixtures.ts","packages/engine-testing/src/contract-suite.ts","packages/engine-testing/src/builders.ts"],"commands":[{"run":"pnpm exec vitest run packages/engine-testing/src/contract-suite.test.ts","exit":0}]} -->
 
-- [x] T035 [CODE] [US-002] Implementar adapter-sqlite-node compatível com o schema legado (driver injetável, int→canonical, ciclo de conexão, reconciliação crash-safe) em packages/adapter-sqlite-node/src/driver.ts — Refs: US-002, FR-010, NFR-002, NFR-003, AC-010, AC-020, AC-030 — Depends: T010, T020, T030
+- [x] T035 [CODE] [US-002] Implementar adapter-sqlite-node compatível com o schema legado (driver injetável, int→canonical, ciclo de conexão, reconciliação best-effort) em packages/adapter-sqlite-node/src/driver.ts — Refs: US-002, FR-010, NFR-002, NFR-003, AC-010, AC-020, AC-030 — Depends: T010, T020, T030
   - [x] **PREP**: Confirmar RED TDD e dependências.
   - [x] **EXECUTE**: Implementar a menor mudança.
   - [x] **VERIFY**: Executar testes focais e regressão.
@@ -1359,8 +1364,9 @@ Cada tarefa possui exatamente este checklist, atualizado durante a execução:
 - **DEC-015**: Adapter SQLite Node compatível com o schema legado — razão: os bancos reais do Open Bible usam `book.id INTEGER`, `verse.book_id INTEGER` e `metadata` com somente `name`; a engine lê via mapa 1..66 → canônico e aceita `versionId` opcional.
 - **DEC-016**: Identidade da versão a partir do input/manifest — razão: `metadata.versionId` é opcional em bancos legados; se presente é validado, se ausente não rejeita; checksum de pacote fica como evolução futura.
 - **DEC-017**: Ciclo de conexões com `closeVersion`/`close` — razão: fechar a conexão antes de substituir/remover o arquivo evita inode/lock antigo e garante que uma reinstalação leia o conteúdo novo.
-- **DEC-018**: Garantia crash-safe via reconciliação — razão: a instalação/desinstalação é exceção-safe e, adicionalmente, crash-safe: `reconcileNodeDataDir` repara `.tmp`/`.bak`/`.trash` na abertura do adapter.
+- **DEC-018**: Garantia exception-safe + reconciliação best-effort — razão: a instalação/desinstalação é exceção-safe; na inicialização `reconcileNodeDataDir` repara `.tmp`/`.bak`/`.trash` por heurística, trata `.db` sem registry como órfão (removido) e documenta `.db + .bak` como ambíguo sem journal. **Não** é crash-safe completa: isso fica como spec futura (journal por operação).
 - **DEC-019**: Adapter renomeado para `@openbible/adapter-sqlite-node` e reserva de `-native` — razão: `node:fs`/`node:path`/`node:sqlite` não são compartilháveis com o Native SDK; o futuro `@openbible/adapter-sqlite-native` usará outra implementação da mesma port.
+- **DEC-020**: Crash-safety completa como spec futura — razão: para crash-safe total seria necessário journal por operação (tipo, versionId, fase, snapshot do registry anterior), atualização antes de cada transição, reconciliação determinística de todas as fases e teste de interrupção após cada rename e após `registry.set`, além de distinguir process crash de power loss (fsync). Fora deste milestone; a garantia atual é *startup reconciliation best-effort*.
 
 ### 18. Definition of Done
 
@@ -1381,7 +1387,7 @@ Cada tarefa possui exatamente este checklist, atualizado durante a execução:
 - [x] Fatia SQLite Node compatível com o schema legado: `book.id`/`verse.book_id` INTEGER, `metadata` com somente `name`, campos adicionais não quebram leitura; IDs 1..66 mapeados para canônicos.
 - [x] Identidade da versão vem do input/manifest (`metadata.versionId` opcional, validado se presente); banco legado sem `versionId` não é rejeitado.
 - [x] Ciclo de conexões corrigido (`closeVersion`/`close`, fechar antes de substituir/remover, `NodeAdapter.close()` fecha library e registry); reinstalação lê o conteúdo novo sem recriar processo.
-- [x] Garantia **exception-safe** e **crash-safe**: reconciliação de `.tmp`/`.bak`/`.trash` na abertura do adapter, com testes dos estados intermediários.
+- [x] Garantia **exception-safe** e **reconciliação best-effort na inicialização**: `reconcileNodeDataDir` repara `.tmp`/`.bak`/`.trash`, trata `.db` sem registry como órfão (removido) e documenta `.db + .bak` como ambíguo sem journal; **crash-safety completa** com journal fica como **spec futura** (DEC-020).
 - [x] `CancellationToken` consultado em todos os checkpoints da instalação; `SearchResult.total` = `COUNT(*)` antes do LIMIT com ordem canônica.
 - [x] Adapter documentado como **Node.js** (`node:fs`/`node:path`/`node:sqlite`), sem afirmação de compatibilidade com Bun (não executada); `@openbible/adapter-sqlite-node` renomeado e `@openbible/adapter-sqlite-native` reservado.
 - [x] Conformance CLI usa a fixture compatível com o schema legado e prova persistência após fechar/reabrir.

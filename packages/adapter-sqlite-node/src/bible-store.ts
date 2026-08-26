@@ -342,20 +342,32 @@ export interface ReconcileStats {
   removedTmp: number;
   restored: number;
   removedStaleRegistry: number;
+  removedOrphans: number;
 }
 
 /**
- * Synchronous crash recovery, run when an adapter is opened. It reconciles
- * intermediate `.tmp`/`.bak`/`.trash` states so the store returns to a
- * consistent state after an interrupted install/uninstall. This makes the
- * install/uninstall crash-safe (in addition to exception-safe).
+/**
+ * Startup reconciliation (BEST-EFFORT, not full crash-safety), run when an
+ * adapter is opened. It repairs intermediate `.tmp`/`.bak`/`.trash` states so
+ * the store starts from a consistent state after an interrupted
+ * install/uninstall, using deterministic heuristics.
+ *
+ * Known limits (documented, not crash-safe without a journal):
+ *  - a `.db` + `.bak` pair is ambiguous without an operations journal; we
+ *    deterministically roll back to the previous version (best-effort);
+ *  - a `.db` file with no registry entry is treated as an ORPHAN and removed
+ *    (e.g. a first install interrupted after promote and before registry);
+ *  - `node:fs` renames are not fsync'd: this is NOT durable against power loss,
+ *    only against process interruption.
  */
 export function reconcileNodeDataDir(
   dataDir: string,
   registry: InstalledBibleRegistry & { listSync(): InstalledBible[]; getSync(id: string): InstalledBible | null; removeSync(id: string): void },
   library: NodeBibleLibrary,
+  /** Basename of the registry DB file to exclude from orphan handling (e.g. "store.db"). */
+  registryBasename?: string,
 ): ReconcileStats {
-  const stats: ReconcileStats = { removedTmp: 0, restored: 0, removedStaleRegistry: 0 };
+  const stats: ReconcileStats = { removedTmp: 0, restored: 0, removedStaleRegistry: 0, removedOrphans: 0 };
   if (!existsSync(dataDir)) return stats;
 
   // Remove abandoned temporary files (never a valid installed artifact).
@@ -366,15 +378,18 @@ export function reconcileNodeDataDir(
     }
   }
 
-  // Candidate versions = known registry entries ∪ files on disk (`.db`/`.bak`/`.trash`).
+  // Candidate versions = known registry entries ∪ files on disk (`.db`/`.bak`/`.trash`),
+  // excluding the registry DB file itself, which must never be treated as an orphan.
   const ids = new Set<string>();
   for (const entry of registry.listSync()) ids.add(entry.id);
   for (const name of readdirSync(dataDir)) {
+    if (name === registryBasename) continue;
     const m = name.match(/^(.+)\.db(\.bak|\.trash)?$/) ?? name.match(/^(.+)\.db\.tmp-/);
     if (m) ids.add(m[1]);
   }
 
   for (const id of ids) {
+    if (`${id}.db` === registryBasename) continue;
     const final = join(dataDir, `${id}.db`);
     const bak = join(dataDir, `${id}.db.bak`);
     const trash = join(dataDir, `${id}.db.trash`);
@@ -389,7 +404,7 @@ export function reconcileNodeDataDir(
         renameSync(bak, final);
         stats.restored++;
       } else {
-        // ambiguous `.db`+`.bak`: roll back to the previous version
+        // ambiguous `.db`+`.bak` (no journal): best-effort rollback to previous
         rmSync(final, { force: true });
         renameSync(bak, final);
         stats.restored++;
@@ -408,6 +423,13 @@ export function reconcileNodeDataDir(
       } else {
         rmSync(trash, { force: true });
       }
+    }
+
+    // A `.db` file with no registry entry is an orphan (e.g. first install
+    // interrupted after promote and before registry) => discard it.
+    if (!hasRegistry && existsSync(final)) {
+      rmSync(final, { force: true });
+      stats.removedOrphans++;
     }
 
     // Registry entry with no on-disk bible file is stale.
