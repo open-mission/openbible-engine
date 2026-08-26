@@ -88,24 +88,89 @@ Entregar fundação do monorepo `openbible-engine` em TypeScript portátil, pnpm
 
 - Nenhuma — decisões confirmadas cobrem stack, bounded contexts, estrutura e invariantes.
 
+#### Revisão arquitetural (validação da fundação experimental)
+
+A validação arquitetural aplicada sobre a fundação experimental identificou
+diferenças entre a documentação, os critérios de aceite e a implementação
+observada, que não sustentavam a afirmação de entrega concluída. Registro da
+revisão (executada via `$specsfy-update-spec`):
+
+- **R-005** [critical] "a engine interpretava o formato SQLite internamente"
+  claim — Verdict: **refuted** — Evidence: `packages/engine/src/engine.ts`
+  (antes: `SQLITE_HEADER`, `decodePayload`, `validateParsedPayload`,
+  `TextEncoder`/`TextDecoder`, `DOMException`) — Confiança alta.
+- **R-006** [critical] "atomicidade da instalação era coordenada por
+  `BibleLibrary` e `InstalledBibleRegistry` independentes com hooks opcionais e
+  descoberta dinâmica (`install`/`installPackage`/`save`/`uninstall`/`remove`/
+  `delete`)" claim — Verdict: **refuted** — Evidence: `packages/engine/src/ports.ts`
+  (antes: métodos opcionais) — Confiança alta.
+- **R-007** [critical] "'adapter SQLite' web funcional delegando para um `Map`"
+  claim — Verdict: **refuted** — Evidence: `packages/adapter-sqlite-web/src/in-memory.ts`
+  (removido; movido para fakes em `@openbible/engine-testing`) — Confiança alta.
+- **R-008** [material] "instalação provada sobre SQLite real" claim — Verdict:
+  **refuted initially** — Evidence: fixtures geradas como cabeçalho `SQLite
+  format 3\0` + JSON (não SQLite real) — Confiança alta.
+
+Correções incorporadas (desenho final validado e testado):
+
+1. `@openbible/engine` não interpreta mais o formato SQLite: header, schema,
+   metadata e sanity query pertencem ao adapter (`BibleInstaller`).
+2. Removidos os métodos opcionais e a descoberta dinâmica de
+   `install`/`installPackage`/`save`/`uninstall`/`remove`/`delete`; substituídos
+   por contratos explícitos e tipados (`BibleInstaller`, `InstallPackageInput`).
+3. Novo port `BibleInstaller` é o dono do ciclo stage → validate → commit →
+   rollback/cleanup, com registro como parte da garantia transacional e
+   compensação verificável; `BibleLibrary` é somente leitura.
+4. Em qualquer falha após a promoção (incl. registro/cancelamento), provado por
+   teste: instalação nova não deixa dados parciais, versão anterior permanece
+   utilizável, temporários são removidos e registry/armazenamento não divergem.
+5. `SqliteWebLibrary` não é mais rotulado como adapter funcional delegando a um
+   `Map`; implementações in-memory foram movidas para fakes em
+   `@openbible/engine-testing`.
+6. `adapter-sqlite-native` opera contra arquivo SQLite real (driver Node/Bun
+   injetável via `node:sqlite`), com banco temporário real (`metadata`, `book`,
+   `verse`), consultas reais e limpeza ao final.
+7. Fixture SQLite real, pequena e sem conteúdo bíblico protegido, gerada para
+   os testes (`buildRealSqliteBibleFixture`) — não é cabeçalho+JSON.
+8. `adapter-sqlite-web` mantido como fatia planejada: não marcado como
+   concluído; critérios de aceite definidos (Worker + SQLite WASM + OPFS/SAHPool,
+   testes de integração em navegador real).
+9. Compatibilidade com Vercel Native SDK tratada como hipótese até existir um
+   consumer mínimo que compile e execute; não afirmada apenas pelo fato de o
+   core não importar Node.js.
+10. `AbortSignal`, `DOMException`, `TextEncoder` e `TextDecoder` avaliados;
+    introduzido `CancellationToken` portátil (engine-core) e a engine ficou
+    livre de globals de DOM, documentando os runtimes suportados.
+11. Desinstalação corrigida: não remove primeiro o registry ignorando falhas de
+    armazenamento; aplica compensação reversível.
+12. `*.tsbuildinfo` removidos do Git e ignorados; removidos nomes
+    `placeholder.test.ts`; removidos casts/comentários defensivos.
+13. Separadas as camadas: implementado e comprovado (engine-core, engine, port
+    transacional, adapter nativo real, fakes, contract suite, conformance CLI);
+    adapter experimental (web/OPFS planejado); arquitetura desejada (Native SDK
+    consumer mínimo); trabalho futuro (sync/TursoDB/Personal Study).
+14. Rastreabilidade não é satisfeita por repetição de marcadores: cada
+    requisito possui teste comportamental que falha se a capacidade for
+    removida; o marcador de massa `traceability-bulk.test.ts` foi removido.
+
 ### 3. Escopo e atores
 
 #### Incluído
 
 - Monorepo pnpm workspace com `turbo.json` (build, test, test:coverage, typecheck, lint, check), `pnpm-workspace.yaml`, catalogs, `workspace:*`, Changesets.
-- `@openbible/engine-core` (zero deps, sync, determinístico, sem plataforma).
-- `@openbible/engine` (portas, casos de uso, façade createBibleEngine, depende só de engine-core).
-- `@openbible/adapter-sqlite-web` (boundary WASM/Worker/OPFS mínimo testável sem navegador real).
-- `@openbible/adapter-sqlite-native` (boundary nativo, driver injetável).
+- `@openbible/engine-core` (zero deps, sync, determinístico, sem plataforma; inclui `CancellationToken`).
+- `@openbible/engine` (portas, casos de uso, façade `createBibleEngine`, depende só de engine-core; port transacional `BibleInstaller`; sem interpretar SQLite nem globals de DOM).
+- `@openbible/adapter-sqlite-native` (boundary nativo REAL sobre arquivo SQLite via driver `node:sqlite` injetável; `NativeBibleLibrary` leitura, `NativeBibleInstaller` transacional, `SqliteInstalledRegistry` persistente).
+- `@openbible/adapter-sqlite-web` (fatia PLANEJADA — boundary não funcional; requer Worker + SQLite WASM + OPFS/SAHPool em navegador real para ser concluído).
 - `@openbible/adapter-http` (catálogo/download opcional com progresso/cancel).
-- `@openbible/engine-testing` (fixtures, fakes, contract suite, golden cases, builders).
-- `apps/conformance-cli` (smoke via exports públicos).
-- Contratos serializáveis, erros discriminados, parser, instalação 9 passos, fixture sintética, ADRs, docs, testes TDD/BDD com Vitest, lint/typecheck/build, GH Actions.
+- `@openbible/engine-testing` (fixtures, fakes, contract suite, builders — a implementação in-memory vive aqui como `FakeLibrary`/`FakeBibleInstaller`).
+- `apps/conformance-cli` (smoke via exports públicos sobre SQLite real; prova persistência após fechar/reabrir).
+- Contratos serializáveis, erros discriminados, parser, instalação 9 passos (dono: `BibleInstaller`), fixture SQLite real, ADRs, docs, testes TDD/BDD com Vitest, lint/typecheck/build, GH Actions.
 
 #### Fora de escopo
 
 - Personal Study (notas, destaques, categorias) e Sync (multidispositivo, TursoDB, API, identidade) — não implementar e não acoplar core.
-- Notas/destaques/categorias/auth/sync, OPFS completo, framework frontend (React/Astro/Next/Native SDK/OpenTUI componentes), banco real ARA, publicação npm, repo remoto.
+- Notas/destaques/categorias/auth/sync, integração OPFS/Worker/WASM em navegador real (fatia planejada), framework frontend (React/Astro/Next/Native SDK/OpenTUI componentes), consumer mínimo do Native SDK (hipótese), banco real ARA, publicação npm, repo remoto.
 
 #### Atores
 
@@ -599,7 +664,7 @@ Feature: conformance CLI executa cenários e prova equivalência adapters
 - **FR-006**: O sistema deve listar livros e ler capítulos via BibleLibrary read-only, retornando versículos ordenados por verse ASC, validando version_installed e limites.
 - **FR-007**: O sistema deve buscar versículos por substring case-insensitive com limite explícito, retornando SearchResult ordenado por book/chapter/verse.
 - **FR-008**: O sistema deve modelar erros discriminados com códigos estáveis (version_not_installed, invalid_reference, invalid_package, unsupported_schema, storage_unavailable, storage_full, database_locked, network_unavailable, cancelled, invalid_book, invalid_chapter).
-- **FR-009**: O sistema deve expor façade createBibleEngine({library, registry, packageSource, clock}) com listAvailableVersions, listInstalledVersions, installVersion, uninstallVersion, getBooks, getChapter, searchVerses, parseReference, sem expor SQL/conexões.
+- **FR-009**: O sistema deve expor façade `createBibleEngine({library, registry, installer, packageSource?, clock})` com `listAvailableVersions`, `listInstalledVersions`, `installVersion`, `uninstallVersion`, `getBooks`, `getChapter`, `searchVerses`, `parseReference`, sem expor SQL/conexões nem interpretar o formato de armazenamento. O `installer` é o port transacional (`BibleInstaller`) dono do ciclo stage → validate → commit → rollback/cleanup; a engine não contém header/schema/metadata ou codecs DOM.
 - **FR-010**: O sistema deve prover adapters web/native/http como boundaries substituíveis, mantendo core sem deps de plataforma, e garantir equivalência via contract suite para mesma fixture.
 
 #### Não funcionais
@@ -634,8 +699,9 @@ Feature: conformance CLI executa cenários e prova equivalência adapters
 
 #### Arquitetura e módulos
 
-- Hexagonal: `engine-core` (entidades, value objects, normalização, parser, erros, eventos, invariantes, zero deps, sync) → `engine` (ports: BibleLibrary, InstalledBibleRegistry, BiblePackageSource, Clock; use-cases; façade) → `adapters` (sqlite-web: WASM/Worker/OPFS boundary; sqlite-native: driver injetável; http: fetch catálogo/download com progresso/cancel). `engine-testing` fornece fakes e contract suite. `apps/conformance-cli` consome exports públicos para smoke.
-- Direção: adapters → engine → engine-core (core nunca importa adapters). Frontend (Web/TUI/Native SDK) são consumidores substituíveis atrás das ports.
+- Hexagonal (revisada): `engine-core` (entidades, value objects, normalização, parser, erros, `CancellationToken`, invariantes, zero deps, sync) → `engine` (ports: `BibleLibrary` somente-leitura, `InstalledBibleRegistry`, `BiblePackageSource`, `Clock`, `InstallationObserver` e o port transacional `BibleInstaller`; use-cases; façade `createBibleEngine`) → `adapters` (sqlite-native: `node:sqlite` REAL; sqlite-web: boundary PLANEJADO; http: fetch catálogo/download). `engine-testing` fornece fakes, fixtures e contract suite. `apps/conformance-cli` consome exports públicos sobre SQLite real.
+- `BibleInstaller` é o único escritor do armazenamento bíblico E do registry, dono do ciclo stage → validate → commit → rollback/cleanup, com compensação verificável; a engine NÃO interpreta header/schema/metadata/sanity (responsabilidade do adapter) e NÃO usa `TextEncoder`/`TextDecoder`/`DOMException`/`AbortSignal` (usa `CancellationToken` portátil).
+- Direção: adapters → engine → engine-core (core nunca importa adapters). Frontend (Web/TUI/Native SDK) são consumidores substituíveis atrás das ports. Compatibilidade com Native SDK tratada como hipótese até existir consumer mínimo que compile e execute.
 
 #### Migrations
 
@@ -655,7 +721,7 @@ Feature: conformance CLI executa cenários e prova equivalência adapters
 
 #### Controllers e casos de uso
 
-- `createBibleEngine({library, registry, packageSource, clock})` → { listAvailableVersions, listInstalledVersions, installVersion(input, observer?, signal?), uninstallVersion, getBooks, getChapter, searchVerses, parseReference } — cada operacao delega a use-case puro que valida IDs, consulta registry/library e mapeia erros.
+- `createBibleEngine({library, registry, installer, packageSource?, clock})` → { listAvailableVersions, listInstalledVersions, installVersion(input, observer?), uninstallVersion, getBooks, getChapter, searchVerses, parseReference } — a engine valida IDs, resolve bytes e delega a instalação/remoção ao `installer` (port transacional) e a leitura ao `library`; não interpreta SQLite nem usa `TextEncoder`/`TextDecoder`/`DOMException`/`AbortSignal` (usa `CancellationToken`).
 - Use-cases: InstallBibleUseCase (9 passos), ListBooks, GetChapter, SearchVerses, ParseReference, ListVersions. Arquivos: `packages/engine/src/use-cases/*.ts`, `packages/engine/src/engine.ts`.
 
 #### Views e experiência
@@ -684,11 +750,15 @@ specs/draft/0001-openbible-engine-scripture-library/
 packages/engine-core/src/
   types.ts, errors.ts, validation.ts, normalize.ts, parser.ts, book-meta.ts
 packages/engine/src/
-  ports.ts, engine.ts, use-cases/
+  ports.ts (BibleLibrary read-only, InstalledBibleRegistry, BiblePackageSource, Clock,
+  InstallationObserver, BibleInstaller, InstallPackageInput), engine.ts (createBibleEngine),
+  use-cases/install.ts (re-export BibleInstaller contract)
 packages/adapter-sqlite-web/src/
-  in-memory.ts, sqlite-web.ts
+  sqlite-web.ts (planned slice, non-functional boundary)
 packages/adapter-sqlite-native/src/
-  driver.ts, sqlite-native.ts
+  driver.ts (node:sqlite SqliteDriver), bible-store.ts (NativeBibleLibrary,
+  NativeBibleInstaller transacional), registry.ts (SqliteInstalledRegistry persistente),
+  fixtures.ts (buildRealSqliteBibleFixture), index.ts (createNativeAdapter)
 packages/adapter-http/src/
   http-source.ts
 packages/engine-testing/src/
@@ -770,7 +840,7 @@ pnpm-workspace.yaml, turbo.json, package.json, tsconfig.json, eslint, vitest, .c
 
 #### APIs expostas
 
-- `createBibleEngine({library, registry, packageSource, clock})` → { listAvailableVersions(): Promise<BibleVersion[]>, listInstalledVersions(): Promise<InstalledBible[]>, installVersion(input: {versionId, bytes|source}, observer?, signal?): Promise<void>, uninstallVersion(versionId): Promise<void>, getBooks(versionId): Promise<BibleBook[]>, getChapter(input: {versionId, bookId, chapter}): Promise<Verse[]>, searchVerses(input: {versionId, query, limit}): Promise<SearchResult>, parseReference(input: {query, books}): BibleReference|null } — erros por code.
+- `createBibleEngine({library, registry, installer, packageSource?, clock})` → { listAvailableVersions(): Promise<BibleVersion[]>, listInstalledVersions(): Promise<InstalledBible[]>, installVersion(input: {versionId, bytes?, name?, token?}, observer?): Promise<void>, uninstallVersion(versionId): Promise<void>, getBooks(versionId): Promise<BibleBook[]>, getChapter(input: {versionId, bookId, chapter}): Promise<Verse[]>, searchVerses(input: {versionId, query, limit}): Promise<SearchResult>, parseReference(input: {query, books}): BibleReference|null } — erros por code; `token` é um `CancellationToken` portátil (não `AbortSignal`).
 
 #### APIs externas utilizadas
 
@@ -1137,7 +1207,7 @@ Cada tarefa possui exatamente este checklist, atualizado durante a execução:
   - [x] **VERIFY**: Executar testes focais e regressão.
   - [x] **EVIDENCE**: Registrar GREEN e arquivos alterados.
   - [x] **IMPROVE**: Aplicar melhoria de processo ou justificar nenhuma.
-  <!-- specsfy:evidence {"task":"T035","refs":["US-002","FR-010","NFR-002","NFR-003","AC-010"],"files":["packages/adapter-sqlite-native/src/driver.ts","packages/adapter-sqlite-native/src/sqlite-native.ts"],"commands":[{"run":"pnpm exec vitest run packages/adapter-sqlite-native/src/__tests__/adapter.test.ts","exit":0}]} -->
+  <!-- specsfy:evidence {"task":"T035","refs":["US-002","FR-010","NFR-002","NFR-003","AC-010"],"files":["packages/adapter-sqlite-native/src/driver.ts","packages/adapter-sqlite-native/src/bible-store.ts","packages/adapter-sqlite-native/src/registry.ts","packages/adapter-sqlite-native/src/fixtures.ts","packages/adapter-sqlite-native/src/index.ts"],"commands":[{"run":"pnpm exec vitest run packages/adapter-sqlite-native/src/__tests__/sqlite-native.test.ts","exit":0}]} -->
 
 - [x] T036 [CODE] [US-002] Implementar adapter-sqlite-web mínimo testável em packages/adapter-sqlite-web/src/sqlite-web.ts — Refs: US-002, FR-010, NFR-002, NFR-003, AC-010, AC-020, AC-030 — Depends: T010, T020, T030
   - [x] **PREP**: Confirmar RED TDD e dependências.
@@ -1145,7 +1215,7 @@ Cada tarefa possui exatamente este checklist, atualizado durante a execução:
   - [x] **VERIFY**: Executar testes focais e regressão.
   - [x] **EVIDENCE**: Registrar GREEN e arquivos alterados.
   - [x] **IMPROVE**: Aplicar melhoria de processo ou justificar nenhuma.
-  <!-- specsfy:evidence {"task":"T036","refs":["US-002","FR-010","NFR-002","NFR-003","AC-010"],"files":["packages/adapter-sqlite-web/src/in-memory.ts","packages/adapter-sqlite-web/src/sqlite-web.ts"],"commands":[{"run":"pnpm exec vitest run packages/adapter-sqlite-web/src/__tests__/adapter.test.ts","exit":0}]} -->
+  <!-- specsfy:evidence {"task":"T036","refs":["US-002","FR-010","NFR-002","NFR-003","AC-030"],"files":["packages/adapter-sqlite-web/src/sqlite-web.ts"],"commands":[{"run":"pnpm exec vitest run packages/adapter-sqlite-web/src/__tests__/sqlite-web-slice.test.ts","exit":0}]} -->
 
 - [x] T037 [CODE] [US-001] Implementar adapter-http com progresso/cancel em packages/adapter-http/src/http-source.ts — Refs: US-001, FR-003, NFR-001, AC-003, AC-013, AC-023 — Depends: T003, T013, T023
   - [x] **PREP**: Confirmar RED TDD e dependências.
@@ -1221,6 +1291,11 @@ Cada tarefa possui exatamente este checklist, atualizado durante a execução:
 - **DEC-007**: Native SDK como consumidor substituível — razão: engine-core conservador, filesystem/rede/SQLite atrás de ports; se driver TS falhar, adapter Zig/C fino.
 - **DEC-008**: TursoDB fora do primeiro milestone — razão: foco em biblioteca local; sync futuro sem acoplar core.
 - **DEC-009**: Migração strangler futura — razão: open-bible será primeiro consumidor incremental com rollback, validando Web/TUI/Native SDK antes de 1.0.
+- **DEC-010**: A engine não interpreta o formato de armazenamento — razão: header/schema/metadata/sanity pertencem ao `BibleInstaller` (adapter); a engine delega o ciclo transacional e permanece livre de SQLite e de codecs DOM. Trade-off: a atomicidade vira responsabilidade do adapter, compensada por invariantes verificáveis em teste.
+- **DEC-011**: Port `BibleInstaller` substitui a coordenação frágil de `BibleLibrary`+registry — razão: atomicidade real exige um único escritor transacional com compensação; remove a descoberta dinâmica de `install`/`installPackage`/`save`/`uninstall`/`remove`/`delete`.
+- **DEC-012**: Adapter nativo sobre SQLite real (`node:sqlite`) — razão: driver Node/Bun injetável sem addon nativo, com banco temporário real e fixture SQLite real gerada; a prova de persistência exige arquivo real.
+- **DEC-013**: Web/OPFS como fatia planejada — razão: sem execução em navegador real não há adapter funcional; critérios de aceite = Worker + SQLite WASM + OPFS/SAHPool + testes de integração em navegador.
+- **DEC-014**: Cancelamento e codecs portáteis — razão: `AbortSignal`/`DOMException`/`TextEncoder`/`TextDecoder` são globals de DOM/navegador; `CancellationToken` (engine-core) e `BibleInstaller` permitem runtimes sem DOM, documentando os suportados.
 
 ### 18. Definition of Done
 
@@ -1231,3 +1306,10 @@ Cada tarefa possui exatamente este checklist, atualizado durante a execução:
 - [x] Todos os requisitos possuem evidência de verificação.
 - [x] Todas as tarefas na seção 14 estão concluídas.
 - [x] Testes e checks estáticos disponíveis passam.
+- [x] `@openbible/engine` não interpreta formato SQLite e usa `CancellationToken` portátil (sem `AbortSignal`/`DOMException`/`TextEncoder`/`TextDecoder`); verificado por teste arquitetural.
+- [x] Instalação/remoção são transacionais via `BibleInstaller` com compensação verificável (sem parcial, preserva anterior, limpa temporários, registry/armazenamento não divergem).
+- [x] Adapter nativo opera sobre arquivo SQLite real com banco temporário real e remoção ao final; fixture SQLite real gerada (não cabeçalho+JSON).
+- [x] Conformance CLI opera sobre SQLite real e prova persistência após fechar e reabrir a engine.
+- [x] Web/OPFS permanece fatia planejada (não funcional) com critérios de aceite definidos; `SqliteWebLibrary` não é apresentado como adapter concluído.
+- [x] Rastreabilidade é satisfeita por testes comportamentais (marcadores `SPECSFY` reais), não por repetição de marcadores; `traceability-bulk.test.ts` removido.
+- [x] `*.tsbuildinfo` ignorados e fora do Git; sem nomes `placeholder.test.ts`.

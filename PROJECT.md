@@ -6,7 +6,7 @@ O open-bible legado dispersou regras bíblicas entre Web (Next.js, IndexedDB, Da
 
 ## Finalidade
 
-Prover o bounded context **Scripture Library** (versões, livros, capítulos, versículos, referências, catálogo, instalação atômica, leitura e busca) como biblioteca TypeScript pura, independente de React, OPFS, TursoDB e drivers, com contratos serializáveis e erros discriminados, garantindo operação offline desde a primeira abertura e equivalência entre adapters web/native para a mesma fixture sintética.
+Prover o bounded context **Scripture Library** (versões, livros, capítulos, versículos, referências, catálogo, instalação atômica, leitura e busca) como biblioteca TypeScript pura, independente de React, OPFS, TursoDB e drivers específicos, com contratos serializáveis e erros discriminados, garantindo operação offline desde a primeira abertura e equivalência entre adapters para a mesma fixture SQLite real. A instalação é transacional via port `BibleInstaller` (stage → validate → commit → rollback/cleanup) e o adapter nativo opera sobre arquivo SQLite real; o adapter Web/OPFS permanece como fatia planejada.
 
 ## Pessoas e contexto de uso
 

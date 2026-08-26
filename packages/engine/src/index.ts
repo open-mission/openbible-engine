@@ -11,4 +11,5 @@ export type {
   SearchResult,
   InstallationProgress,
   InstallationStage,
+  CancellationToken,
 } from "@openbible/engine-core";

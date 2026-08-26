@@ -1,66 +1,44 @@
-import type { BibleBook, SearchResult, Verse } from "@openbible/engine-core";
+import { EngineError } from "@openbible/engine-core";
+import type { BibleBook, Verse, SearchResult } from "@openbible/engine-core";
 import type { BibleLibrary } from "@openbible/engine";
-import { InMemoryWebLibrary } from "./in-memory.js";
 
 /**
- * SqliteWebLibrary - wrapper that would use OPFS/Worker in future,
- * but for now delegates to InMemoryWebLibrary.
- * Keeps separate class for web boundary.
+ * Web/OPFS adapter boundary — a PLANNED SLICE, not a functional adapter.
+ *
+ * This type is intentionally NOT implemented against an in-memory Map (that
+ * requirement belongs to fakes in `@openbible/engine-testing`). A real
+ * integration requires a browser execution environment with:
+ *   - a Web Worker;
+ *   - SQLite compiled to WASM;
+ *   - an OPFS/SAHPool (or equivalent origin-private virtual filesystem) VFS.
+ *
+ * Until those are present and verified in a real browser, every operation
+ * fails deterministically with `storage_unavailable` and the adapter must not
+ * be reported as concluded.
  */
 export class SqliteWebLibrary implements BibleLibrary {
-  private delegate: InMemoryWebLibrary;
+  readonly isWebSlice = true as const;
 
-  constructor(delegate?: InMemoryWebLibrary) {
-    this.delegate = delegate ?? new InMemoryWebLibrary();
-  }
-
-  // Expose underlying for advanced usage
-  getDelegate(): InMemoryWebLibrary {
-    return this.delegate;
+  private fail(): never {
+    throw new EngineError(
+      "storage_unavailable",
+      "Web/OPFS SQLite adapter is a planned slice: requires Worker + SQLite WASM + OPFS/SAHPool browser integration. Not implemented in this slice.",
+    );
   }
 
-  async install(versionId: string, bytes: Uint8Array): Promise<void> {
-    return this.delegate.install(versionId, bytes);
+  async getBooks(_versionId: string): Promise<BibleBook[]> {
+    return this.fail();
   }
-
-  async installPackage(versionId: string, bytes: Uint8Array): Promise<void> {
-    return this.delegate.installPackage(versionId, bytes);
+  async getChapter(_versionId: string, _bookId: string, _chapter: number): Promise<Verse[]> {
+    return this.fail();
   }
-
-  async save(versionId: string, bytes: Uint8Array): Promise<void> {
-    return this.delegate.save(versionId, bytes);
+  async search(_versionId: string, _query: string, _limit: number): Promise<SearchResult> {
+    return this.fail();
   }
-
-  async validatePackage(bytes: Uint8Array): Promise<{ valid: boolean; versionId?: string }> {
-    return this.delegate.validatePackage(bytes);
-  }
-
-  async getVersionName(versionId: string): Promise<string | null> {
-    return this.delegate.getVersionName(versionId);
-  }
-
-  async getBooks(versionId: string): Promise<BibleBook[]> {
-    return this.delegate.getBooks(versionId);
-  }
-
-  async getChapter(versionId: string, bookId: string, chapter: number): Promise<Verse[]> {
-    return this.delegate.getChapter(versionId, bookId, chapter);
-  }
-
-  async search(versionId: string, query: string, limit: number): Promise<SearchResult> {
-    return this.delegate.search(versionId, query, limit);
-  }
-
-  async uninstall(versionId: string): Promise<void> {
-    return this.delegate.uninstall(versionId);
-  }
-  async remove(versionId: string): Promise<void> {
-    return this.delegate.remove(versionId);
-  }
-  async delete(versionId: string): Promise<void> {
-    return this.delegate.delete(versionId);
+  async getVersionName(_versionId: string): Promise<string | null> {
+    return this.fail();
   }
 }
 
-// Alias for convenience
+/** Alias kept for consumers that referenced the old name. */
 export const WebBibleLibrary = SqliteWebLibrary;

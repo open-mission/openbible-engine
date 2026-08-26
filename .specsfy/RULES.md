@@ -7,9 +7,11 @@ Para TypeScript, explicite regras de tipagem estrita e modularização.
 
 ## Arquitetura
 
-- Hexagonal: `engine-core` (entidades, value objects, parser, erros, invariantes, zero deps, sync, sem plataforma) → `engine` (ports, use-cases, façade `createBibleEngine`, depende só de `engine-core`) → adapters (web/native/http substituíveis) → `engine-testing`/`conformance-cli` consomem apenas exports públicos.
+- Hexagonal (revisada): `engine-core` (entidades, value objects, parser, erros, `CancellationToken`, invariantes, zero deps, sync, sem plataforma) → `engine` (ports incl. `BibleInstaller` transacional, use-cases, façade `createBibleEngine`, depende só de `engine-core`) → adapters → `engine-testing`/`conformance-cli` consomem apenas exports públicos.
+- `BibleLibrary` é somente-leitura; `BibleInstaller` é o único escritor do armazenamento bíblico e do registry, dono do ciclo stage → validate → commit → rollback/cleanup, com compensação verificável.
+- A engine NÃO interpreta o formato SQLite (header/schema/metadata/sanity são do adapter) e NÃO usa `AbortSignal`/`DOMException`/`TextEncoder`/`TextDecoder` (usa `CancellationToken` portátil).
 - Bounded contexts explícitos: Scripture Library (esta entrega), Personal Study e Sync futuros sem acoplamento no core.
-- Direção de dependência: adapters → engine → engine-core; consumidores (Web/TUI/Native SDK) são substituíveis.
+- Direção de dependência: adapters → engine → engine-core; consumidores (Web/TUI/Native SDK) são substituíveis. Compatibilidade com Native SDK = hipótese até consumer mínimo compilar/executar.
 
 ## Código e qualidade
 
@@ -21,8 +23,10 @@ Para TypeScript, explicite regras de tipagem estrita e modularização.
 
 ## Testes
 
-- Vitest runner; Gherkin só na `spec.md` (seção 6), materializado como TDD com marcador `// SPECSFY: US-XXX FR-XXX NFR-XXX AC-XXX`.
-- RED válido antes de GREEN; sem mocks que escondam fronteira; contract suite para livros/capítulos/busca; testes arquiteturais para core imports e exports; conformance CLI via exports públicos.
+- Vitest runner; Gherkin só na `spec.md` (seção 6), materializado como TDD comportamental com marcador `// SPECSFY: US-XXX FR-XXX NFR-XXX AC-XXX`.
+- TDD comportamental: cada requisito tem teste que FALHA se a capacidade real for removida. NÃO usar marcadores de massa/`traceability-bulk` para satisfazer rastreabilidade.
+- RED válido antes de GREEN; sem mocks que escondam fronteira; contract suite para livros/capítulos/busca; testes arquiteturais para core imports, engine purity (sem SQLite/DOM globals) e exports; conformance CLI via exports públicos sobre SQLite real, provando persistência após fechar/reabrir.
+- Adapter nativo testado contra banco SQLite temporário real (`metadata`/`book`/`verse`) com consultas reais e limpeza ao final; `adapter-sqlite-web` NÃO é tratado como funcional (fatia planejada).
 - Cada US/FR/NFR com ≥3 ACs e ≥3 TDDs; `pnpm turbo run build test typecheck lint check` passam.
 
 ## Segurança e privacidade

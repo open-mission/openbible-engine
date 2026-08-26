@@ -31,10 +31,11 @@ describe("arch: @openbible/engine public exports", () => {
   // SPECSFY: US-004 FR-009 NFR-005 AC-019
   it("facade delegates via ports without exposing library internals", async () => {
     const { createBibleEngine } = await import("@openbible/engine");
-    const { FakeLibrary, FakeRegistry } = await import("@openbible/engine-testing");
+    const { FakeLibrary, FakeRegistry, FakeBibleInstaller } = await import("@openbible/engine-testing");
     const lib = new FakeLibrary();
     const reg = new FakeRegistry();
-    const engine = createBibleEngine({ library: lib, registry: reg });
+    const installer = new FakeBibleInstaller({ registry: reg, library: lib });
+    const engine = createBibleEngine({ library: lib, registry: reg, installer });
     // engine should have only expected methods
     const expected = [
       "listAvailableVersions",

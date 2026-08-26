@@ -1,2 +1,1 @@
-export * from "./in-memory.js";
-export * from "./sqlite-web.js";
+export { SqliteWebLibrary, WebBibleLibrary } from "./sqlite-web.js";

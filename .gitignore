@@ -13,3 +13,4 @@ out
 build-dir
 .changeset/*.md
 !.changeset/config.json
+*.tsbuildinfo

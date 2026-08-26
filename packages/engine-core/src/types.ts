@@ -73,3 +73,13 @@ export interface InstallationProgress {
  * BookMeta is alias for BibleBook used by parser and book-meta.
  */
 export type BookMeta = BibleBook;
+
+/**
+ * Portable cancellation token. Replaces the DOM `AbortSignal` in the engine and
+ * core so the domain never depends on the browser/Node global `AbortSignal`.
+ * Adapters bridge this to their own cancellation (e.g. AbortController).
+ */
+export interface CancellationToken {
+  readonly aborted: boolean;
+  readonly reason?: unknown;
+}
