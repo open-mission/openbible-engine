@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 import { createBibleEngine } from "@openbible/engine";
 import type { BibleEngine } from "@openbible/engine";
-import { createNativeAdapter } from "@openbible/adapter-sqlite-native";
-import type { NativeAdapter } from "@openbible/adapter-sqlite-native";
-import { buildRealSqliteBibleFixture, REAL_ARA_FIXTURE } from "@openbible/adapter-sqlite-native";
+import { createNodeAdapter } from "@openbible/adapter-sqlite-node";
+import type { NodeAdapter } from "@openbible/adapter-sqlite-node";
+import { buildLegacySqliteBibleFixture, LEGACY_ARA_FIXTURE } from "@openbible/adapter-sqlite-node";
 import { BOOKS, EngineError } from "@openbible/engine-core";
 import { mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
@@ -23,17 +23,17 @@ function printError(err: unknown): void {
   }
 }
 
-/** Real SQLite engine backed by a temp data dir + persistent registry file. */
+/** Real legacy-schema SQLite engine backed by a temp data dir + persistent registry file. */
 function makeRealEngine(): {
   engine: BibleEngine;
-  adapter: NativeAdapter;
+  adapter: NodeAdapter;
   dataDir: string;
   registryPath: string;
   cleanup(): void;
 } {
   const dataDir = mkdtempSync(join(tmpdir(), "ob-cli-"));
   const registryPath = join(dataDir, "store.db");
-  const adapter = createNativeAdapter({ dataDir, registryPath });
+  const adapter = createNodeAdapter({ dataDir, registryPath });
   const engine = createBibleEngine({ library: adapter.library, registry: adapter.registry, installer: adapter.installer });
   return {
     engine,
@@ -55,9 +55,9 @@ async function ensureInstalled(engine: BibleEngine, versionId: string): Promise<
   const installed = await engine.listInstalledVersions();
   if (installed.some((v) => v.id === versionId)) return;
   const fixture =
-    versionId === REAL_ARA_FIXTURE.versionId
-      ? REAL_ARA_FIXTURE
-      : buildRealSqliteBibleFixture(versionId, versionId.toUpperCase());
+    versionId === LEGACY_ARA_FIXTURE.versionId
+      ? LEGACY_ARA_FIXTURE
+      : buildLegacySqliteBibleFixture(versionId, versionId.toUpperCase());
   await engine.installVersion({ versionId, bytes: fixture.bytes });
 }
 
@@ -72,7 +72,7 @@ export async function runCheck(): Promise<{ ok: boolean; results: Array<Record<s
   const ctx = makeRealEngine();
   try {
     const { engine, adapter, dataDir, registryPath } = ctx;
-    const fixture = REAL_ARA_FIXTURE;
+    const fixture = LEGACY_ARA_FIXTURE;
 
     push("listInstalled_initial", (await engine.listInstalledVersions()).length === 0);
 
@@ -96,12 +96,12 @@ export async function runCheck(): Promise<{ ok: boolean; results: Array<Record<s
 
     // Persistence proof: close the adapter (simulate process restart) and reopen.
     adapter.close();
-    const reopened = createNativeAdapter({ dataDir, registryPath });
+    const reopened = createNodeAdapter({ dataDir, registryPath });
     try {
       const reopenedEngine = createBibleEngine({ library: reopened.library, registry: reopened.registry, installer: reopened.installer });
       const stillInstalled = (await reopenedEngine.listInstalledVersions()).some((v) => v.id === fixture.versionId);
       const booksAfter = await reopenedEngine.getBooks(fixture.versionId);
-      const chapterAfter = await reopenedEngine.getChapter({ versionId: fixture.versionId, bookId: "psa", chapter: 1 });
+      const chapterAfter = await reopenedEngine.getChapter({ versionId: fixture.versionId, bookId: "jhn", chapter: 1 });
       push("persist_after_reopen", stillInstalled && booksAfter.length > 0 && chapterAfter.length === 3, {
         stillInstalled,
         books: booksAfter.length,

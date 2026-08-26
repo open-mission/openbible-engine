@@ -5,10 +5,10 @@ import type { InstalledBibleRegistry } from "@openbible/engine";
 import type { DriverFactory } from "./driver.js";
 
 /**
- * Persistent installed-bible registry backed by a real SQLite file so that
- * `listInstalledVersions` survives a process restart (vertical slice).
+ * Persistent installed-bible registry backed by a real SQLite file
+ * (`installed_bibles`), so `listInstalledVersions` survives a process restart.
  */
-export class SqliteInstalledRegistry implements InstalledBibleRegistry {
+export class NodeSqliteRegistry implements InstalledBibleRegistry {
   private readonly driver: ReturnType<DriverFactory>;
 
   constructor(
@@ -61,6 +61,44 @@ export class SqliteInstalledRegistry implements InstalledBibleRegistry {
   }
 
   async remove(id: string): Promise<void> {
+    this.driver.prepare("DELETE FROM installed_bibles WHERE id = ?").run(id);
+  }
+
+  // Synchronous accessors used by crash reconciliation during adapter open.
+  listSync(): InstalledBible[] {
+    const rows = this.driver
+      .prepare("SELECT id, name, installed_at, version_code FROM installed_bibles ORDER BY id")
+      .all() as Array<{ id: string; name: string; installed_at: number; version_code: number }>;
+    return rows.map((r) => ({
+      id: String(r.id),
+      name: String(r.name),
+      installedAt: Number(r.installed_at),
+      versionCode: Number(r.version_code),
+    }));
+  }
+
+  setSync(bible: InstalledBible): void {
+    this.driver
+      .prepare(
+        "INSERT INTO installed_bibles (id, name, installed_at, version_code) VALUES (?, ?, ?, ?) ON CONFLICT(id) DO UPDATE SET name=excluded.name, installed_at=excluded.installed_at, version_code=excluded.version_code",
+      )
+      .run(bible.id, bible.name, bible.installedAt, bible.versionCode);
+  }
+
+  getSync(id: string): InstalledBible | null {
+    const row = this.driver
+      .prepare("SELECT id, name, installed_at, version_code FROM installed_bibles WHERE id = ?")
+      .get(id) as { id: string; name: string; installed_at: number; version_code: number } | undefined;
+    if (!row) return null;
+    return {
+      id: String(row.id),
+      name: String(row.name),
+      installedAt: Number(row.installed_at),
+      versionCode: Number(row.version_code),
+    };
+  }
+
+  removeSync(id: string): void {
     this.driver.prepare("DELETE FROM installed_bibles WHERE id = ?").run(id);
   }
 

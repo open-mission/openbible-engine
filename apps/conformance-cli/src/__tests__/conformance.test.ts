@@ -2,14 +2,14 @@ import { describe, it, expect } from "vitest";
 import { mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { createNativeAdapter } from "@openbible/adapter-sqlite-native";
+import { createNodeAdapter } from "@openbible/adapter-sqlite-node";
 import { createBibleEngine } from "@openbible/engine";
 import { BOOKS } from "@openbible/engine-core";
 import { runCheck, runListBooks, runGetChapter, runSearch, runParse } from "../index.js";
 
-function tempNativeEngine() {
+function tempNodeEngine() {
   const dir = mkdtempSync(join(tmpdir(), "ob-cli-"));
-  const adapter = createNativeAdapter({ dataDir: dir, registryPath: join(dir, "store.db") });
+  const adapter = createNodeAdapter({ dataDir: dir, registryPath: join(dir, "store.db") });
   return {
     adapter,
     engine: createBibleEngine({ library: adapter.library, registry: adapter.registry, installer: adapter.installer }),
@@ -59,8 +59,8 @@ describe("conformance-cli via public exports on real SQLite", () => {
   });
 
   // SPECSFY: US-005 FR-010 NFR-002 AC-030
-  it("engine composes with the real native adapter and only public exports", () => {
-    const { engine, cleanup } = tempNativeEngine();
+  it("engine composes with the real background adapter and only public exports", () => {
+    const { engine, cleanup } = tempNodeEngine();
     try {
       expect(engine.listAvailableVersions).toBeDefined();
     } finally {
@@ -71,7 +71,7 @@ describe("conformance-cli via public exports on real SQLite", () => {
   // SPECSFY: US-005 FR-010 NFR-002 AC-030
   it("public BOOKS import drives parseReference", () => {
     expect(BOOKS.length).toBe(66);
-    const { engine, cleanup } = tempNativeEngine();
+    const { engine, cleanup } = tempNodeEngine();
     try {
       expect(engine.parseReference({ query: "João 3:16", books: [...BOOKS] })).not.toBeNull();
     } finally {

@@ -8,8 +8,8 @@ Mapa de persistência do sistema. Modelo inicial sugerido para
 <!-- specsfy:database:start -->
 | Fonte | Tecnologia/forma | Evidência |
 | --- | --- | --- |
-| Biblioteca bíblica local | SQLite real (arquivo `<version>.db`) com tabelas `metadata(key,value)`, `book(id,name)`, `verse(book_id,chapter,verse,text)` aberto read-only | `packages/adapter-sqlite-native/src/bible-store.ts` (`NativeBibleLibrary`), `driver.ts`, `fixtures.ts` (`buildRealSqliteBibleFixture`) |
-| Registry de instaladas | SQLite real `installed_bibles(id,name,installed_at,version_code)` persistente | `packages/adapter-sqlite-native/src/registry.ts` (`SqliteInstalledRegistry`) |
+| Biblioteca bíblica local | SQLite real compatível com o schema legado (arquivo `<version>.db`) com `metadata(key,value)`, `book(id INTEGER)`, `verse(book_id INTEGER, chapter, verse, text[, translation])` aberto read-only | `packages/adapter-sqlite-node/src/bible-store.ts` (`NodeBibleLibrary`), `legacy-book-map.ts`, `driver.ts`, `fixtures.ts` (`buildLegacySqliteBibleFixture`) |
+| Registry de instaladas | SQLite real `installed_bibles(id,name,installed_at,version_code)` persistente | `packages/adapter-sqlite-node/src/registry.ts` (`NodeSqliteRegistry`) |
 | Catálogo remoto opcional | `fetch` via `BiblePackageSource` (listAvailable/fetchPackage, ponte `CancellationToken`→`AbortSignal`) | `packages/adapter-http/src/http-source.ts` |
 | Fakes in-memory (testes) | `FakeLibrary`, `FakeBibleInstaller`, `FakeRegistry` (Map) | `packages/engine-testing/src/fakes.ts`, `fixtures.ts` |
 | Clock | epoch ms via `Clock` port | `packages/engine/src/ports.ts`, `packages/engine-testing/src/fakes.ts` (`FakeClock`) |
@@ -30,7 +30,9 @@ Mapa de persistência do sistema. Modelo inicial sugerido para
 
 ## Decisões, ownership e retenção
 
-- Formato SQLite preservado: `metadata(key,value)`, `book(id, ...)`, `verse(book_id, chapter, verse, text)`. Não copia banco real; fixture SQLite real pequena e sem conteúdo bíblico protegido é gerada para os testes (`buildRealSqliteBibleFixture`), não um cabeçalho seguido de JSON.
-- Instalação (dono: `BibleInstaller`) em 9 passos com atomicidade real: bytes → tmp → validar header (`SQLite format 3\0`) → validar schema (`metadata/book/verse`) → validar identidade (`metadata.versionId`) → sanity query → promote atômico (rename) → registrar `installed_bibles` → cleanup/rollback em falha. Registro faz parte da garantia transacional com compensação verificável (sem parcial, preserva anterior, sem divergência registry/armazenamento).
-- Leitura read-only; versículos ordenados ASC; busca `LIKE ... COLLATE NOCASE` com limite explícito. Desinstalação com compensação reversível (rename para trash → remove registry → restaura em falha).
-- Cancelamento via `CancellationToken` portátil → code `cancelled`. Sem TursoDB nesta entrega; OPFS/Worker/WASM é fatia planejada (web); sync futuro poderá adicionar migrations versionadas.
+- Formato SQLite do legado preservado: `metadata(key,value)`, `book(id INTEGER)`, `verse(book_id INTEGER, chapter, verse, text[, translation])`. Fixture SQLite real pequena e sem conteúdo bíblico protegido é gerada para os testes (`buildLegacySqliteBibleFixture`), não um cabeçalho seguido de JSON; campos adicionais (`translation`, `copyright`) não quebram leitura.
+- IDs SQLite 1..66 convertidos para os canônicos do domínio (`gen`..`rev`) via `legacy-book-map.ts` (ordem = `BOOKS`/`BOOK_META` legado) ao listar livros, ler capítulos e buscar.
+- Instalação (dono: `BibleInstaller`) em 9 passos com atomicidade real e **crash-safe**: bytes → tmp → validar header (`SQLite format 3\0`) → validar schema (`metadata/book/verse`) → validar identidade (`metadata.versionId` OPCIONAL; se presente valida, se ausente não rejeita) → sanity query → promote atômico (rename) → registrar `installed_bibles` → cleanup/rollback. Registro faz parte da garantia transacional com compensação verificável (sem parcial, preserva anterior, sem divergência registry/armazenamento).
+- Leitura read-only; versículos ordenados ASC; busca `LIKE ... COLLATE NOCASE` com limite explícito e `total` = `COUNT(*)` antes do LIMIT, em ordem canônica. Ciclo de conexões corrigido: `closeVersion`/`close`, fechar antes de substituir/remover arquivo, `NodeAdapter.close()` fecha library e registry.
+- Crash-safety: `reconcileNodeDataDir` repara `.tmp`/`.bak`/`.trash` na abertura do adapter (estados intermediários testados). Cancelamento via `CancellationToken` portátil em todos os checkpoints → code `cancelled`.
+- Sem TursoDB nesta entrega; OPFS/Worker/WASM é fatia planejada (web); sync futuro poderá adicionar migrations versionadas. Adapter é **Node.js** (`node:fs`/`node:path`/`node:sqlite`); Bun não afirmado.

@@ -9,7 +9,7 @@ Relação: relaciona cada arquivo observado à sua superfície.
 
 | Categoria | Arquivo | Símbolos |
 | --- | --- | --- |
-| Testes | apps/conformance-cli/src/__tests__/conformance.test.ts | tempNativeEngine |
+| Testes | apps/conformance-cli/src/__tests__/conformance.test.ts | tempNodeEngine |
 | Outras fontes | apps/conformance-cli/src/index.ts | printJson, printError, makeRealEngine, ensureInstalled, runCheck, runListBooks, runGetChapter, runSearch |
 | Outras fontes | apps/conformance-cli/vitest.config.ts | — |
 | Outras fontes | eslint.config.js | — |
@@ -17,13 +17,14 @@ Relação: relaciona cada arquivo observado à sua superfície.
 | Outras fontes | packages/adapter-http/src/http-source.ts | HttpBiblePackageSourceOptions, FALLBACK_VERSIONS, SQLITE_HEADER_TEXT, SQLITE_HEADER, headerValid, toAbortSignal, HttpBiblePackageSource, DS |
 | Outras fontes | packages/adapter-http/src/index.ts | — |
 | Outras fontes | packages/adapter-http/vitest.config.ts | — |
-| Testes | packages/adapter-sqlite-native/src/__tests__/sqlite-native.test.ts | readDirList |
-| Outras fontes | packages/adapter-sqlite-native/src/bible-store.ts | SQLITE_HEADER_TEXT, SQLITE_HEADER, canonicalOrder, ORDER, isSqliteHeader, ValidateResult, validateMaterializedBibleFile, readMetadata |
-| Outras fontes | packages/adapter-sqlite-native/src/driver.ts | against, SqliteStatement, SqliteDriver, DriverOptions, NodeSqliteDriver |
-| Outras fontes | packages/adapter-sqlite-native/src/fixtures.ts | REAL_ARABIC_VERSION_ID, REAL_ARABIC_VERSION_NAME, buildBooks, buildVerses, RealSqliteFixture, buildRealSqliteBibleFixture, REAL_ARA_FIXTURE |
-| Outras fontes | packages/adapter-sqlite-native/src/index.ts | NativeAdapterOptions, NativeAdapter, createNativeAdapter |
-| Outras fontes | packages/adapter-sqlite-native/src/registry.ts | SqliteInstalledRegistry |
-| Outras fontes | packages/adapter-sqlite-native/vitest.config.ts | — |
+| Testes | packages/adapter-sqlite-node/src/__tests__/sqlite-node.test.ts | tmpDir, bytesOf, listNames, assertNoStrayFiles, makeFailingRegistry, installAra, touch, canonicalIndex |
+| Outras fontes | packages/adapter-sqlite-node/src/bible-store.ts | SQLITE_HEADER, isSqliteHeader, readMetadata, ValidateResult, validateMaterializedBibleFile, loadBooks, RawVerse, toVerse |
+| Outras fontes | packages/adapter-sqlite-node/src/driver.ts | with, SqliteStatement, SqliteDriver, DriverOptions, NodeSqliteDriver |
+| Outras fontes | packages/adapter-sqlite-node/src/fixtures.ts | LEGACY_ARABIC_VERSION_ID, LEGACY_ARABIC_VERSION_NAME, bookIds, buildBooks, buildVerses, LegacySqliteFixture, buildLegacySqliteBibleFixture, LEGACY_ARA_FIXTURE |
+| Outras fontes | packages/adapter-sqlite-node/src/index.ts | NodeAdapterOptions, NodeAdapter, createNodeAdapter |
+| Outras fontes | packages/adapter-sqlite-node/src/legacy-book-map.ts | INT_TO_BOOK, BOOK_TO_INT, bookIdToInt, intToBook, intToCanonicalId, MAX_BOOK_ID |
+| Outras fontes | packages/adapter-sqlite-node/src/registry.ts | NodeSqliteRegistry |
+| Outras fontes | packages/adapter-sqlite-node/vitest.config.ts | — |
 | Testes | packages/adapter-sqlite-web/src/__tests__/sqlite-web-slice.test.ts | — |
 | Outras fontes | packages/adapter-sqlite-web/src/index.ts | — |
 | Outras fontes | packages/adapter-sqlite-web/src/sqlite-web.ts | SqliteWebLibrary, WebBibleLibrary |

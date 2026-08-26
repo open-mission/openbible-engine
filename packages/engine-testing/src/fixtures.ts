@@ -5,7 +5,7 @@ import { BOOKS } from "@openbible/engine-core";
  * Synthetic in-memory bible data used by fakes and contract tests.
  *
  * This is NOT a storage fixture: real SQLite bytes are produced by
- * `buildRealSqliteBibleFixture` in `@openbible/adapter-sqlite-native`. The
+ * `buildLegacySqliteBibleFixture` in `@openbible/adapter-sqlite-node`. The
  * module-level fakes store plain data objects, never "header + JSON" bytes.
  */
 

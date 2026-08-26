@@ -11,7 +11,7 @@
 | --- |
 | apps/conformance-cli/src/__tests__/conformance.test.ts |
 | packages/adapter-http/src/__tests__/http-source.test.ts |
-| packages/adapter-sqlite-native/src/__tests__/sqlite-native.test.ts |
+| packages/adapter-sqlite-node/src/__tests__/sqlite-node.test.ts |
 | packages/adapter-sqlite-web/src/__tests__/sqlite-web-slice.test.ts |
 | packages/engine/src/__tests__/engine.test.ts |
 | packages/engine/src/__tests__/install.test.ts |

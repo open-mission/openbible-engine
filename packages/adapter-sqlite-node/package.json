@@ -1,5 +1,5 @@
 {
-  "name": "@openbible/adapter-sqlite-native",
+  "name": "@openbible/adapter-sqlite-node",
   "version": "0.1.0",
   "type": "module",
   "main": "./dist/index.js",
@@ -29,9 +29,8 @@
     "typescript": "catalog:",
     "vitest": "catalog:",
     "eslint": "catalog:",
-    "better-sqlite3": "^9.2.0",
-    "@types/better-sqlite3": "^7.6.13",
     "@openbible/engine-testing": "workspace:*",
     "@types/node": "^22.0.0"
-  }
+  },
+  "description": "Node.js SQLite adapter (legacy Open Bible schema), transactional install with crash recovery"
 }

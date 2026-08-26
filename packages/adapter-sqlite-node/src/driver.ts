@@ -1,11 +1,13 @@
 import { DatabaseSync } from "node:sqlite";
 
 /**
- * Minimal synchronous SQLite driver abstraction for the native adapter.
+ * Minimal synchronous SQLite driver abstraction for the Node adapter.
  *
- * Engine-core never imports this: the concrete driver stays inside
- * `@openbible/adapter-sqlite-native`. The Native SDK will implement the same
- * interface against a pure-JS or Zig/C binding instead of `better-sqlite3`.
+ * This adapter is a **Node.js** adapter (uses `node:fs`, `node:path` and
+ * `node:sqlite`). It is not claimed to be Bun-compatible without running the
+ * tests on Bun. The (future) Native SDK will implement the same interface with
+ * a pure-JS or Zig/C binding under the reserved `@openbible/adapter-sqlite-native`
+ * name.
  */
 
 export interface SqliteStatement {
@@ -29,7 +31,7 @@ export type DriverFactory = (filename: string, options?: DriverOptions) => Sqlit
 
 /**
  * Real driver backed by Node's built-in `node:sqlite` (DatabaseSync).
- * No native addon required, works on Node 22+; usable by Bun too.
+ * No native addon required; works on Node 22+.
  */
 export class NodeSqliteDriver implements SqliteDriver {
   readonly filename: string;

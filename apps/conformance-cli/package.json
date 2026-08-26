@@ -18,9 +18,9 @@
     "@openbible/engine-core": "workspace:*",
     "@openbible/engine": "workspace:*",
     "@openbible/engine-testing": "workspace:*",
-    "@openbible/adapter-sqlite-native": "workspace:*",
     "@openbible/adapter-sqlite-web": "workspace:*",
-    "@openbible/adapter-http": "workspace:*"
+    "@openbible/adapter-http": "workspace:*",
+    "@openbible/adapter-sqlite-node": "workspace:*"
   },
   "devDependencies": {
     "typescript": "catalog:",

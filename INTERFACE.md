@@ -40,13 +40,13 @@ vazio, upload ou ação em lote.
 
 | Bloco | Tipo | Arquivo | Origem | Finalidade e API pública | Estados e acessibilidade | Consumidores | Reaproveitar ou estender |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| Não há blocos React | — | — | — | CLI `apps/conformance-cli/src/index.ts` com comandos `check`, `list-books`, `get-chapter`, `search`, `parse` que compõem `createBibleEngine` com o adapter nativo real (`createNativeAdapter`) e provam persistência após fechar/reabrir | success JSON, empty array, error `EngineError` code | Desenvolvedores | Não aplicável |
+| Não há blocos React | — | — | — | CLI `apps/conformance-cli/src/index.ts` com comandos `check`, `list-books`, `get-chapter`, `search`, `parse` que compõem `createBibleEngine` com o adapter SQLite Node compatível com o schema legado (`createNodeAdapter`) e provam persistência após fechar/reabrir | success JSON, empty array, error `EngineError` code | Desenvolvedores | Não aplicável |
 
 ## Telas e composição
 
 | Tela ou rota | Arquivo | Componentes React usados | Dados e ações | Estados |
 | --- | --- | --- | --- | --- |
-| Não há tela de produto | `apps/conformance-cli/src/index.ts` | Nenhum (CLI Node) | Comandos via `process.argv`, instanciação de `createNativeAdapter` (SQLite real) + `createBibleEngine`, saída JSON, exit 0/1 | success, empty, error |
+| Não há tela de produto | `apps/conformance-cli/src/index.ts` | Nenhum (CLI Node) | Comandos via `process.argv`, instanciação de `createNodeAdapter` (SQLite Node schema legado) + `createBibleEngine`, saída JSON, exit 0/1 | success, empty, error |
 
 ## Regras de composição
 

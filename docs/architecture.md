@@ -5,7 +5,7 @@
 
 | Tipo | Quantidade |
 | --- | --- |
-| Código | 52 |
+| Código | 53 |
 | Testes | 15 |
 
 ## Diagramas

@@ -16,11 +16,9 @@
 | npm | produção | @openbible/engine-core | workspace:* | Finalidade não descrita nos metadados locais. |  |
 | npm | produção | @openbible/engine | workspace:* | Finalidade não descrita nos metadados locais. |  |
 | npm | produção | @openbible/engine-testing | workspace:* | Finalidade não descrita nos metadados locais. |  |
-| npm | produção | @openbible/adapter-sqlite-native | workspace:* | Finalidade não descrita nos metadados locais. |  |
 | npm | produção | @openbible/adapter-sqlite-web | workspace:* | Finalidade não descrita nos metadados locais. |  |
 | npm | produção | @openbible/adapter-http | workspace:* | Finalidade não descrita nos metadados locais. |  |
+| npm | produção | @openbible/adapter-sqlite-node | workspace:* | Node.js SQLite adapter (legacy Open Bible schema), transactional install with crash recovery |  |
 | npm | desenvolvimento | @types/node | ^22.0.0 | TypeScript definitions for node | https://github.com/DefinitelyTyped/DefinitelyTyped |
 | npm | desenvolvimento | @openbible/engine-testing | workspace:* | Finalidade não descrita nos metadados locais. |  |
-| npm | desenvolvimento | better-sqlite3 | ^9.2.0 | The fastest and simplest library for SQLite3 in Node.js. | git://github.com/WiseLibs/better-sqlite3 |
-| npm | desenvolvimento | @types/better-sqlite3 | ^7.6.13 | TypeScript definitions for better-sqlite3 | https://github.com/DefinitelyTyped/DefinitelyTyped |
 <!-- specsfy:documentator:end -->
