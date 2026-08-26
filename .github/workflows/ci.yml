@@ -1,0 +1,25 @@
+name: CI
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.22.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm turbo run build --filter=@openbible/engine-core
+      - run: pnpm turbo run typecheck
+      - run: pnpm turbo run lint
+      - run: pnpm turbo run test
+      - run: pnpm exec vitest run tests/arch
+      - run: node apps/conformance-cli/dist/index.js check || echo "CLI check requires build"

@@ -1,0 +1,15 @@
+node_modules
+.turbo
+dist
+coverage
+.next
+out
+.tmp
+.opencode
+*.log
+.DS_Store
+.env
+.env.local
+build-dir
+.changeset/*.md
+!.changeset/config.json

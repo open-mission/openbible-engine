@@ -1,0 +1,31 @@
+{
+  "name": "@openbible/conformance-cli",
+  "version": "0.1.0",
+  "type": "module",
+  "bin": {
+    "conformance-cli": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "check": "pnpm run typecheck && pnpm run lint && pnpm run test",
+    "start": "node ./dist/index.js"
+  },
+  "dependencies": {
+    "@openbible/engine-core": "workspace:*",
+    "@openbible/engine": "workspace:*",
+    "@openbible/engine-testing": "workspace:*",
+    "@openbible/adapter-sqlite-native": "workspace:*",
+    "@openbible/adapter-sqlite-web": "workspace:*",
+    "@openbible/adapter-http": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "catalog:",
+    "vitest": "catalog:",
+    "eslint": "catalog:",
+    "@types/node": "^22.0.0"
+  }
+}

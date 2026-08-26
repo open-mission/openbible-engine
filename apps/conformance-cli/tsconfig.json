@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src",
+    "composite": true
+  },
+  "include": ["src/**/*"],
+  "exclude": ["src/__tests__/**", "**/*.test.ts", "**/*.spec.ts"],
+  "references": [
+    { "path": "../../packages/engine-core" },
+    { "path": "../../packages/engine" },
+    { "path": "../../packages/engine-testing" }
+  ]
+}

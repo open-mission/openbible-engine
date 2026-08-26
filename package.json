@@ -1,0 +1,34 @@
+{
+  "name": "openbible-engine",
+  "private": true,
+  "version": "0.1.0",
+  "packageManager": "pnpm@10.22.0",
+  "engines": {
+    "node": "22.x",
+    "pnpm": "10.x"
+  },
+  "type": "module",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "build": "turbo run build",
+    "test": "turbo run test",
+    "test:coverage": "turbo run test:coverage",
+    "typecheck": "turbo run typecheck",
+    "lint": "turbo run lint",
+    "check": "turbo run check",
+    "prepare": "husky install"
+  },
+  "devDependencies": {
+    "@changesets/cli": "catalog:",
+    "@typescript-eslint/eslint-plugin": "catalog:",
+    "@typescript-eslint/parser": "catalog:",
+    "eslint": "catalog:",
+    "husky": "catalog:",
+    "turbo": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}
