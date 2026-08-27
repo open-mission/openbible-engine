@@ -6,7 +6,6 @@
 | Gerenciador | Escopo | Pacote | Versão | Finalidade | Fonte |
 | --- | --- | --- | --- | --- | --- |
 | npm | desenvolvimento | @changesets/cli | catalog: | Organise your package versioning and publishing to make both contributors and maintainers happy | https://github.com/changesets/changesets/tree/main/packages/cli |
-| npm | desenvolvimento | @playwright/test | 1.62.1 | A high-level API to automate web browsers | https://github.com/microsoft/playwright |
 | npm | desenvolvimento | @typescript-eslint/eslint-plugin | catalog: | TypeScript plugin for ESLint | https://github.com/typescript-eslint/typescript-eslint |
 | npm | desenvolvimento | @typescript-eslint/parser | catalog: | An ESLint custom parser which leverages TypeScript ESTree | https://github.com/typescript-eslint/typescript-eslint |
 | npm | desenvolvimento | eslint | catalog: | An AST-based pattern checker for JavaScript. | eslint/eslint |
@@ -21,9 +20,27 @@
 | npm | produção | @openbible/adapter-http | workspace:* | Finalidade não descrita nos metadados locais. |  |
 | npm | produção | @openbible/adapter-sqlite-node | workspace:* | Node.js SQLite adapter for the legacy Open Bible schema with exception-safe installation and best-effort startup reconciliation |  |
 | npm | desenvolvimento | @types/node | ^22.0.0 | TypeScript definitions for node | https://github.com/DefinitelyTyped/DefinitelyTyped |
+| npm | produção | @ducanh2912/next-pwa | ^10.2.9 | PWA for Next.js, powered by Workbox. | https://github.com/DuCanhGH/next-pwa |
+| npm | produção | next | ^15.4.0 | The React Framework | vercel/next.js |
+| npm | produção | react | ^19.0.0 | React is a JavaScript library for building user interfaces. | https://github.com/react/react |
+| npm | produção | react-dom | ^19.0.0 | React package for working with the DOM. | https://github.com/react/react |
+| npm | produção | tailwind-merge | ^2.5.0 | Merge Tailwind CSS classes without style conflicts | https://github.com/dcastil/tailwind-merge |
+| npm | desenvolvimento | @playwright/test | catalog: | A high-level API to automate web browsers | https://github.com/microsoft/playwright |
+| npm | desenvolvimento | @tailwindcss/postcss | ^4.0.0 | PostCSS plugin for Tailwind CSS, a utility-first CSS framework for rapidly building custom user interfaces | https://github.com/tailwindlabs/tailwindcss |
+| npm | desenvolvimento | @testing-library/jest-dom | ^6.4.0 | Custom jest matchers to test the state of the DOM | https://github.com/testing-library/jest-dom |
+| npm | desenvolvimento | @testing-library/react | ^16.0.0 | Simple and complete React DOM testing utilities that encourage good testing practices. | https://github.com/testing-library/react-testing-library |
+| npm | desenvolvimento | @types/react | ^19.0.0 | TypeScript definitions for react | https://github.com/DefinitelyTyped/DefinitelyTyped |
+| npm | desenvolvimento | @types/react-dom | ^19.0.0 | TypeScript definitions for react-dom | https://github.com/DefinitelyTyped/DefinitelyTyped |
+| npm | desenvolvimento | @vitejs/plugin-react | ^4.3.0 | The default Vite plugin for React projects | https://github.com/vitejs/vite-plugin-react |
+| npm | desenvolvimento | jsdom | ^25.0.0 | A JavaScript implementation of many web standards | https://github.com/jsdom/jsdom |
+| npm | desenvolvimento | tailwindcss | ^4.0.0 | A utility-first CSS framework for rapidly building custom user interfaces. | https://github.com/tailwindlabs/tailwindcss |
+| npm | desenvolvimento | @openbible/engine | workspace:* | Finalidade não descrita nos metadados locais. |  |
+| npm | desenvolvimento | @openbible/engine-core | workspace:* | Finalidade não descrita nos metadados locais. |  |
+| npm | desenvolvimento | @openbible/adapter-http | workspace:* | Finalidade não descrita nos metadados locais. |  |
+| npm | desenvolvimento | @openbible/adapter-sqlite-node | workspace:* | Node.js SQLite adapter for the legacy Open Bible schema with exception-safe installation and best-effort startup reconciliation |  |
+| npm | desenvolvimento | @openbible/adapter-sqlite-web | workspace:* | Finalidade não descrita nos metadados locais. |  |
 | npm | desenvolvimento | @openbible/engine-testing | workspace:* | Finalidade não descrita nos metadados locais. |  |
 | npm | produção | @sqlite.org/sqlite-wasm | 3.53.0-build1 | SQLite Wasm conveniently wrapped as an ES Module. | https://github.com/sqlite/sqlite-wasm |
-| npm | desenvolvimento | @playwright/test | catalog: | A high-level API to automate web browsers | https://github.com/microsoft/playwright |
 | npm | desenvolvimento | esbuild | catalog: | An extremely fast JavaScript and CSS bundler and minifier. | https://github.com/evanw/esbuild |
 | npm | desenvolvimento | ws | catalog: | Simple to use, blazing fast and thoroughly tested websocket client and server for Node.js | https://github.com/websockets/ws |
 <!-- specsfy:documentator:end -->

@@ -80,4 +80,10 @@ describe("arch: engine-core no platform imports", () => {
       expect(content).not.toContain("node:sqlite");
     }
   });
+
+  // SPECSFY: US-002 FR-001 NFR-003 AC-005
+  it("engine-core permanece zero-deps de runtime (tarball enxuto)", async () => {
+    const pkg = JSON.parse(await readFile(join(process.cwd(), "packages/engine-core/package.json"), "utf8"));
+    expect(pkg.dependencies ?? {}, "engine-core não deve possuir dependências de runtime").toEqual({});
+  });
 });

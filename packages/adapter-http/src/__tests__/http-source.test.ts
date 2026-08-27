@@ -27,6 +27,44 @@ function makeFakeFetch(bytes: Uint8Array, ok = true, status = 200): typeof fetch
 }
 
 describe("HttpBiblePackageSource", () => {
+  // SPECSFY: US-001 FR-001 NFR-001 AC-001
+  it("fetchPackage downloads the version file from a direct package base URL", async () => {
+    const fetchImpl = vi.fn(makeFakeFetch(validHeaderBytes()));
+    const src = new HttpBiblePackageSource({ packageBaseUrl: "https://r2.example/bibles", fetchImpl });
+
+    await src.fetchPackage("nvi");
+
+    expect(fetchImpl).toHaveBeenCalledWith(
+      "https://r2.example/bibles/NVI.sqlite",
+      expect.objectContaining({ method: "GET" }),
+    );
+  });
+
+  it("falls back from the API proxy to the direct package URL", async () => {
+    const direct = makeFakeFetch(validHeaderBytes());
+    const fetchImpl = vi.fn().mockRejectedValueOnce(new Error("proxy offline")).mockImplementationOnce(direct);
+    const src = new HttpBiblePackageSource({
+      baseUrl: "https://openbible-prod.vercel.app",
+      packageBaseUrl: "https://r2.example/bibles",
+      fetchImpl,
+    });
+
+    await src.fetchPackage("ara");
+
+    expect(fetchImpl.mock.calls.map(([url]) => url)).toEqual([
+      "https://openbible-prod.vercel.app/api/bibles/download/ara",
+      "https://r2.example/bibles/ARA.sqlite",
+    ]);
+  });
+
+  it("lists the complete R2 fallback catalog when the API is not configured", async () => {
+    const src = new HttpBiblePackageSource({ packageBaseUrl: "https://r2.example/bibles" });
+    const ids = (await src.listAvailable()).map((version) => version.id);
+
+    expect(ids).toEqual(expect.arrayContaining(["acf", "ara", "nvi", "ntlh", "vfl"]));
+    expect(ids.length).toBe(16);
+  });
+
   it("listAvailable fallback when no baseUrl", async () => {
     const src = new HttpBiblePackageSource({});
     expect((await src.listAvailable()).length).toBeGreaterThan(0);

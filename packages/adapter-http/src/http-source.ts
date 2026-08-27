@@ -3,15 +3,50 @@ import type { BibleVersion, CancellationToken } from "@openbible/engine-core";
 import type { BiblePackageSource, InstallationObserver } from "@openbible/engine";
 
 export interface HttpBiblePackageSourceOptions {
+  /** API base exposing /api/bibles and /api/bibles/download/:version. */
   baseUrl?: string;
+  /** Public directory containing version SQLite files, e.g. R2 /bibles. */
+  packageBaseUrl?: string;
   fetchImpl?: typeof fetch;
 }
 
+const R2_FILES: Record<string, string> = {
+  acf: "ACF.sqlite",
+  ara: "ARA.sqlite",
+  arc: "ARC.sqlite",
+  as21: "AS21.sqlite",
+  jfaa: "JFAA.sqlite",
+  kja: "KJA.sqlite",
+  kjf: "KJF.sqlite",
+  mens: "MENS.sqlite",
+  naa: "NAA.sqlite",
+  nbv: "NBV.sqlite",
+  ntlh: "NTLH.sqlite",
+  nvi: "NVI.sqlite",
+  nvt: "NVT.sqlite",
+  ol: "OL.sqlite",
+  tb: "TB.sqlite",
+  vfl: "VFL.sqlite",
+};
+
 const FALLBACK_VERSIONS: BibleVersion[] = [
-  { id: "ara", name: "ARA", language: "pt-BR", totalBooks: 66 },
-  { id: "nvi", name: "NVI", language: "pt-BR", totalBooks: 66 },
-  { id: "acf", name: "ACF", language: "pt-BR", totalBooks: 66 },
-];
+  ["acf", "Almeida Corrigida Fiel"],
+  ["ara", "Almeida Revista e Atualizada"],
+  ["arc", "Almeida Revista e Corrigida"],
+  ["as21", "Almeida Século 21"],
+  ["jfaa", "João Ferreira de Almeida Atualizada"],
+  ["kja", "King James Atualizada"],
+  ["kjf", "King James Fiel"],
+  ["mens", "The Message"],
+  ["naa", "Nova Almeida Atualizada"],
+  ["nbv", "Nova Bíblia Viva"],
+  ["ntlh", "Nova Tradução na Linguagem de Hoje"],
+  ["nvi", "Nova Versão Internacional"],
+  ["nvt", "Nova Versão Transformadora"],
+  ["ol", "O Livro"],
+  ["tb", "Tradução Brasileira"],
+  ["vfl", "Versão Fácil de Ler"],
+].map(([id, name]) => ({ id, name, language: "pt-BR", totalBooks: 66 }));
 
 const SQLITE_HEADER_TEXT = "SQLite format 3\0";
 const SQLITE_HEADER = new TextEncoder().encode(SQLITE_HEADER_TEXT);
@@ -32,10 +67,12 @@ function toAbortSignal(token?: CancellationToken): AbortSignal | undefined {
 
 export class HttpBiblePackageSource implements BiblePackageSource {
   private baseUrl: string | undefined;
+  private packageBaseUrl: string | undefined;
   private fetchImpl: typeof fetch;
 
   constructor(options: HttpBiblePackageSourceOptions = {}) {
     this.baseUrl = options.baseUrl?.replace(/\/+$/, "");
+    this.packageBaseUrl = options.packageBaseUrl?.replace(/\/+$/, "");
     this.fetchImpl =
       options.fetchImpl ??
       (typeof fetch !== "undefined"
@@ -66,32 +103,50 @@ export class HttpBiblePackageSource implements BiblePackageSource {
     observer?: InstallationObserver,
   ): Promise<Uint8Array> {
     if (token?.aborted) throw new EngineError("cancelled", "Operation cancelled", { cause: token.reason });
-    if (!this.baseUrl) {
-      throw new EngineError("network_unavailable", "HttpBiblePackageSource: no baseUrl configured and no bytes injection");
+    const filename = R2_FILES[versionId.toLowerCase()];
+    const directUrl = this.packageBaseUrl && filename ? `${this.packageBaseUrl}/${filename}` : undefined;
+    const url = this.baseUrl
+      ? `${this.baseUrl}/api/bibles/download/${encodeURIComponent(versionId)}`
+      : directUrl;
+    if (!url) {
+      throw new EngineError("network_unavailable", "HttpBiblePackageSource: no package URL configured and no bytes injection");
     }
 
     const signal = toAbortSignal(token);
-    const url = `${this.baseUrl}/api/bibles/download/${encodeURIComponent(versionId)}`;
-
-    let response: Response;
-    try {
-      response = await this.fetchImpl(url, {
-        method: "GET",
-        signal,
-        headers: { Accept: "application/octet-stream, application/gzip, */*" },
-      });
-    } catch (e) {
-      if (token?.aborted || (e instanceof DOMException && e.name === "AbortError")) {
-        throw new EngineError("cancelled", "Fetch cancelled", { cause: e });
+    const urls = [
+      url,
+      directUrl,
+    ].filter((candidate, index, all): candidate is string => Boolean(candidate) && all.indexOf(candidate) === index);
+    let response: Response | undefined;
+    let lastError: unknown;
+    for (const candidate of urls) {
+      try {
+        const candidateResponse = await this.fetchImpl(candidate, {
+          method: "GET",
+          signal,
+          headers: { Accept: "application/octet-stream, application/gzip, */*" },
+        });
+        if (candidateResponse.ok) {
+          response = candidateResponse;
+          break;
+        }
+        lastError = new Error(`${candidateResponse.status} ${candidateResponse.statusText}`);
+      } catch (e) {
+        if (token?.aborted || (e instanceof DOMException && e.name === "AbortError")) {
+          throw new EngineError("cancelled", "Fetch cancelled", { cause: e });
+        }
+        lastError = e;
       }
-      throw new EngineError("network_unavailable", `Failed to fetch package: ${versionId}`, { cause: e });
+    }
+
+    if (!response) {
+      if (lastError instanceof Error && lastError.message.startsWith("404 ")) {
+        throw new EngineError("invalid_package", `Package not found: ${versionId}`, { cause: lastError });
+      }
+      throw new EngineError("network_unavailable", `Failed to fetch package: ${versionId}`, { cause: lastError });
     }
 
     if (token?.aborted) throw new EngineError("cancelled", "Operation cancelled after fetch");
-    if (!response.ok) {
-      if (response.status === 404) throw new EngineError("invalid_package", `Package not found: ${versionId}`);
-      throw new EngineError("network_unavailable", `Failed to download ${versionId}: ${response.status} ${response.statusText}`);
-    }
 
     const encoding = response.headers.get("content-encoding")?.toLowerCase() ?? "";
     const isGzipped = encoding.includes("gzip");

@@ -23,7 +23,7 @@ Prover o bounded context **Scripture Library** (versões, livros, capítulos, ve
 
 ## Limites
 
-Não implementa Personal Study (notas, destaques, categorias) nem Sync (TursoDB, conflitos, identidade remota, API). Não distribui ARA embarcada (responsabilidade do consumidor). Não publica pacotes nesta entrega. Não cria UI, hooks ou componentes.
+Não implementa Personal Study (notas, destaques, categorias) nem Sync (TursoDB, conflitos, identidade remota, API). Não distribui ARA na engine: a fixture/local source pertence ao consumidor. O pacote da engine não cria UI; o consumer de referência em `apps/consumer-web` é a primeira aplicação React/PWA do monorepo. Não publica pacotes nesta entrega.
 
 ## Contexto técnico
 
@@ -41,6 +41,9 @@ de ampliar o domínio:
 4. adicionar Sync/Turso e API pública como serviços opcionais e independentes;
 5. levar a engine ao React Native depois dos aprendizados Web e Native SDK;
 6. avaliar journal durável antes do 1.0 conforme a necessidade observada.
+
+O consumer de referência em `apps/consumer-web` prova a composição da engine em
+Next.js App Router, com Biblioteca, Leitor, Busca e app shell PWA offline-first.
 
 As fontes candidatas e suas dependências estão em `specs.md` e
 `specs/inbox/`. Elas não são requisitos aprovados nem autorização de

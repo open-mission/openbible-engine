@@ -12,9 +12,107 @@ Relação: relaciona cada arquivo observado à sua superfície.
 | Testes | apps/conformance-cli/src/__tests__/conformance.test.ts | tempNodeEngine |
 | Outras fontes | apps/conformance-cli/src/index.ts | printJson, printError, makeRealEngine, ensureInstalled, runCheck, runListBooks, runGetChapter, runSearch |
 | Outras fontes | apps/conformance-cli/vitest.config.ts | — |
+| Páginas | apps/consumer-web/.next/server/app/_not-found/page.js | M |
+| Páginas | apps/consumer-web/.next/server/app/_not-found/page_client-reference-manifest.js | — |
+| Páginas | apps/consumer-web/.next/server/app/busca/page.js | f, g, h, from, i, e, M, l |
+| Páginas | apps/consumer-web/.next/server/app/busca/page_client-reference-manifest.js | — |
+| Páginas | apps/consumer-web/.next/server/app/ler/[versao]/[livro]/[capitulo]/page.js | f, g, h, i, e, p, q, r |
+| Páginas | apps/consumer-web/.next/server/app/ler/[versao]/[livro]/[capitulo]/page_client-reference-manifest.js | — |
+| Rotas e APIs | apps/consumer-web/.next/server/app/manifest.webmanifest/route.js | g, c, e, f, m, n, o, h |
+| Páginas | apps/consumer-web/.next/server/app/manifest.webmanifest/route_client-reference-manifest.js | — |
+| Páginas | apps/consumer-web/.next/server/app/page.js | from, f, g, h, i, M, n, p |
+| Páginas | apps/consumer-web/.next/server/app/page_client-reference-manifest.js | — |
+| Outras fontes | apps/consumer-web/.next/server/chunks/141.js | c, f, n, o, u, g, p, q |
+| Outras fontes | apps/consumer-web/.next/server/chunks/42.js | l, n |
+| Outras fontes | apps/consumer-web/.next/server/chunks/483.js | a, j, k, l, m, n, o, p |
+| Outras fontes | apps/consumer-web/.next/server/chunks/724.js | i, m, n, e, f, g, h, c |
+| Outras fontes | apps/consumer-web/.next/server/chunks/842.js | from, i, j, h, k |
+| Outras fontes | apps/consumer-web/.next/server/chunks/static/media/worker.b46496cb.js | a, c, B, C, D, E, F, G |
+| Outras fontes | apps/consumer-web/.next/server/interception-route-rewrite-manifest.js | — |
+| Outras fontes | apps/consumer-web/.next/server/middleware-build-manifest.js | — |
+| Outras fontes | apps/consumer-web/.next/server/middleware-react-loadable-manifest.js | — |
+| Outras fontes | apps/consumer-web/.next/server/next-font-manifest.js | — |
+| Páginas | apps/consumer-web/.next/server/pages/_app.js | h, i, d, g, j, k, l, o |
+| Páginas | apps/consumer-web/.next/server/pages/_document.js | — |
+| Páginas | apps/consumer-web/.next/server/pages/_error.js | g, h, i, j, d, c, e, k |
+| Outras fontes | apps/consumer-web/.next/server/server-reference-manifest.js | — |
+| Outras fontes | apps/consumer-web/.next/server/webpack-runtime.js | c |
+| Outras fontes | apps/consumer-web/.next/static/chunks/153-f2888457eb977c01.js | r, n, o, u, y, g, i, a |
+| Outras fontes | apps/consumer-web/.next/static/chunks/414d96a7-bb8b2e9dd6508ed4.js | i, s, c, f, d, p, _, U |
+| Outras fontes | apps/consumer-web/.next/static/chunks/625-eb7059476a4ae723.js | i, s, l, c, d, h, m, p |
+| Outras fontes | apps/consumer-web/.next/static/chunks/694-63a1e196dd5a22eb.js | p, b |
+| Outras fontes | apps/consumer-web/.next/static/chunks/831-09f18f876cbc58b1.js | r, n, o, e, m, E, d, p |
+| Páginas | apps/consumer-web/.next/static/chunks/app/_not-found/page-fd946ac87c19ceca.js | o |
+| Páginas | apps/consumer-web/.next/static/chunks/app/busca/page-30e39b2855048db3.js | n, r, u, x, f, j, v, g |
+| Páginas | apps/consumer-web/.next/static/chunks/app/layout-1ac3bcb446e11ebf.js | — |
+| Páginas | apps/consumer-web/.next/static/chunks/app/ler/[versao]/[livro]/[capitulo]/page-0f9afba605fcb358.js | l, a, n, i, p, b, j, c |
+| Páginas | apps/consumer-web/.next/static/chunks/app/manifest.webmanifest/route-63ecccc4aa45f7b6.js | — |
+| Páginas | apps/consumer-web/.next/static/chunks/app/page-cac31e8d6d98f503.js | l, r, n, i, x, b, y, k |
+| Outras fontes | apps/consumer-web/.next/static/chunks/framework-54629660111d8b71.js | l, a, s, e, k, w, S, which |
+| Outras fontes | apps/consumer-web/.next/static/chunks/main-8579e0d658f1357a.js | a, i, o, f, d, h, u, r |
+| Outras fontes | apps/consumer-web/.next/static/chunks/main-app-1eecdffacc3abc22.js | — |
+| Páginas | apps/consumer-web/.next/static/chunks/pages/_app-737414d29f0a81d7.js | — |
+| Páginas | apps/consumer-web/.next/static/chunks/pages/_error-da60616077c89450.js | — |
+| Outras fontes | apps/consumer-web/.next/static/chunks/polyfills-42372ed130431b0a.js | e, t, Jm, Qm, Zm, tb, eb, rb |
+| Outras fontes | apps/consumer-web/.next/static/chunks/webpack-62d41f9d43ff54a5.js | r |
+| Outras fontes | apps/consumer-web/.next/static/css/cc62159cdd2a08a6.css | — |
+| Outras fontes | apps/consumer-web/.next/static/lXuQOTm2BKOqPVJbyakiY/_buildManifest.js | — |
+| Outras fontes | apps/consumer-web/.next/static/lXuQOTm2BKOqPVJbyakiY/_ssgManifest.js | — |
+| Outras fontes | apps/consumer-web/.next/static/media/worker.424e21a9.js | e, l, N, R, D, j, M, z |
+| Páginas | apps/consumer-web/.next/types/app/busca/page.ts | checkFields, if, PageProps, LayoutProps |
+| Páginas | apps/consumer-web/.next/types/app/ler/[versao]/[livro]/[capitulo]/page.ts | checkFields, if, PageProps, LayoutProps |
+| Páginas | apps/consumer-web/.next/types/app/page.ts | checkFields, if, PageProps, LayoutProps |
+| Outras fontes | apps/consumer-web/.next/types/cache-life.d.ts | unstable_cacheLife |
+| Outras fontes | apps/consumer-web/.next/types/routes.d.ts | ParamMap, LayoutSlotMap, Page, PageProps, Layout |
+| Outras fontes | apps/consumer-web/.next/types/validator.ts | — |
+| Outras fontes | apps/consumer-web/next-env.d.ts | — |
+| Outras fontes | apps/consumer-web/playwright.config.ts | — |
+| Outras fontes | apps/consumer-web/public/engine-worker/worker.js | _EngineError, callee, callee2, sqlite3InitModule, locateFile, updateMemoryViews, initMemory, preRun |
+| Outras fontes | apps/consumer-web/public/sw.js | — |
+| Outras fontes | apps/consumer-web/public/workbox-5194662c.js | s, r, i, a, h, p, y, m |
+| Páginas | apps/consumer-web/src/app/busca/page.tsx | SearchPage |
+| Páginas | apps/consumer-web/src/app/layout.tsx | RootLayout |
+| Páginas | apps/consumer-web/src/app/ler/[versao]/[livro]/[capitulo]/page.tsx | ReaderPage |
+| Páginas | apps/consumer-web/src/app/manifest.ts | manifest |
+| Páginas | apps/consumer-web/src/app/page.tsx | HomePage |
+| Componentes | apps/consumer-web/src/components/AppShell.tsx | AppShell |
+| Componentes | apps/consumer-web/src/components/ui/badge.tsx | Badge |
+| Componentes | apps/consumer-web/src/components/ui/breadcrumbs.tsx | Breadcrumbs |
+| Componentes | apps/consumer-web/src/components/ui/button.tsx | Button |
+| Componentes | apps/consumer-web/src/components/ui/card.tsx | Card, CardHeader, CardContent, CardTitle |
+| Componentes | apps/consumer-web/src/components/ui/feedback.tsx | EmptyState, ErrorState, OfflineBanner |
+| Componentes | apps/consumer-web/src/components/ui/input.tsx | Input |
+| Componentes | apps/consumer-web/src/components/ui/skeleton.tsx | Skeleton |
+| Outras fontes | apps/consumer-web/src/engine/bible-engine-provider.tsx | EngineState, DEFAULT_STATE, DEFAULT_BIBLE_API_URL, DEFAULT_BIBLE_PACKAGE_BASE_URL, EngineContext, BibleEngineProvider, useBibleEngine |
+| Outras fontes | apps/consumer-web/src/features/library/AppLibrary.tsx | AppLibrary, load, install, remove |
+| Outras fontes | apps/consumer-web/src/features/library/VersionCard.tsx | VersionCard |
+| Outras fontes | apps/consumer-web/src/features/reader/PrevNextNav.tsx | PrevNextNav |
+| Outras fontes | apps/consumer-web/src/features/reader/Reader.tsx | param, Reader |
+| Outras fontes | apps/consumer-web/src/features/search/Search.tsx | Search, search |
+| Outras fontes | apps/consumer-web/src/features/search/SearchForm.tsx | SearchForm |
+| Outras fontes | apps/consumer-web/src/features/search/SearchResults.tsx | DisplaySearchResult, SearchResults |
+| Outras fontes | apps/consumer-web/src/features/search/search-installed.ts | searchInstalledVersions |
+| Outras fontes | apps/consumer-web/src/lib/cn.ts | cn |
+| Outras fontes | apps/consumer-web/src/styles/globals.css | — |
+| Testes | apps/consumer-web/tests/boundary.test.ts | — |
+| Testes | apps/consumer-web/tests/browser/consumer.spec.ts | — |
+| Testes | apps/consumer-web/tests/install-failure.spec.tsx | de |
+| Testes | apps/consumer-web/tests/library-source.spec.tsx | — |
+| Testes | apps/consumer-web/tests/library-states.spec.tsx | — |
+| Testes | apps/consumer-web/tests/library.spec.tsx | — |
+| Testes | apps/consumer-web/tests/offline-empty.spec.tsx | — |
+| Testes | apps/consumer-web/tests/pwa.spec.ts | — |
+| Testes | apps/consumer-web/tests/reader.spec.tsx | — |
+| Testes | apps/consumer-web/tests/search.spec.tsx | — |
+| Testes | apps/consumer-web/tests/states.a11y.spec.tsx | — |
+| Outras fontes | apps/consumer-web/vitest.config.ts | — |
+| Outras fontes | apps/consumer-web/vitest.setup.ts | — |
+| Testes | apps/distribution-harness/tests/harness-browser.spec.ts | ROOT, WEB_DIR, WEB_PKG, exists |
+| Testes | apps/distribution-harness/tests/harness-node.spec.ts | ROOT, RUNTIME, Packed, pack |
+| Outras fontes | apps/distribution-harness/vitest.config.ts | — |
 | Outras fontes | eslint.config.js | — |
 | Testes | packages/adapter-http/src/__tests__/http-source.test.ts | SQLITE_HEADER, validHeaderBytes, makeFakeFetch |
-| Outras fontes | packages/adapter-http/src/http-source.ts | HttpBiblePackageSourceOptions, FALLBACK_VERSIONS, SQLITE_HEADER_TEXT, SQLITE_HEADER, headerValid, toAbortSignal, HttpBiblePackageSource, DS |
+| Outras fontes | packages/adapter-http/src/http-source.ts | HttpBiblePackageSourceOptions, R2_FILES, FALLBACK_VERSIONS, SQLITE_HEADER_TEXT, SQLITE_HEADER, headerValid, toAbortSignal, HttpBiblePackageSource |
 | Outras fontes | packages/adapter-http/src/index.ts | — |
 | Outras fontes | packages/adapter-http/vitest.config.ts | — |
 | Testes | packages/adapter-sqlite-node/src/__tests__/sqlite-node.test.ts | tmpDir, bytesOf, listNames, assertNoStrayFiles, makeFailingRegistry, installAra, touch, canonicalIndex |
@@ -82,6 +180,7 @@ Relação: relaciona cada arquivo observado à sua superfície.
 | Outras fontes | packages/engine-testing/src/fixtures.ts | ARA_VERSION_ID, ARA_VERSION_NAME, buildDefaultBooks, buildDefaultVerses, BibleFixtureData, createAraFixture, createFixture, DEFAULT_ARA_FIXTURE |
 | Outras fontes | packages/engine-testing/src/index.ts | — |
 | Outras fontes | packages/engine-testing/vitest.config.ts | — |
+| Testes | tests/arch/api-regression.test.ts | ROOT, GUARD |
 | Testes | tests/arch/core-imports.test.ts | CORE_SRC, FORBIDDEN, walk |
 | Testes | tests/arch/engine-purity.test.ts | ENGINE_SRC, FORBIDDEN_ENGINE |
 | Testes | tests/arch/exports.test.ts | — |

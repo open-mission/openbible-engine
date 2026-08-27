@@ -10,12 +10,15 @@ registra componentes, blocos e telas locais; as regras globais de SaaS vivem em
 
 ## Base observada
 
-- Stack: TypeScript, Node.js, pnpm, Turborepo (sem React/Astro/Next)
-- Política: **Há interface para pessoas: Não** — `apps/conformance-cli` é ferramenta técnica de conformidade, não interface de produto. Não implementar telas, React, Tailwind, shadcn/ui ou ReUI.
-- Primitives: Não aplicável.
-- Composições gratuitas: Não aplicável.
-
-Sem telas de produto.
+- Stack: TypeScript, Next.js App Router 15, React 19, Tailwind CSS 4, pnpm e
+  Turborepo.
+- Política: **Há interface para pessoas: Sim** — `apps/consumer-web` é o
+  consumer PWA de referência; `apps/conformance-cli` continua sendo ferramenta
+  técnica sem tela de produto.
+- Primitives locais inspiradas em shadcn/ui: Button, Card, Badge, Input,
+  Skeleton, Breadcrumbs e feedback states.
+- Composições gratuitas: listas e estados de domínio em `src/features`, com
+  registry ReUI registrado em `components.json`. Não foram usados itens premium.
 
 ## Design system
 
@@ -40,13 +43,29 @@ vazio, upload ou ação em lote.
 
 | Bloco | Tipo | Arquivo | Origem | Finalidade e API pública | Estados e acessibilidade | Consumidores | Reaproveitar ou estender |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| Não há blocos React | — | — | — | CLI `apps/conformance-cli/src/index.ts` com comandos `check`, `list-books`, `get-chapter`, `search`, `parse` que compõem `createBibleEngine` com o adapter SQLite Node compatível com o schema legado (`createNodeAdapter`) e provam persistência após fechar/reabrir | success JSON, empty array, error `EngineError` code | Desenvolvedores | Não aplicável |
+| AppShell | shadcn/ui-style | `apps/consumer-web/src/components/AppShell.tsx` | Header, links Biblioteca/Busca e main | loading inicial via provider; navegação por teclado | Todas as rotas | Estender somente para navegação global |
+| VersionCard | shadcn/ui Card + Badge + Button | `apps/consumer-web/src/features/library/VersionCard.tsx` | Renderiza versão, estado e ações inline | disponível, instalada, instalando, removendo, erro; botões focáveis | Biblioteca | Reutilizar para versões, não duplicar ações na página |
+| AppLibrary | List/Card de domínio | `apps/consumer-web/src/features/library/AppLibrary.tsx` | Carrega catálogo/registry pela engine e delega instalar/remover | loading, vazio, erro/retry, sucesso, offline; `aria-live` | `/` | Manter orquestração; extrair novas ações para blocos |
+| PrevNextNav | shadcn/ui Button + Link | `apps/consumer-web/src/features/reader/PrevNextNav.tsx` | Navega capítulo/livro anterior e próximo | limites sem link inválido; teclado | Reader | Reutilizar em navegação sequencial |
+| Reader | Card + selects nativos acessíveis | `apps/consumer-web/src/features/reader/Reader.tsx` | Busca livros/capítulo pela engine e renderiza versículos | loading, vazio, erro, conteúdo ordenado | `/ler/[versao]/[livro]/[capitulo]` | Não colocar parser ou ordenação no bloco |
+| SearchForm | shadcn/ui Input + Button | `apps/consumer-web/src/features/search/SearchForm.tsx` | Valida termo não vazio e dispara busca | vazio, foco, submit por teclado | Busca | Reutilizar para busca local |
+| SearchResults | List de domínio + Badge | `apps/consumer-web/src/features/search/SearchResults.tsx` | Lista resultados com versão e link contextual | vazio, resultados, `aria-live` | Busca | Preservar origem da versão |
+| OfflineBanner / EmptyState / ErrorState | shadcn/ui-style feedback | `apps/consumer-web/src/components/ui/feedback.tsx` | Estados transversais do app | empty, error, retry e informação offline | Biblioteca, Leitor, Busca | Reutilizar antes de criar estado novo |
 
 ## Telas e composição
 
 | Tela ou rota | Arquivo | Componentes React usados | Dados e ações | Estados |
 | --- | --- | --- | --- | --- |
-| Não há tela de produto | `apps/conformance-cli/src/index.ts` | Nenhum (CLI Node) | Comandos via `process.argv`, instanciação de `createNodeAdapter` (SQLite Node schema legado) + `createBibleEngine`, saída JSON, exit 0/1 | success, empty, error |
+| Biblioteca `/` | `apps/consumer-web/src/app/page.tsx` + `src/features/library/AppLibrary.tsx` | AppShell, Breadcrumbs, OfflineBanner, VersionCard, feedback | catálogo e registry; instalar/remover/ler | loading, empty, error, installed/available/installing/removing |
+| Leitor `/ler/[versao]/[livro]/[capitulo]` | `apps/consumer-web/src/app/ler/[versao]/[livro]/[capitulo]/page.tsx` + `src/features/reader/Reader.tsx` | Breadcrumbs, Card, PrevNextNav | livros, capítulo e versículos pela engine | loading, empty, error, conteúdo |
+| Busca `/busca` | `apps/consumer-web/src/app/busca/page.tsx` + `src/features/search/Search.tsx` | Breadcrumbs, SearchForm, SearchResults, feedback | busca agregada em todas as versões instaladas | sem termo, loading, empty, error, resultados |
+| Conformance CLI | `apps/conformance-cli/src/index.ts` | Nenhum (CLI Node) | comandos via `process.argv`, saída JSON | success, empty, error |
+
+## Origem das Bíblias
+
+- `BibleEngineProvider` configura `NEXT_PUBLIC_BIBLE_API_URL` para o catálogo e proxy CORS de produção (`https://openbible-prod.vercel.app`).
+- `NEXT_PUBLIC_BIBLE_BUCKET_URL` aponta para o diretório público R2 `/bibles` e é usado como fallback direto pelo `HttpBiblePackageSource`.
+- `AppLibrary` não baixa fixtures nem interpreta SQLite; a ação delega `installVersion` à engine. A fixture ARA permanece somente nos testes/harnesses determinísticos.
 
 ## Regras de composição
 

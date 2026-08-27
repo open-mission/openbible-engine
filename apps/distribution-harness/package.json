@@ -1,0 +1,19 @@
+{
+  "name": "@openbible/distribution-harness",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "vitest run tests",
+    "test:tdd": "vitest run tests"
+  },
+  "devDependencies": {
+    "@openbible/engine": "workspace:*",
+    "@openbible/engine-core": "workspace:*",
+    "@openbible/adapter-http": "workspace:*",
+    "@openbible/adapter-sqlite-node": "workspace:*",
+    "@openbible/adapter-sqlite-web": "workspace:*",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}
