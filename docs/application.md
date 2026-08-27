@@ -12,54 +12,43 @@ Relação: relaciona cada arquivo observado à sua superfície.
 | Testes | apps/conformance-cli/src/__tests__/conformance.test.ts | tempNodeEngine |
 | Outras fontes | apps/conformance-cli/src/index.ts | printJson, printError, makeRealEngine, ensureInstalled, runCheck, runListBooks, runGetChapter, runSearch |
 | Outras fontes | apps/conformance-cli/vitest.config.ts | — |
-| Páginas | apps/consumer-web/.next/server/app/_not-found/page.js | M |
-| Páginas | apps/consumer-web/.next/server/app/_not-found/page_client-reference-manifest.js | — |
-| Páginas | apps/consumer-web/.next/server/app/busca/page.js | f, g, h, from, i, e, M, l |
+| Páginas | apps/consumer-web/.next/server/app/busca/page.js | handler, ComponentMod, createPPRBoundarySentinel, from, toAbortSignal, DS, createWebAdapter, WebWorkerClient |
 | Páginas | apps/consumer-web/.next/server/app/busca/page_client-reference-manifest.js | — |
-| Páginas | apps/consumer-web/.next/server/app/ler/[versao]/[livro]/[capitulo]/page.js | f, g, h, i, e, p, q, r |
+| Páginas | apps/consumer-web/.next/server/app/ler/[versao]/[livro]/[capitulo]/page.js | handler, ComponentMod, createPPRBoundarySentinel, from, toAbortSignal, DS, createWebAdapter, WebWorkerClient |
 | Páginas | apps/consumer-web/.next/server/app/ler/[versao]/[livro]/[capitulo]/page_client-reference-manifest.js | — |
-| Rotas e APIs | apps/consumer-web/.next/server/app/manifest.webmanifest/route.js | g, c, e, f, m, n, o, h |
+| Rotas e APIs | apps/consumer-web/.next/server/app/manifest.webmanifest/route.js | handler, GET |
 | Páginas | apps/consumer-web/.next/server/app/manifest.webmanifest/route_client-reference-manifest.js | — |
-| Páginas | apps/consumer-web/.next/server/app/page.js | from, f, g, h, i, M, n, p |
+| Páginas | apps/consumer-web/.next/server/app/page.js | handler, ComponentMod, createPPRBoundarySentinel, from, toAbortSignal, DS, createWebAdapter, WebWorkerClient |
 | Páginas | apps/consumer-web/.next/server/app/page_client-reference-manifest.js | — |
-| Outras fontes | apps/consumer-web/.next/server/chunks/141.js | c, f, n, o, u, g, p, q |
-| Outras fontes | apps/consumer-web/.next/server/chunks/42.js | l, n |
-| Outras fontes | apps/consumer-web/.next/server/chunks/483.js | a, j, k, l, m, n, o, p |
-| Outras fontes | apps/consumer-web/.next/server/chunks/724.js | i, m, n, e, f, g, h, c |
-| Outras fontes | apps/consumer-web/.next/server/chunks/842.js | from, i, j, h, k |
-| Outras fontes | apps/consumer-web/.next/server/chunks/static/media/worker.b46496cb.js | a, c, B, C, D, E, F, G |
 | Outras fontes | apps/consumer-web/.next/server/interception-route-rewrite-manifest.js | — |
 | Outras fontes | apps/consumer-web/.next/server/middleware-build-manifest.js | — |
 | Outras fontes | apps/consumer-web/.next/server/middleware-react-loadable-manifest.js | — |
 | Outras fontes | apps/consumer-web/.next/server/next-font-manifest.js | — |
-| Páginas | apps/consumer-web/.next/server/pages/_app.js | h, i, d, g, j, k, l, o |
-| Páginas | apps/consumer-web/.next/server/pages/_document.js | — |
-| Páginas | apps/consumer-web/.next/server/pages/_error.js | g, h, i, j, d, c, e, k |
 | Outras fontes | apps/consumer-web/.next/server/server-reference-manifest.js | — |
-| Outras fontes | apps/consumer-web/.next/server/webpack-runtime.js | c |
-| Outras fontes | apps/consumer-web/.next/static/chunks/153-f2888457eb977c01.js | r, n, o, u, y, g, i, a |
-| Outras fontes | apps/consumer-web/.next/static/chunks/414d96a7-bb8b2e9dd6508ed4.js | i, s, c, f, d, p, _, U |
-| Outras fontes | apps/consumer-web/.next/static/chunks/625-eb7059476a4ae723.js | i, s, l, c, d, h, m, p |
-| Outras fontes | apps/consumer-web/.next/static/chunks/694-63a1e196dd5a22eb.js | p, b |
-| Outras fontes | apps/consumer-web/.next/static/chunks/831-09f18f876cbc58b1.js | r, n, o, e, m, E, d, p |
-| Páginas | apps/consumer-web/.next/static/chunks/app/_not-found/page-fd946ac87c19ceca.js | o |
-| Páginas | apps/consumer-web/.next/static/chunks/app/busca/page-30e39b2855048db3.js | n, r, u, x, f, j, v, g |
-| Páginas | apps/consumer-web/.next/static/chunks/app/layout-1ac3bcb446e11ebf.js | — |
-| Páginas | apps/consumer-web/.next/static/chunks/app/ler/[versao]/[livro]/[capitulo]/page-0f9afba605fcb358.js | l, a, n, i, p, b, j, c |
-| Páginas | apps/consumer-web/.next/static/chunks/app/manifest.webmanifest/route-63ecccc4aa45f7b6.js | — |
-| Páginas | apps/consumer-web/.next/static/chunks/app/page-cac31e8d6d98f503.js | l, r, n, i, x, b, y, k |
-| Outras fontes | apps/consumer-web/.next/static/chunks/framework-54629660111d8b71.js | l, a, s, e, k, w, S, which |
-| Outras fontes | apps/consumer-web/.next/static/chunks/main-8579e0d658f1357a.js | a, i, o, f, d, h, u, r |
-| Outras fontes | apps/consumer-web/.next/static/chunks/main-app-1eecdffacc3abc22.js | — |
-| Páginas | apps/consumer-web/.next/static/chunks/pages/_app-737414d29f0a81d7.js | — |
-| Páginas | apps/consumer-web/.next/static/chunks/pages/_error-da60616077c89450.js | — |
-| Outras fontes | apps/consumer-web/.next/static/chunks/polyfills-42372ed130431b0a.js | e, t, Jm, Qm, Zm, tb, eb, rb |
-| Outras fontes | apps/consumer-web/.next/static/chunks/webpack-62d41f9d43ff54a5.js | r |
-| Outras fontes | apps/consumer-web/.next/static/css/cc62159cdd2a08a6.css | — |
-| Outras fontes | apps/consumer-web/.next/static/lXuQOTm2BKOqPVJbyakiY/_buildManifest.js | — |
-| Outras fontes | apps/consumer-web/.next/static/lXuQOTm2BKOqPVJbyakiY/_ssgManifest.js | — |
-| Outras fontes | apps/consumer-web/.next/static/media/worker.424e21a9.js | e, l, N, R, D, j, M, z |
+| Outras fontes | apps/consumer-web/.next/server/static/media/worker.aaeac274.js | _EngineError, callee, callee2, sqlite3InitModule, locateFile, updateMemoryViews, initMemory, preRun |
+| Outras fontes | apps/consumer-web/.next/server/vendor-chunks/@swc+helpers@0.5.15.js | — |
+| Outras fontes | apps/consumer-web/.next/server/vendor-chunks/next@15.5.24_@babel+core@7.29.7_@playwright+test@1.62.1_@types+node@22.20.1_react-dom@19.2.8_react@19.2.8__react@19.2.8.js | skipWhitespace, notSpecialChar, ContextAPI, DiagAPI, _logProxy, MetricsAPI, PropagationAPI, TraceAPI |
+| Outras fontes | apps/consumer-web/.next/server/vendor-chunks/tailwind-merge@2.6.1.js | groups, omitted, not, initTailwindMerge, tailwindMerge, callTailwindMerge |
+| Outras fontes | apps/consumer-web/.next/server/webpack-runtime.js | __webpack_require__, for, allow, RelativeURL |
+| Páginas | apps/consumer-web/.next/static/chunks/app/busca/page.js | createPropError, onTouchStart, component, getComponentNameFromType, testStringCoercion, checkKeyStringCoercion, getTaskName, getOwner |
+| Páginas | apps/consumer-web/.next/static/chunks/app/layout.js | createPropError, onTouchStart, component, getComponentNameFromType, testStringCoercion, checkKeyStringCoercion, getTaskName, getOwner |
+| Páginas | apps/consumer-web/.next/static/chunks/app/ler/[versao]/[livro]/[capitulo]/page.js | createPropError, onTouchStart, component, getComponentNameFromType, testStringCoercion, checkKeyStringCoercion, getTaskName, getOwner |
+| Rotas e APIs | apps/consumer-web/.next/static/chunks/app/manifest.webmanifest/route.js | — |
+| Páginas | apps/consumer-web/.next/static/chunks/app/page.js | createPropError, onTouchStart, component, getComponentNameFromType, testStringCoercion, checkKeyStringCoercion, getTaskName, getOwner |
+| Outras fontes | apps/consumer-web/.next/static/chunks/app-pages-internals.js | component, walkAddRefetch, findDOMNode, shouldSkipElement, topOfElementInViewport, getHashFragmentDomNode, InnerLayoutRouter, LoadingBoundary |
+| Outras fontes | apps/consumer-web/.next/static/chunks/main-app.js | component, callServer, findSourceMapURL, runAction, handleResult, Router, in, handlePageShow |
+| Outras fontes | apps/consumer-web/.next/static/chunks/polyfills.js | e, t, Jm, Qm, Zm, tb, eb, rb |
+| Outras fontes | apps/consumer-web/.next/static/chunks/webpack.js | __webpack_require__, for, allow, to, RelativeURL, createRequire, createModuleHotObject, setStatus |
+| Páginas | apps/consumer-web/.next/static/css/app/layout.css | — |
+| Outras fontes | apps/consumer-web/.next/static/development/_buildManifest.js | — |
+| Outras fontes | apps/consumer-web/.next/static/development/_ssgManifest.js | — |
+| Outras fontes | apps/consumer-web/.next/static/media/worker.321d57ae.js | _EngineError, callee, callee2, sqlite3InitModule, locateFile, updateMemoryViews, initMemory, preRun |
+| Páginas | apps/consumer-web/.next/static/webpack/app/layout.f4e6399faeaf8ff4.hot-update.js | — |
+| Outras fontes | apps/consumer-web/.next/static/webpack/webpack.2494e18569effade.hot-update.js | — |
+| Outras fontes | apps/consumer-web/.next/static/webpack/webpack.4139b1fd2fc78c94.hot-update.js | — |
+| Outras fontes | apps/consumer-web/.next/static/webpack/webpack.f4e6399faeaf8ff4.hot-update.js | — |
 | Páginas | apps/consumer-web/.next/types/app/busca/page.ts | checkFields, if, PageProps, LayoutProps |
+| Páginas | apps/consumer-web/.next/types/app/layout.ts | checkFields, if, PageProps, LayoutProps |
 | Páginas | apps/consumer-web/.next/types/app/ler/[versao]/[livro]/[capitulo]/page.ts | checkFields, if, PageProps, LayoutProps |
 | Páginas | apps/consumer-web/.next/types/app/page.ts | checkFields, if, PageProps, LayoutProps |
 | Outras fontes | apps/consumer-web/.next/types/cache-life.d.ts | unstable_cacheLife |

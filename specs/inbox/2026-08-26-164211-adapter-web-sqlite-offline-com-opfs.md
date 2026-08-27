@@ -2,16 +2,16 @@
 
 | Metadado | Valor |
 | --- | --- |
-| Status | Capturada |
+| Status | Implementada — SPEC-0002 concluída |
 | Capturada em | 2026-08-26T19:42:11Z |
 | Slug | adapter-web-sqlite-offline-com-opfs |
 | Origem | Input do usuário |
-| Processamento | Análise inicial sem perguntas |
+| Processamento | Promovida para backlog/spec e implementada |
 | Sessão de descoberta | Captura avulsa. |
 | Turno da conversa | Não se aplica. |
 | Integridade do original | SHA-256 `4d569c31d6c7cb6292761b9dcc4d651d2169c643dd5be61df7bcc2b98e86c061` |
-| Backlog derivado | Nenhum |
-| Spec derivada | Nenhuma |
+| Backlog derivado | `specs/backlog/0002-adapter-web-sqlite-offline-com-opfs.md` |
+| Spec derivada | `specs/completed/0002-adapter-web-sqlite-offline-com-opfs/spec.md` |
 
 ## Texto original
 
@@ -64,7 +64,8 @@ Nenhuma fonte contextual consultada.
 - Formulação original preservada integralmente nesta captura.
 - Análises não substituem decisões do usuário.
 - Backlogs e specs derivados devem referenciar este arquivo.
+- Implementação registrada em `SPEC-0002`; a captura permanece somente como fonte histórica.
 
 ## Próximo passo
 
-Manter em `specs/inbox/` ou refinar com `$specsfy-02-backlog`.
+Captura processada; nenhuma ação adicional nesta entrada.

@@ -5,7 +5,7 @@
 
 | Tipo | Quantidade |
 | --- | --- |
-| Código | 176 |
+| Código | 165 |
 | Testes | 40 |
 
 ## Diagramas

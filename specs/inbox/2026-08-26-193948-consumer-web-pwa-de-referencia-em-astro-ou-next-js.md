@@ -2,16 +2,16 @@
 
 | Metadado | Valor |
 | --- | --- |
-| Status | Capturada |
+| Status | Implementada — SPEC-0004 em validação final |
 | Capturada em | 2026-08-26T22:39:48Z |
 | Slug | consumer-web-pwa-de-referencia-em-astro-ou-next-js |
 | Origem | Input do usuário |
-| Processamento | Análise inicial sem perguntas |
+| Processamento | Promovida para backlog/spec e implementada |
 | Sessão de descoberta | Captura avulsa. |
 | Turno da conversa | Não se aplica. |
 | Integridade do original | SHA-256 `3224d9db3dba553c88c27d0c7e4a0fc46e60d3cc744252d62d3def5ab0346558` |
-| Backlog derivado | Nenhum |
-| Spec derivada | Nenhuma |
+| Backlog derivado | `specs/backlog/0004-consumer-web-pwa-de-referencia-em-next-js.md` |
+| Spec derivada | `specs/in-progress/0004-consumer-web-pwa-de-referencia-em-next-js/spec.md` |
 
 ## Texto original
 
@@ -64,7 +64,8 @@ Nenhuma fonte contextual consultada.
 - Formulação original preservada integralmente nesta captura.
 - Análises não substituem decisões do usuário.
 - Backlogs e specs derivados devem referenciar este arquivo.
+- Implementação registrada em `SPEC-0004`; a captura permanece somente como fonte histórica.
 
 ## Próximo passo
 
-Manter em `specs/inbox/` ou refinar com `$specsfy-02-backlog`.
+Captura processada; acompanhar o fechamento do Delivery Gate em `SPEC-0004`.
