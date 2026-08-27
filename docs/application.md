@@ -25,9 +25,33 @@ Relação: relaciona cada arquivo observado à sua superfície.
 | Outras fontes | packages/adapter-sqlite-node/src/legacy-book-map.ts | INT_TO_BOOK, BOOK_TO_INT, bookIdToInt, intToBook, intToCanonicalId, MAX_BOOK_ID |
 | Outras fontes | packages/adapter-sqlite-node/src/registry.ts | NodeSqliteRegistry |
 | Outras fontes | packages/adapter-sqlite-node/vitest.config.ts | — |
-| Testes | packages/adapter-sqlite-web/src/__tests__/sqlite-web-slice.test.ts | — |
+| Outras fontes | packages/adapter-sqlite-web/playwright.config.ts | dirname |
+| Outras fontes | packages/adapter-sqlite-web/src/adapter.ts | WebAdapterOptions, WebReconcileStats, WebAdapter, toWorkerUrl, createWebAdapter |
+| Outras fontes | packages/adapter-sqlite-web/src/capabilities.ts | CapabilityRuntime, WebCapabilities, resolvePersistentStorageState, detectWebCapabilities, capabilitiesAllowStorage |
 | Outras fontes | packages/adapter-sqlite-web/src/index.ts | — |
-| Outras fontes | packages/adapter-sqlite-web/src/sqlite-web.ts | SqliteWebLibrary, WebBibleLibrary |
+| Outras fontes | packages/adapter-sqlite-web/src/pool.ts | SqlStatement, DbHandle, OpenOptions, PoolLike |
+| Outras fontes | packages/adapter-sqlite-web/src/protocol.ts | WorkerInitOptions, WorkerResult, isWorkerRequest, isWorkerRunRequest |
+| Outras fontes | packages/adapter-sqlite-web/src/worker/index.ts | Cancellable, WorkerRuntime, requestPersistentStorage, isBusyError, codeFromWorkerError |
+| Outras fontes | packages/adapter-sqlite-web/src/worker/installer.ts | SQLITE_HEADER, isSqliteHeader, throwIfAborted, ValidateResult, validateImportedPackage, WebInstaller |
+| Outras fontes | packages/adapter-sqlite-web/src/worker/legacy-book-map.ts | INT_TO_BOOK, BOOK_TO_INT, bookIdToInt, intToBook, intToCanonicalId, MAX_BOOK_ID |
+| Outras fontes | packages/adapter-sqlite-web/src/worker/library.ts | RawVerse, rowToVerse, readMetadata, WebLibrary |
+| Outras fontes | packages/adapter-sqlite-web/src/worker/paths.ts | REGISTRY_DB, finalPath, backupPath, trashPath, temporaryPath |
+| Outras fontes | packages/adapter-sqlite-web/src/worker/reconciliation.ts | ReconcileStats, RegistryReconcile, copy, restore, reconcilePool |
+| Outras fontes | packages/adapter-sqlite-web/src/worker/registry.ts | toBible, WebRegistry |
+| Outras fontes | packages/adapter-sqlite-web/src/worker/sqlite.ts | OpfsPoolOptions, createOpfsPool, buildPoolLike, wrapDb |
+| Outras fontes | packages/adapter-sqlite-web/src/worker-client.ts | WorkerClientOptions, Pending, WebWorkerClient, createWorker |
+| Testes | packages/adapter-sqlite-web/tests/browser/harness/browser-entry.ts | — |
+| Testes | packages/adapter-sqlite-web/tests/browser/initialization.spec.ts | createAdapter |
+| Testes | packages/adapter-sqlite-web/tests/browser/install-library.spec.ts | BASE, HARNESS, MAIN_FIXTURE, SEARCH_FIXTURE, openHarness, captureExternal |
+| Testes | packages/adapter-sqlite-web/tests/browser/lifecycle.spec.ts | HARNESS, FIXTURE |
+| Testes | packages/adapter-sqlite-web/tests/browser/package.spec.ts | — |
+| Testes | packages/adapter-sqlite-web/tests/unit/capabilities.test.ts | — |
+| Testes | packages/adapter-sqlite-web/tests/unit/helpers/fake-pool.ts | Handle, FakePool |
+| Testes | packages/adapter-sqlite-web/tests/unit/helpers/fake-registry.ts | FakeRegistry |
+| Testes | packages/adapter-sqlite-web/tests/unit/helpers/fixture.ts | VerseRow, FixtureOptions, buildLegacyFixture, NON_SQLITE, INVALID_BYTES, GEN_VERSES, LEGACY_FIXTURE |
+| Testes | packages/adapter-sqlite-web/tests/unit/installer.test.ts | pool, input, cancelledToken |
+| Testes | packages/adapter-sqlite-web/tests/unit/public-api.test.ts | — |
+| Testes | packages/adapter-sqlite-web/tests/unit/reconciliation.test.ts | pool, installed |
 | Outras fontes | packages/adapter-sqlite-web/vitest.config.ts | — |
 | Testes | packages/engine/src/__tests__/engine.test.ts | — |
 | Outras fontes | packages/engine/src/__tests__/helpers.ts | MakeEngineOptions, FALLBACK_SOURCE, makeEngine |

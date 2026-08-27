@@ -14,21 +14,28 @@
     "dist"
   ],
   "dependencies": {
+    "@openbible/engine": "workspace:*",
     "@openbible/engine-core": "workspace:*",
-    "@openbible/engine": "workspace:*"
+    "@sqlite.org/sqlite-wasm": "3.53.0-build1"
   },
   "scripts": {
-    "build": "tsc -p tsconfig.json",
-    "test": "vitest run",
-    "test:coverage": "vitest run --coverage",
+    "build": "tsc -p tsconfig.json && node scripts/build-worker.mjs",
+    "build:browser": "node scripts/build-browser.mjs",
+    "test": "vitest run tests",
+    "test:tdd": "vitest run tests/unit",
+    "test:browser": "node scripts/test-browser.mjs",
+    "test:coverage": "vitest run tests --coverage",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "check": "pnpm run typecheck && pnpm run lint && pnpm run test"
   },
   "devDependencies": {
+    "@openbible/engine-testing": "workspace:*",
+    "@playwright/test": "catalog:",
+    "esbuild": "catalog:",
+    "eslint": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:",
-    "eslint": "catalog:",
-    "@openbible/engine-testing": "workspace:*"
+    "ws": "catalog:"
   }
 }

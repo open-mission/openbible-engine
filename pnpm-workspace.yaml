@@ -4,13 +4,17 @@ packages:
 
 catalog:
   '@changesets/cli': ^2.29.0
+  '@playwright/test': ^1.62.1
   '@typescript-eslint/eslint-plugin': ^8.68.0
   '@typescript-eslint/parser': ^8.68.0
+  dotenv: ^16.4.0
+  esbuild: ^0.25.12
   eslint: ^9.18.0
   husky: ^9.1.7
   turbo: ^2.5.0
   typescript: ^5.7.0
   vitest: ^3.2.0
+  ws: ^8.21.3
 
 catalogs:
   build:

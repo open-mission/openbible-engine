@@ -9,6 +9,7 @@ export type EngineErrorCode =
   | "invalid_package"
   | "unsupported_schema"
   | "storage_unavailable"
+  | "storage_busy"
   | "storage_full"
   | "database_locked"
   | "network_unavailable"

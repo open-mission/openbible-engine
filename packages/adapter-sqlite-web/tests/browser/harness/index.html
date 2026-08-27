@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>OpenBible Web Adapter — Conformance Harness</title>
+  </head>
+  <body>
+    <main id="root">
+      <h1>OpenBible Web Adapter Harness</h1>
+      <pre id="out">pending</pre>
+    </main>
+    <script type="module">
+      import "/dist/openbible-browser.js";
+    </script>
+    <script>
+      (function () {
+        var check = setInterval(function () {
+          if (globalThis.__openbible) {
+            clearInterval(check);
+            document.getElementById("out").textContent = "ready";
+          }
+        }, 20);
+      })();
+    </script>
+  </body>
+</html>

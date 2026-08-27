@@ -91,6 +91,48 @@
       "sourceType": "local",
       "computedHash": "6aa583918afa33ae779491ec55af1c5581af4347b1d906400026ee72265fe2dd"
     },
+    "specsfy-specialist-data-modeling": {
+      "source": "promovaweb/specsfy",
+      "sourceType": "github",
+      "skillPath": "specialists/specsfy-specialist-data-modeling/SKILL.md",
+      "computedHash": "5603e268e6691827abfe09717009b3a6cbd1fa75cfb9f479121eb62c9057e71c"
+    },
+    "specsfy-specialist-delivery-engineering": {
+      "source": "promovaweb/specsfy",
+      "sourceType": "github",
+      "skillPath": "example/.agents/skills/specsfy-specialist-delivery-engineering/SKILL.md",
+      "computedHash": "c73c1bdc8e7fa60714f120d66520271cfb5699db4347bdf444a5c9dcfd432542"
+    },
+    "specsfy-specialist-domain-modeling": {
+      "source": "promovaweb/specsfy",
+      "sourceType": "github",
+      "skillPath": "example/.agents/skills/specsfy-specialist-domain-modeling/SKILL.md",
+      "computedHash": "e47b1c67d868ee2d63e7df223a9b253921a3b7d22063f8294613b9fefca8d89b"
+    },
+    "specsfy-specialist-reui": {
+      "source": "promovaweb/specsfy",
+      "sourceType": "github",
+      "skillPath": "specialists/specsfy-specialist-reui/SKILL.md",
+      "computedHash": "0256f071c99a916e40efd736c675de84cbd8b8254f93d4fc0297ec8468ee0fee"
+    },
+    "specsfy-specialist-shadcn-ui": {
+      "source": "promovaweb/specsfy",
+      "sourceType": "github",
+      "skillPath": "example/.agents/skills/specsfy-specialist-shadcn-ui/SKILL.md",
+      "computedHash": "b067cad57ff99f0a5470f8b412bae9d0b2830a66d55ea857ebef4fd0bf24c61c"
+    },
+    "specsfy-specialist-software-architecture": {
+      "source": "promovaweb/specsfy",
+      "sourceType": "github",
+      "skillPath": "example/.agents/skills/specsfy-specialist-software-architecture/SKILL.md",
+      "computedHash": "44a01b951f81bfcfa82e7cbd65c9004f8e5b809d34a29114b26d2ec7471867a8"
+    },
+    "specsfy-specialist-typescript": {
+      "source": "promovaweb/specsfy",
+      "sourceType": "github",
+      "skillPath": "example/.agents/skills/specsfy-specialist-typescript/SKILL.md",
+      "computedHash": "956324fe1b93db8d29ede707e9d2c594b78efc5e491a7f85d18db9669e638b1d"
+    },
     "specsfy-update-spec": {
       "source": "../../../../tmp/specsfy-install-Tvtker/checkout/skills",
       "sourceType": "local",

@@ -10,7 +10,7 @@
 | Effort updated at | 2026-08-26 |
 | Effort rationale | Monorepo completo com 7 packages + CLI, parser, instalação atômica, adapters, contract suite; high complexity. |
 | ClickUp Task | |
-| Milestones | Milestone 1 — Biblioteca bíblica local |
+| Milestones | M01 |
 | Definition Gate | Passed |
 | Plan Gate | Passed |
 | Delivery Gate | Passed |

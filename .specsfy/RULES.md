@@ -26,12 +26,14 @@ Para TypeScript, explicite regras de tipagem estrita e modularização.
 - Vitest runner; Gherkin só na `spec.md` (seção 6), materializado como TDD comportamental com marcador `// SPECSFY: US-XXX FR-XXX NFR-XXX AC-XXX`.
 - TDD comportamental: cada requisito tem teste que FALHA se a capacidade real for removida. NÃO usar marcadores de massa/`traceability-bulk` para satisfazer rastreabilidade.
 - RED válido antes de GREEN; sem mocks que escondam fronteira; contract suite para livros/capítulos/busca; testes arquiteturais para core imports, engine purity (sem SQLite/DOM globals) e exports; conformance CLI via exports públicos sobre SQLite real, provando persistência após fechar/reabrir.
-- Adapter `@openbible/adapter-sqlite-node` (Node.js) testado contra banco SQLite temporário real com o schema legado (`book.id`/`verse.book_id` INTEGER, `metadata` com somente `name`) com consultas reais e limpeza ao final; garante exception-safe e reconciliação best-effort na inicialização (não crash-safe completa sem journal); `adapter-sqlite-web` NÃO é tratado como funcional (fatia planejada); `@openbible/adapter-sqlite-native` reservado para o futuro Native SDK.
+- Adapter `@openbible/adapter-sqlite-node` (Node.js) testado contra banco SQLite temporário real com o schema legado (`book.id`/`verse.book_id` INTEGER, `metadata` com somente `name`) com consultas reais e limpeza ao final; garante exception-safe e reconciliação best-effort na inicialização (não crash-safe completa sem journal); `@openbible/adapter-sqlite-web` (SPEC-0002) é funcional e testado em navegador real (Chromium/WebKit bloqueiam; Firefox informativo) com Vitest de unidade (`node:sqlite` como pool falso) e Playwright de conformance; `@openbible/adapter-sqlite-native` reservado para o futuro Native SDK.
 - Cada US/FR/NFR com ≥3 ACs e ≥3 TDDs; `pnpm turbo run build test typecheck lint check` passam.
+
+- O adapter @openbible/adapter-sqlite-web garante exatamente: SQLite Web legacy-compatible, exception-safe e com reconciliação best-effort. Nunca declarar atomic rename, crash-safety completa ou power-loss safety; o Worker é o unico owner do SQLite WASM/OPFS SAHPool, registry e conexoes, e nenhum SQL ou conexao cruza a fronteira RPC.
 
 ## Segurança e privacidade
 
-- Instalação atômica: bytes → tmp → validar header (`SQLite format 3\0`) → validar schema (`metadata/book/verse`) → validar identidade → sanity query → promote atômico → registry → cleanup em falha; falha não destrói versão anterior; sem arquivos parciais como instalados; sem credenciais/`.env`/bancos reais copiados.
+- Instalação exception-safe: bytes → tmp → validar header (`SQLite format 3\0`) → validar schema (`metadata/book/verse`) → validar identidade → sanity query → promote por rename → registry → compensação e cleanup em falha; falha controlada não destrói a versão anterior. A inicialização faz reconciliação best-effort, sem reivindicar crash-safety completa; sem credenciais/`.env`/bancos reais copiados.
 - Erros por códigos estáveis (`version_not_installed`, `invalid_reference`, etc.) sem mensagens UI; apps traduzem.
 
 ## Operação
@@ -46,4 +48,3 @@ Para TypeScript, explicite regras de tipagem estrita e modularização.
 - Monitor de contexto (`node .agents/skills/specsfy-setup/scripts/monitor_context.mjs --project . --check`) no início, após cada tarefa e antes de concluir; resolver PENDING via `specsfy-aux-*`.
 - Documentator após cada implementação; `PACKAGES.md` derivado de manifests/lockfiles.
 - Não alterar `/home/claudio/Projects/open-bible`; não criar remoto/publish/PR/push.
-

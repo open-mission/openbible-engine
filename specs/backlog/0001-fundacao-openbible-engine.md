@@ -9,7 +9,7 @@
 | Funcionalidade | Scripture Library (versões, livros, capítulos, versículos, busca, instalação) |
 | Tipo | Feature |
 | Prioridade | P1 — Crítica |
-| Milestones | Milestone 1 — Biblioteca bíblica local |
+| Milestones | M01 |
 | Criado em | 2026-08-26 |
 | Spec promovida | 0001-openbible-engine-scripture-library |
 

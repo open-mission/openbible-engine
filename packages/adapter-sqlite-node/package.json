@@ -32,5 +32,5 @@
     "@openbible/engine-testing": "workspace:*",
     "@types/node": "^22.0.0"
   },
-  "description": "Node.js SQLite adapter (legacy Open Bible schema), transactional install with crash recovery"
+  "description": "Node.js SQLite adapter for the legacy Open Bible schema with exception-safe installation and best-effort startup reconciliation"
 }
