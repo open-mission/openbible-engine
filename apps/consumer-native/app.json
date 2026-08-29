@@ -1,0 +1,62 @@
+{
+  "$schema": "https://schema.native-sdk.dev/app/v1.json",
+  "id": "dev.openbible.consumer-native",
+  "name": "openbible-consumer-native",
+  "display_name": "OpenBible Scripture Library",
+  "description": "A local-first Scripture Library desktop consumer.",
+  "version": "0.1.0",
+  "platforms": ["linux"],
+  "permissions": ["view", "command", "filesystem", "network"],
+  "capabilities": ["native_views", "gpu_surfaces", "filesystem", "network"],
+  "service_carrier": "child",
+  "shell": {
+    "windows": [
+      {
+        "label": "main",
+        "title": "Scripture Library",
+        "width": 1080,
+        "height": 720,
+        "min_width": 720,
+        "min_height": 520,
+        "views": [
+          {
+            "label": "main-canvas",
+            "kind": "gpu_surface",
+            "fill": true,
+            "role": "Scripture Library",
+            "accessibility_label": "Scripture Library",
+            "gpu_backend": "software",
+            "gpu_pixel_format": "bgra8_unorm",
+            "gpu_present_mode": "timer",
+            "gpu_alpha_mode": "opaque",
+            "gpu_color_space": "srgb",
+            "gpu_vsync": true
+          }
+        ]
+      }
+    ]
+  },
+  "security": {
+    "navigation": {
+      "allowed_origins": ["zero://app"],
+      "external_links": { "action": "deny" }
+    }
+  },
+  "service_packages": [
+    {
+      "name": "@openbible/adapter-sqlite-native",
+      "version": "0.1.0",
+      "content_hash": "d375a27ebf79e18fffba8235b692ea4910d73ee81cceb3dbdd8049d5060cab88"
+    },
+    {
+      "name": "@openbible/engine",
+      "version": "0.1.0",
+      "content_hash": "d2b7a7e4147245940a881c55363b6aae0c37be4939085c7dc67c0c0acdd11863"
+    },
+    {
+      "name": "@openbible/engine-core",
+      "version": "0.1.0",
+      "content_hash": "684bef71e58314b2dbc5d2809da94b7d8e59f7478c1b0bfff68591c782ac1a27"
+    }
+  ]
+}

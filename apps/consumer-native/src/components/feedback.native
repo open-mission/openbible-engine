@@ -1,0 +1,21 @@
+<template name="feedback-area" args="state status error">
+  <column gap="8">
+    <if test="{state == 'loading'}">
+      <row gap="8" cross="center"><spinner /><text>{status}</text></row>
+    </if>
+    <else>
+      <if test="{state == 'failed'}">
+        <alert text="Armazenamento indisponível">
+          <column gap="8">
+            <text wrap="true">{status}</text>
+            <text wrap="true">{error}</text>
+            <button variant="outline" on-press="retry">Tentar novamente</button>
+          </column>
+        </alert>
+      </if>
+      <else>
+        <status-bar>{status}</status-bar>
+      </else>
+    </else>
+  </column>
+</template>

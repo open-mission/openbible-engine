@@ -3,7 +3,8 @@
 <!-- markdownlint-disable MD013 -->
 
 Este arquivo é a fonte canônica para construir e reaproveitar a interface.
-Atualize-o antes e depois de cada tarefa que criar ou mudar uma tela React.
+Atualize-o antes e depois de cada tarefa que criar ou mudar uma tela React ou
+Native markup.
 Leia `DESIGNSYSTEM.MD` antes de escolher a composição macro. Este arquivo
 registra componentes, blocos e telas locais; as regras globais de SaaS vivem em
 `DESIGNSYSTEM.MD`.
@@ -11,10 +12,15 @@ registra componentes, blocos e telas locais; as regras globais de SaaS vivem em
 ## Base observada
 
 - Stack: TypeScript, Next.js App Router 15, React 19, Tailwind CSS 4, pnpm e
-  Turborepo.
+  Turborepo para Web; OpenTUI React 0.5.8 em Node.js 26.4+ com
+  `--experimental-ffi` para a TUI.
 - Política: **Há interface para pessoas: Sim** — `apps/consumer-web` é o
-  consumer PWA de referência; `apps/conformance-cli` continua sendo ferramenta
-  técnica sem tela de produto.
+  consumer PWA de referência e `apps/consumer-native` é a prova desktop Native;
+  `apps/consumer-tui` é o consumer terminal da Biblioteca, Leitor e Busca;
+  `apps/conformance-cli` continua sendo ferramenta técnica sem tela de produto.
+- A prova Native usa Native SDK `0.10.1` na revisão
+  `064ca9890cc0cf8adc198215bd0ddaeb586c220a`, uma janela GPU/software e Native
+  markup; a matriz de hosts não declara suporte além do ambiente executado.
 - Primitives locais inspiradas em shadcn/ui: Button, Card, Badge, Input,
   Skeleton, Breadcrumbs e feedback states.
 - Composições gratuitas: listas e estados de domínio em `src/features`, com
@@ -33,6 +39,7 @@ registra componentes, blocos e telas locais; as regras globais de SaaS vivem em
 | Padrão de contexto | `DESIGNSYSTEM.MD` | Não aplicável |
 | Primitives compartilhadas | Não aplicável | — |
 | Composições de domínio | Não aplicável | — |
+| Composição terminal | OpenTUI React | `apps/consumer-tui/src/ui/App.tsx` e componentes locais; sem shadcn/ui ou ReUI |
 
 ## Blocos criados e reaproveitáveis
 
@@ -51,6 +58,17 @@ vazio, upload ou ação em lote.
 | SearchForm | shadcn/ui Input + Button | `apps/consumer-web/src/features/search/SearchForm.tsx` | Valida termo não vazio e dispara busca | vazio, foco, submit por teclado | Busca | Reutilizar para busca local |
 | SearchResults | List de domínio + Badge | `apps/consumer-web/src/features/search/SearchResults.tsx` | Lista resultados com versão e link contextual | vazio, resultados, `aria-live` | Busca | Preservar origem da versão |
 | OfflineBanner / EmptyState / ErrorState | shadcn/ui-style feedback | `apps/consumer-web/src/components/ui/feedback.tsx` | Estados transversais do app | empty, error, retry e informação offline | Biblioteca, Leitor, Busca | Reutilizar antes de criar estado novo |
+| Native library area | Native markup | `apps/consumer-native/src/components/library.native` e `src/app.native` | Lista de versões, badges e ações inline; instalar baixa explicitamente do R2 e grava localmente via service/adapter | loading/download, empty, failed/retry, installed; ações focáveis e bloqueadas durante operação | `apps/consumer-native` | Preservar ranges, staging e commit no adapter; não duplicar paths no markup |
+| Native reader area | Native markup | `apps/consumer-native/src/components/reader.native` e `src/app.native` | Selects de versão/livro/capítulo, versículos e anterior/próximo | loading, conteúdo ordenado, limites e foco | `apps/consumer-native` | Não duplicar parser ou queries |
+| Native search area | Native markup | `apps/consumer-native/src/components/search.native` e `src/app.native` | Campo, submit e resultados locais | termo vazio, loading, zero resultados, foco e labels | `apps/consumer-native` | Manter busca no service/adapter |
+| Native feedback area | Native markup | `apps/consumer-native/src/components/feedback.native` e `src/app.native` | Status, erro e retry compartilhados | loading, failed, retry e mensagens acessíveis | `apps/consumer-native` | Reutilizar o mesmo contrato de `Model` |
+| TUI App | OpenTUI React shell | `apps/consumer-tui/src/ui/App.tsx` | Áreas, atalhos, overlays, lifecycle e feedback | Biblioteca, Leitor, Busca, loading, offline, erro/retry, sucesso; foco e ajuda textual | `apps/consumer-tui/src/index.ts` | Estender somente para navegação do consumer TUI |
+| TUI LibraryPanel | OpenTUI React panel | `apps/consumer-tui/src/ui/components/LibraryPanel.tsx` | Lista versões instaladas/disponíveis e seleção | vazio, busy, instalar/remover, foco e instruções de teclado | TUI App | Reutilizar para o catálogo local; ações permanecem no service |
+| TUI VersionPicker | OpenTUI React picker | `apps/consumer-tui/src/ui/components/VersionPicker.tsx` | Catálogo remoto e instalação | catálogo vazio, download/progresso, busy, foco e Esc | TUI App | Não duplicar aquisição ou validação |
+| TUI ReaderPanel | OpenTUI React panel | `apps/consumer-tui/src/ui/components/ReaderPanel.tsx` | Selectors de versão/livro/capítulo e versículos | loading, vazio, conteúdo longo ordenado e navegação n/p | TUI App | Não duplicar parser ou ordenação |
+| TUI BookPicker | OpenTUI React picker/form | `apps/consumer-tui/src/ui/components/BookPicker.tsx` | Filtro de livros e entrada de referência | referência válida/inválida, vazio, busy, foco e Esc | TUI App | Encaminhar parsing para a engine |
+| TUI SearchPanel | OpenTUI React panel/form | `apps/consumer-tui/src/ui/components/SearchPanel.tsx` | Termo, submit e resultados locais selecionáveis | termo vazio, loading, zero resultados, limite e foco | TUI App | Encaminhar busca para o service |
+| TUI FeedbackArea | OpenTUI React feedback | `apps/consumer-tui/src/ui/components/FeedbackArea.tsx` | Status comum de operação e retry | loading, success, offline, error e código seguro | TUI App | Reutilizar em novas áreas TUI |
 
 ## Telas e composição
 
@@ -60,21 +78,27 @@ vazio, upload ou ação em lote.
 | Leitor `/ler/[versao]/[livro]/[capitulo]` | `apps/consumer-web/src/app/ler/[versao]/[livro]/[capitulo]/page.tsx` + `src/features/reader/Reader.tsx` | Breadcrumbs, Card, PrevNextNav | livros, capítulo e versículos pela engine | loading, empty, error, conteúdo |
 | Busca `/busca` | `apps/consumer-web/src/app/busca/page.tsx` + `src/features/search/Search.tsx` | Breadcrumbs, SearchForm, SearchResults, feedback | busca agregada em todas as versões instaladas | sem termo, loading, empty, error, resultados |
 | Conformance CLI | `apps/conformance-cli/src/index.ts` | Nenhum (CLI Node) | comandos via `process.argv`, saída JSON | success, empty, error |
+| Native desktop consumer | `apps/consumer-native/src/app.native` + `src/core.ts` | Native markup, uma janela GPU/software | tabs Biblioteca/Leitor/Busca; instalar via R2 em ranges, remover, ler, buscar, retry e navegação | loading/download, ready, empty, failed; snapshot Native confirma foco e labels |
+| Consumer TUI | `apps/consumer-tui/src/index.ts` + `src/ui/App.tsx` | OpenTUI React, uma janela terminal | Biblioteca, catálogo, Leitor, referência, Busca, remoção, atalhos e encerramento; runtime Node.js 26.7.0 validado | loading/progresso, offline, empty, error/retry, success; smoke OpenTUI confirma renderer e foco de ajuda |
 
 ## Origem das Bíblias
 
 - `BibleEngineProvider` configura `NEXT_PUBLIC_BIBLE_API_URL` para o catálogo e proxy CORS de produção (`https://openbible-prod.vercel.app`).
 - `NEXT_PUBLIC_BIBLE_BUCKET_URL` aponta para o diretório público R2 `/bibles` e é usado como fallback direto pelo `HttpBiblePackageSource`.
 - `AppLibrary` não baixa fixtures nem interpreta SQLite; a ação delega `installVersion` à engine. A fixture ARA permanece somente nos testes/harnesses determinísticos.
+- O consumer Native mapeia `ara`/`nvi` para `ARA.sqlite`/`NVI.sqlite` no mesmo bucket público e usa `Cmd.fetch` com `Range`; a parte é staged pelo adapter e nunca entra no `Model`.
 
 ## Regras de composição
 
-1. Páginas e rotas coordenam dados e compõem componentes; não concentram a
-   grade, formulário, filtros, overlays ou cartões reutilizáveis. — Não aplicável (sem React).
+1. Páginas, shells e rotas coordenam dados e compõem componentes; não concentram
+   a grade, formulário, filtros, overlays ou cartões reutilizáveis. — Aplicado ao
+   Web, Native e TUI conforme suas respectivas stacks.
 2. Antes de criar um componente, consulte esta tabela e reaproveite o item
-   existente quando ele atender à mesma intenção. — Não há componentes.
+   existente quando ele atender à mesma intenção. — Componentes TUI não
+   reutilizam markup Web/Native porque os runtimes são diferentes.
 3. Todo item instalado de shadcn/ui ou ReUI entra na tabela com seu arquivo,
-   origem, explicação, API, estados e consumidores reais. — Nenhum instalado.
+   origem, explicação, API, estados e consumidores reais. — A TUI usa somente
+   primitives nativos do OpenTUI; nenhum item shadcn/ui ou ReUI foi instalado.
 4. ReUI usa somente itens gratuitos `@reui/c-*`; use shadcn/ui para
    primitives e ReUI para composições de produto. — Não aplicável.
 5. Para dashboards, registre a pergunta operacional, escopo, filtros,
@@ -89,6 +113,7 @@ vazio, upload ou ação em lote.
    título atual. Em Laravel, reaproveite o `Breadcrumb` ou `Breadcrumbs` do
    layout existente e registre o componente real em vez de criar outro. — Não há tela.
 9. Ao criar um bloco, registre-o nesta tabela na mesma tarefa. Ao alterar ou
-   remover um bloco, atualize seus consumidores e a orientação de reuso. — Nenhum bloco React.
+   remover um bloco, atualize seus consumidores e a orientação de reuso. — Os
+   blocos TUI estão registrados acima; novos blocos devem seguir a mesma regra.
 
 <!-- markdownlint-enable MD013 -->

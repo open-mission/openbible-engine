@@ -1,0 +1,30 @@
+<template name="library-area" args="versions selected state">
+  <column gap="12" grow="1">
+    <row gap="8" cross="center">
+      <column grow="1">
+        <text size="heading">Biblioteca</text>
+        <text>Versões disponíveis neste dispositivo.</text>
+      </column>
+      <badge>LOCAL</badge>
+    </row>
+    <scroll grow="1">
+      <column gap="8">
+        <for each="versions" key="id" as="version">
+          <list-item icon="folder-open" label="Selecionar versão" selected="{version.id == selected}" on-press="select_version:{version.id}">
+            <row grow="1" gap="8" cross="center">
+              <text grow="1">{version.name}</text>
+              <if test="{version.installed}">
+                <badge>Instalada</badge>
+                <button disabled="{state == 'loading'}" on-press="remove_version:{version.id}">Remover</button>
+              </if>
+              <else>
+                <badge>Disponível</badge>
+                <button disabled="{state == 'loading'}" on-press="install_version:{version.id}">Instalar</button>
+              </else>
+            </row>
+          </list-item>
+        </for>
+      </column>
+    </scroll>
+  </column>
+</template>

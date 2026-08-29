@@ -1,0 +1,36 @@
+{
+  "name": "@openbible/consumer-tui",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Node.js OpenTUI consumer for the local Scripture Library journey",
+  "engines": {
+    "node": ">=26.4.0"
+  },
+  "scripts": {
+    "dev": "NODE_OPTIONS=--experimental-ffi tsx src/index.ts",
+    "build": "tsc -p tsconfig.json",
+    "start": "NODE_OPTIONS=--experimental-ffi node dist/index.js",
+    "test": "NODE_OPTIONS=--experimental-ffi vitest run tests",
+    "test:tdd": "NODE_OPTIONS=--experimental-ffi vitest run tests",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "check": "pnpm run typecheck && pnpm run lint && pnpm run test"
+  },
+  "dependencies": {
+    "@openbible/adapter-http": "workspace:*",
+    "@openbible/adapter-sqlite-node": "workspace:*",
+    "@openbible/engine": "workspace:*",
+    "@opentui/core": "0.5.8",
+    "@opentui/react": "0.5.8",
+    "react": "19.2.4"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "eslint": "catalog:",
+    "tsx": "^4.19.0",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}

@@ -1,0 +1,57 @@
+<template name="reader-area" args="versions selected_version version_label books selected_book book_label chapters selected_chapter chapter_label verses">
+  <column gap="12" grow="1">
+    <row gap="8" cross="center">
+      <column grow="1">
+        <text size="heading">Leitor</text>
+        <text>Leitura contínua, sem conexão.</text>
+      </column>
+    </row>
+    <row gap="8" cross="center">
+      <stack grow="1">
+        <select text="{version_label}" label="Selecionar versão" on-press="toggle_version_picker" />
+        <if test="{versionPickerOpen}">
+          <dropdown-menu anchor="below" anchor-alignment="stretch" on-dismiss="toggle_version_picker">
+            <for each="versions" key="id" as="version">
+              <menu-item selected="{version.id == selected_version}" on-press="select_version:{version.id}">{version.name}</menu-item>
+            </for>
+          </dropdown-menu>
+        </if>
+      </stack>
+      <stack grow="1">
+        <select text="{book_label}" label="Selecionar livro" on-press="toggle_book_picker" />
+        <if test="{bookPickerOpen}">
+          <dropdown-menu anchor="below" anchor-alignment="stretch" on-dismiss="toggle_book_picker">
+            <for each="books" key="id" as="book">
+              <menu-item selected="{book.id == selected_book}" on-press="select_book:{book.id}">{book.name}</menu-item>
+            </for>
+          </dropdown-menu>
+        </if>
+      </stack>
+      <stack grow="1">
+        <select text="{chapter_label}" label="Selecionar capítulo" on-press="toggle_chapter_picker" />
+        <if test="{chapterPickerOpen}">
+          <dropdown-menu anchor="below" anchor-alignment="stretch" on-dismiss="toggle_chapter_picker">
+            <for each="chapters" key="id" as="chapter">
+              <menu-item selected="{chapter.id == selected_chapter}" on-press="select_chapter:{chapter.id}">{chapter.label}</menu-item>
+            </for>
+          </dropdown-menu>
+        </if>
+      </stack>
+    </row>
+    <row gap="8" cross="center">
+      <button size="sm" disabled="{selectedChapter <= 1}" on-press="previous_chapter">Anterior</button>
+      <button size="sm" disabled="{selectedChapter >= chapterCount}" on-press="next_chapter">Próximo</button>
+    </row>
+    <scroll grow="1">
+      <column gap="8">
+        <separator />
+        <for each="verses" key="id" as="verse">
+          <row gap="12" cross="start">
+            <text width="110">{verse.reference}</text>
+            <text grow="1" wrap="true">{verse.text}</text>
+          </row>
+        </for>
+      </column>
+    </scroll>
+  </column>
+</template>

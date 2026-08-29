@@ -16,8 +16,9 @@ Os IDs numéricos 1..66 do SQLite são convertidos para os canônicos do domíni
 (`gen`..`rev`) via `legacy-book-map.ts` (ordem = `BOOKS`/`BOOK_META` legada) ao
 listar livros, ler capítulos e buscar. Driver injetável via `node:sqlite`.
 
-Package renomeado para `@openbible/adapter-sqlite-node`; `@openbible/adapter-sqlite-native`
-fica reservado para o futuro adapter do Native SDK (runtimes não compartilháveis).
+Package renomeado para `@openbible/adapter-sqlite-node`; o adapter
+`@openbible/adapter-sqlite-native` implementa a mesma leitura por bytes e o
+staging do Native SDK em um runtime separado, sem compartilhar drivers Node.
 Documentado como adapter **Node.js** (`node:fs`/`node:path`/`node:sqlite`);
 compatibilidade com Bun não é afirmada (não executada).
 

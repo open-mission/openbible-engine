@@ -3,13 +3,20 @@
 <!-- specsfy:documentator:start -->
 ## Superfícies observadas
 
-- Componentes, páginas ou views: 30.
+- Componentes, páginas ou views: 37.
 - Tailwind: detectado.
-- Tokens CSS: --font-sans, --font-mono, --color-emerald-200, --color-emerald-300, --color-emerald-700, --color-emerald-800, --color-emerald-950, --color-sky-300, --color-sky-400, --color-sky-600, --color-sky-700, --color-rose-100, --color-rose-300, --color-rose-700, --color-rose-800, --color-rose-950, --color-slate-100, --color-slate-200, --color-slate-300, --color-slate-400, --color-slate-500, --color-slate-600, --color-slate-700, --color-slate-800, --color-slate-900, --color-slate-950, --color-white, --spacing, --container-xl, --container-4xl, --text-xs, --text-xs--line-height, --text-sm, --text-sm--line-height, --text-lg, --text-lg--line-height, --text-3xl, --text-3xl--line-height, --font-weight-medium, --font-weight-semibold, --tracking-tight, --radius-md, --radius-xl, --radius-2xl, --animate-pulse, --default-transition-duration, --default-transition-timing-function, --default-font-family, --default-mono-font-family, --default-font-feature-settings, --default-font-variation-settings, --default-mono-font-feature-settings, --default-mono-font-variation-settings, --tw-space-y-reverse, --tw-border-style, --tw-leading, --tw-font-weight, --tw-tracking, --tw-shadow, --tw-shadow-color, --tw-inset-shadow, --tw-inset-ring-shadow, --tw-ring-offset-shadow, --tw-ring-shadow, --tw-gradient-from, --tw-gradient-via, --tw-gradient-to, --tw-ease, --tw-duration, --tw-outline-style, --tw-ring-inset, --tw-ring-offset-width, --tw-ring-color, --bg, --fg, --muted, --tw-shadow-alpha, --tw-inset-shadow-color, --tw-inset-shadow-alpha, --tw-inset-ring-color, --tw-ring-offset-color.
+- Tokens CSS: --tw-space-y-reverse, --tw-border-style, --tw-leading, --tw-font-weight, --tw-tracking, --tw-shadow, --tw-shadow-color, --tw-shadow-alpha, --tw-inset-shadow, --tw-inset-shadow-color, --tw-inset-shadow-alpha, --tw-ring-color, --tw-ring-shadow, --tw-inset-ring-color, --tw-inset-ring-shadow, --tw-ring-inset, --tw-ring-offset-width, --tw-ring-offset-color, --tw-ring-offset-shadow, --font-sans, --font-mono, --color-emerald-200, --color-emerald-300, --color-emerald-700, --color-emerald-800, --color-emerald-950, --color-sky-300, --color-sky-400, --color-sky-600, --color-sky-700, --color-rose-100, --color-rose-300, --color-rose-700, --color-rose-800, --color-rose-950, --color-slate-100, --color-slate-200, --color-slate-300, --color-slate-400, --color-slate-500, --color-slate-600, --color-slate-700, --color-slate-800, --color-slate-900, --color-slate-950, --color-white, --spacing, --container-xl, --container-4xl, --text-xs, --text-xs--line-height, --text-sm, --text-sm--line-height, --text-lg, --text-lg--line-height, --text-3xl, --text-3xl--line-height, --font-weight-medium, --font-weight-semibold, --tracking-tight, --radius-md, --radius-xl, --radius-2xl, --animate-pulse, --default-transition-duration, --default-transition-timing-function, --default-font-family, --default-mono-font-family, --default-font-feature-settings, --default-font-variation-settings, --default-mono-font-feature-settings, --default-mono-font-variation-settings, --tw-gradient-from, --tw-gradient-via, --tw-gradient-to, --tw-ease, --tw-duration, --tw-outline-style, --bg, --fg, --muted.
 
 | Arquivo |
 | --- |
-| apps/consumer-web/.next/static/css/app/layout.css |
+| apps/consumer-tui/src/ui/App.tsx |
+| apps/consumer-tui/src/ui/components/BookPicker.tsx |
+| apps/consumer-tui/src/ui/components/FeedbackArea.tsx |
+| apps/consumer-tui/src/ui/components/LibraryPanel.tsx |
+| apps/consumer-tui/src/ui/components/ReaderPanel.tsx |
+| apps/consumer-tui/src/ui/components/SearchPanel.tsx |
+| apps/consumer-tui/src/ui/components/VersionPicker.tsx |
+| apps/consumer-web/.next/static/css/cc62159cdd2a08a6.css |
 | apps/consumer-web/src/app/busca/page.tsx |
 | apps/consumer-web/src/app/layout.tsx |
 | apps/consumer-web/src/app/ler/[versao]/[livro]/[capitulo]/page.tsx |
@@ -40,3 +47,19 @@
 | apps/consumer-web/tests/search.spec.tsx |
 | apps/consumer-web/tests/states.a11y.spec.tsx |
 <!-- specsfy:documentator:end -->
+
+## Native markup surface
+
+The Native consumer does not use React, Tailwind, shadcn/ui or ReUI. Its single
+GPU/software window is composed from `src/app.native` and these Native markup
+blocks:
+
+| Area | File | Responsibilities | States |
+| --- | --- | --- | --- |
+| Biblioteca | `apps/consumer-native/src/components/library.native` | Versions, install/remove and local status | loading, empty, installed, failed |
+| Leitor | `apps/consumer-native/src/components/reader.native` | Version/book/chapter selectors, verses and navigation | loading, content, limits, empty |
+| Busca | `apps/consumer-native/src/components/search.native` | Keyboard-searchable query and contextual results | empty term, loading, zero results |
+| Feedback | `apps/consumer-native/src/components/feedback.native` | Shared status, error and retry | loading, failed, retry |
+
+Accessibility evidence includes named tabs, labelled controls, focusable search,
+visible operation status and `dispatch_errors=0` in the final Native snapshot.

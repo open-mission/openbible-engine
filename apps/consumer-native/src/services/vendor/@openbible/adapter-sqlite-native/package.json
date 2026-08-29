@@ -1,0 +1,44 @@
+{
+  "name": "@openbible/adapter-sqlite-native",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/native-service.js",
+  "types": "./dist/native-service.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/native-service.d.ts",
+      "import": "./dist/native-service.js"
+    },
+    "./async": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./sync": {
+      "types": "./dist/native-sync.d.ts",
+      "import": "./dist/native-sync.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "@openbible/engine-core": "0.1.0",
+    "@openbible/engine": "0.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "eslint": "^9.18.0",
+    "typescript": "^5.7.0",
+    "vitest": "^3.2.0",
+    "@openbible/adapter-sqlite-node": "0.1.0"
+  },
+  "description": "Native filesystem adapter for the legacy Open Bible SQLite schema",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "check": "pnpm run typecheck && pnpm run lint && pnpm run test"
+  }
+}

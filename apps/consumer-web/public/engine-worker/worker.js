@@ -3163,21 +3163,21 @@ async function sqlite3InitModule(moduleArg = {}) {
       class SQLite3Error extends Error {
         /**
         Constructs this object with a message depending on its arguments:
-
+        
         If its first argument is an integer, it is assumed to be
         an SQLITE_... result code and it is passed to
         sqlite3.capi.sqlite3_js_rc_str() to stringify it.
-
+        
         If called with exactly 2 arguments and the 2nd is an object,
         that object is treated as the 2nd argument to the parent
         constructor.
-
+        
         The exception's message is created by concatenating its
         arguments with a space between each, except for the
         two-args-with-an-object form and that the first argument will
         get coerced to a string, as described above, if it's an
         integer.
-
+        
         If passed an integer first argument, the error object's
         `resultCode` member will be set to the given integer value,
         else it will be set to capi.SQLITE_ERROR.
@@ -4390,7 +4390,7 @@ async function sqlite3InitModule(moduleArg = {}) {
         /**
         Gets called via xWrap() to "convert" v to whatever type
         this specific class supports.
-
+        
         argIndex is the argv index of _this_ argument in the
         being-xWrap()'d call. argv is the current argument list
         undergoing xWrap() argument conversion. argv entries to the
@@ -4400,7 +4400,7 @@ async function sqlite3InitModule(moduleArg = {}) {
         indexes must never be relied upon for anything because their
         types are indeterminate, whereas the LHS values will be
         WASM-compatible values by the time this is called.
-
+        
         The reason for the argv and argIndex arguments is that we
         frequently need more context than v for a specific conversion,
         and that context invariably lies in the LHS arguments of v.
@@ -4440,7 +4440,7 @@ async function sqlite3InitModule(moduleArg = {}) {
         Returns this object's mapping for the given context key, in the
         form of an an array, creating the mapping if needed. The key
         may be anything suitable for use in a Map.
-
+        
         The returned array is intended to be used as a pair of
         [JSValue, WasmFuncPtr], where the first element is one passed
         to this.convertArg() and the second is its WASM form.
@@ -4459,16 +4459,16 @@ async function sqlite3InitModule(moduleArg = {}) {
         If v is not one of those types, it must be a Function, for
         which this method creates (if needed) a WASM function binding
         and returns the WASM pointer to that binding.
-
+        
         If this instance is not in 'transient' mode, it will remember
         the binding for at least the next call, to avoid recreating the
         function binding unnecessarily.
-
+        
         If it's passed a pointer(ish) value for v, it assumes it's a
         WASM function pointer and does _not_ perform any function
         binding, so this object's bindMode is irrelevant/ignored for
         such cases.
-
+        
         See the parent class's convertArg() docs for details on what
         exactly the 2nd and 3rd arguments are.
         */
@@ -10619,11 +10619,11 @@ async function sqlite3InitModule(moduleArg = {}) {
         completes once all SAHs are acquired. If acquiring an SAH
         throws, this.$error will contain the corresponding Error
         object.
-
+        
         If it throws, it releases any SAHs which it may have
         acquired before the exception was thrown, leaving the VFS in a
         well-defined but unusable state.
-
+        
         If clearFiles is true, the client-stored state of each file is
         cleared when its handle is acquired, including its name, flags,
         and any data stored after the metadata block.
@@ -10653,7 +10653,7 @@ async function sqlite3InitModule(moduleArg = {}) {
         /**
         Given an SAH, returns the client-specified name of
         that file by extracting it from the SAH's header.
-
+        
         On error, it disassociates SAH from the pool and
         returns an empty string.
         */
@@ -10708,7 +10708,7 @@ async function sqlite3InitModule(moduleArg = {}) {
         metadata for each file as a validation check. Changing this
         algorithm invalidates all existing databases for this VFS, so
         don't do that.
-
+        
         See the docs for FLAG_COMPUTE_DIGEST_V2 for more details.
         */
         computeDigest(byteArray, fileFlags) {
@@ -10725,7 +10725,7 @@ async function sqlite3InitModule(moduleArg = {}) {
         /**
         Re-initializes the state of the SAH pool, releasing and
         re-acquiring all handles.
-
+        
         See acquireAccessHandles() for the specifics of the clearFiles
         argument.
         */
@@ -10745,11 +10745,11 @@ async function sqlite3InitModule(moduleArg = {}) {
         /**
         Returns the pathname part of the given argument,
         which may be any of:
-
+        
         - a URL object
         - A JS string representing a file name
         - Wasm C-string representing a file name
-
+        
         All "../" parts and duplicate slashes are resolve/removed from
         the returned result.
         */
@@ -10775,7 +10775,7 @@ async function sqlite3InitModule(moduleArg = {}) {
         falsy (or no) value to clear it. If code is truthy it is
         assumed to be an SQLITE_xxx result code, defaulting to
         SQLITE_IOERR if code is falsy.
-
+        
         Returns the 2nd argument.
         */
         storeErr(e, code) {
@@ -10845,12 +10845,12 @@ async function sqlite3InitModule(moduleArg = {}) {
         resources. Similarly, there is no recovery strategy if removal
         of any given SAH fails, so such errors are ignored by this
         function.
-
+        
         This function is intended primarily for testing.
-
+        
         Resolves to true if it did its job, false if the
         VFS has already been shut down.
-
+        
         @see pauseVfs()
         @see unpauseVfs()
         */
@@ -10875,18 +10875,18 @@ async function sqlite3InitModule(moduleArg = {}) {
         relinquishing all open SAHs, leaving the associated files
         intact. If this object is already paused, this is a
         no-op. Returns this object.
-
+        
         This function throws if SQLite has any opened file handles
         hosted by this VFS, as the alternative would be to invoke
         Undefined Behavior by closing file handles out from under the
         library. Similarly, automatically closing any database handles
         opened by this VFS would invoke Undefined Behavior in
         downstream code which is holding those pointers.
-
+        
         If this function throws due to open file handles then it has
         no side effects. If the OPFS API throws while closing handles
         then the VFS is left in an undefined state.
-
+        
         @see isPaused()
         @see unpauseVfs()
         */
@@ -10900,7 +10900,7 @@ async function sqlite3InitModule(moduleArg = {}) {
         }
         /**
         Returns true if this pool is currently paused else false.
-
+        
         @see pauseVfs()
         @see unpauseVfs()
         */
@@ -10911,11 +10911,11 @@ async function sqlite3InitModule(moduleArg = {}) {
         "Unpauses" this VFS, reacquiring all SAH's and (if successful)
         re-registering it with SQLite. This is a no-op if the VFS is
         not currently paused.
-
+        
         The returned Promise resolves to this object. See
         acquireAccessHandles() for how it behaves if it throws due to
         SAH acquisition failure.
-
+        
         @see isPaused()
         @see pauseVfs()
         */

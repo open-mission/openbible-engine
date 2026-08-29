@@ -1,0 +1,17 @@
+{
+  "name": "@openbible/consumer-native",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Native SDK desktop consumer for the local Scripture Library journey",
+  "dependencies": {
+    "@openbible/adapter-sqlite-native": "workspace:*"
+  },
+  "devDependencies": {
+    "@openbible/adapter-sqlite-node": "workspace:*",
+    "vitest": "catalog:"
+  },
+  "scripts": {
+    "test": "vitest run tests"
+  }
+}

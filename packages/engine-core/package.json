@@ -8,6 +8,22 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
+    },
+    "./book-meta": {
+      "types": "./dist/book-meta.d.ts",
+      "import": "./dist/book-meta.js"
+    },
+    "./errors": {
+      "types": "./dist/errors.d.ts",
+      "import": "./dist/errors.js"
+    },
+    "./normalize": {
+      "types": "./dist/normalize.d.ts",
+      "import": "./dist/normalize.js"
+    },
+    "./types": {
+      "types": "./dist/types.d.ts",
+      "import": "./dist/types.js"
     }
   },
   "files": [

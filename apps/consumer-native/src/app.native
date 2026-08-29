@@ -1,0 +1,173 @@
+<template name="library-area" args="versions selected state">
+  <column gap="12" grow="1">
+    <row gap="8" cross="center">
+      <column grow="1">
+        <text size="heading">Biblioteca</text>
+        <text>Versões disponíveis neste dispositivo.</text>
+      </column>
+      <badge>LOCAL</badge>
+    </row>
+    <scroll grow="1">
+      <column gap="8">
+        <for each="versions" key="id" as="version">
+          <list-item icon="folder-open" label="Selecionar versão" selected="{version.id == selected}" on-press="select_version:{version.id}">
+            <row grow="1" gap="8" cross="center">
+              <text grow="1">{version.name}</text>
+              <if test="{version.installed}">
+                <badge>Instalada</badge>
+                <button disabled="{state == 'loading'}" on-press="remove_version:{version.id}">Remover</button>
+              </if>
+              <else>
+                <badge>Disponível</badge>
+                <button disabled="{state == 'loading'}" on-press="install_version:{version.id}">Instalar</button>
+              </else>
+            </row>
+          </list-item>
+        </for>
+      </column>
+    </scroll>
+  </column>
+</template>
+
+<template name="reader-area" args="versions selected_version version_label books selected_book book_label chapters selected_chapter chapter_label verses">
+  <column gap="12" grow="1">
+    <row gap="8" cross="center">
+      <column grow="1">
+        <text size="heading">Leitor</text>
+        <text>Leitura contínua, sem conexão.</text>
+      </column>
+    </row>
+    <row gap="8" cross="center">
+      <stack grow="1">
+        <select text="{version_label}" label="Selecionar versão" on-press="toggle_version_picker" />
+        <if test="{versionPickerOpen}">
+          <dropdown-menu anchor="below" anchor-alignment="stretch" on-dismiss="toggle_version_picker">
+            <for each="versions" key="id" as="version">
+              <menu-item selected="{version.id == selected_version}" on-press="select_version:{version.id}">{version.name}</menu-item>
+            </for>
+          </dropdown-menu>
+        </if>
+      </stack>
+      <stack grow="1">
+        <select text="{book_label}" label="Selecionar livro" on-press="toggle_book_picker" />
+        <if test="{bookPickerOpen}">
+          <dropdown-menu anchor="below" anchor-alignment="stretch" on-dismiss="toggle_book_picker">
+            <for each="books" key="id" as="book">
+              <menu-item selected="{book.id == selected_book}" on-press="select_book:{book.id}">{book.name}</menu-item>
+            </for>
+          </dropdown-menu>
+        </if>
+      </stack>
+      <stack grow="1">
+        <select text="{chapter_label}" label="Selecionar capítulo" on-press="toggle_chapter_picker" />
+        <if test="{chapterPickerOpen}">
+          <dropdown-menu anchor="below" anchor-alignment="stretch" on-dismiss="toggle_chapter_picker">
+            <for each="chapters" key="id" as="chapter">
+              <menu-item selected="{chapter.id == selected_chapter}" on-press="select_chapter:{chapter.id}">{chapter.label}</menu-item>
+            </for>
+          </dropdown-menu>
+        </if>
+      </stack>
+    </row>
+    <row gap="8" cross="center">
+      <button size="sm" disabled="{selectedChapter <= 1}" on-press="previous_chapter">Anterior</button>
+      <button size="sm" disabled="{selectedChapter >= chapterCount}" on-press="next_chapter">Próximo</button>
+    </row>
+    <scroll grow="1">
+      <column gap="8">
+        <separator />
+        <for each="verses" key="id" as="verse">
+          <row gap="12" cross="start">
+            <text width="110">{verse.reference}</text>
+            <text grow="1" wrap="true">{verse.text}</text>
+          </row>
+        </for>
+      </column>
+    </scroll>
+  </column>
+</template>
+
+<template name="search-area" args="query results">
+  <column gap="12" grow="1">
+    <column gap="4">
+      <text size="heading">Busca</text>
+      <text>Pesquise somente nas versões instaladas.</text>
+    </column>
+    <row gap="8" cross="center">
+      <search-field grow="1" text="{query}" placeholder="Pesquisar nas Escrituras" label="Pesquisar versículos" on-input="query_edit" on-submit="search_submit" />
+      <button variant="primary" on-press="search_submit">Pesquisar</button>
+    </row>
+    <scroll grow="1">
+      <column gap="8">
+        <if test="{showSearchResults}">
+          <for each="results" key="id" as="result">
+            <list-item icon="search" label="Abrir resultado" on-press="show_reader">
+              <column grow="1">
+                <text>{result.reference}</text>
+                <text wrap="true">{result.text}</text>
+              </column>
+            </list-item>
+          </for>
+        </if>
+      </column>
+    </scroll>
+  </column>
+</template>
+
+<template name="feedback-area" args="state status error">
+  <column gap="8">
+    <if test="{state == 'loading'}">
+      <row gap="8" cross="center"><spinner /><text>{status}</text></row>
+    </if>
+    <else>
+      <if test="{state == 'failed'}">
+        <alert text="Armazenamento indisponível">
+          <column gap="8">
+            <text wrap="true">{status}</text>
+            <text wrap="true">{error}</text>
+            <button variant="outline" on-press="retry">Tentar novamente</button>
+          </column>
+        </alert>
+      </if>
+      <else>
+        <status-bar>{status}</status-bar>
+      </else>
+    </else>
+  </column>
+</template>
+
+<column gap="16" padding="20">
+  <row gap="12" cross="center">
+    <column grow="1">
+      <text size="display">Scripture Library</text>
+      <text>OpenBible Engine · desktop nativo</text>
+    </column>
+    <badge>OFFLINE-FIRST</badge>
+  </row>
+  <row gap="6" cross="center">
+    <text>Open Bible</text>
+    <text>/</text>
+    <text>Scripture Library</text>
+    <text>/</text>
+    <text>{activeAreaLabel}</text>
+  </row>
+  <tabs label="Área principal" gap="4">
+    <button selected="{activeArea == 'library'}" on-press="show_library">Biblioteca</button>
+    <button selected="{activeArea == 'reader'}" on-press="show_reader">Leitor</button>
+    <button selected="{activeArea == 'search'}" on-press="show_search">Busca</button>
+  </tabs>
+  <panel grow="1" padding="16">
+    <if test="{activeArea == 'library'}">
+      <use template="library-area" versions="{versions}" selected="{selectedVersion}" state="{loadState}" />
+    </if>
+    <else>
+      <if test="{activeArea == 'reader'}">
+        <use template="reader-area" versions="{versions}" selected_version="{selectedVersion}" version_label="{selectedVersionLabel}" books="{books}" selected_book="{selectedBook}" book_label="{selectedBookLabel}" chapters="{chapters}" selected_chapter="{selectedChapter}" chapter_label="{selectedChapterLabel}" verses="{verses}" />
+      </if>
+      <else>
+        <use template="search-area" query="{query}" results="{searchResults}" />
+      </else>
+    </else>
+  </panel>
+  <use template="feedback-area" state="{loadState}" status="{statusText}" error="{errorText}" />
+</column>

@@ -5,9 +5,8 @@ Status: Aceita
 
 ## Decisão
 
-Prover `adapter-sqlite-web` (boundary WASM/Worker/OPFS plano), `adapter-sqlite-node` (driver injetável, schema legado) e `adapter-http` (catálogo/download opcional) atrás de ports orientadas ao domínio; `@openbible/adapter-sqlite-native` fica reservado ao futuro adapter do Native SDK.
+Prover `adapter-sqlite-web` (boundary WASM/Worker/OPFS plano), `adapter-sqlite-node` (driver injetável, schema legado), `adapter-http` (catálogo/download opcional) e `@openbible/adapter-sqlite-native` (filesystem Native síncrono, parser legado e staging de downloads) atrás de ports orientadas ao domínio.
 
 ## Consequências
 
 Cada adapter implementa `BibleLibrary`/`BiblePackageSource` e é validado por suite única contra mesma fixture sintética; operadores locais nunca dependem de HTTP.
-

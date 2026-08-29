@@ -109,6 +109,12 @@
       "skillPath": "example/.agents/skills/specsfy-specialist-domain-modeling/SKILL.md",
       "computedHash": "e47b1c67d868ee2d63e7df223a9b253921a3b7d22063f8294613b9fefca8d89b"
     },
+    "specsfy-specialist-interface-experience": {
+      "source": "promovaweb/specsfy",
+      "sourceType": "github",
+      "skillPath": "specialists/specsfy-specialist-interface-experience/SKILL.md",
+      "computedHash": "aeb5d3acc8ed5a2385ed3ee44d1c06d99cebd5ce26303ce2160281a60ef69c60"
+    },
     "specsfy-specialist-reui": {
       "source": "promovaweb/specsfy",
       "sourceType": "github",
@@ -132,6 +138,18 @@
       "sourceType": "github",
       "skillPath": "example/.agents/skills/specsfy-specialist-typescript/SKILL.md",
       "computedHash": "956324fe1b93db8d29ede707e9d2c594b78efc5e491a7f85d18db9669e638b1d"
+    },
+    "specsfy-specialist-ui-design": {
+      "source": "promovaweb/specsfy",
+      "sourceType": "github",
+      "skillPath": "example/.agents/skills/specsfy-specialist-ui-design/SKILL.md",
+      "computedHash": "0b279a8847fd8a11d39d3eeae8bd11c30d56bda154b455f95fcfbaeea607e383"
+    },
+    "specsfy-specialist-ux-design": {
+      "source": "promovaweb/specsfy",
+      "sourceType": "github",
+      "skillPath": "example/.agents/skills/specsfy-specialist-ux-design/SKILL.md",
+      "computedHash": "01d4fee4ab3de80e1d0ac078c83f8c4bbafa4904beddf50d168c491d6cd86c84"
     },
     "specsfy-update-spec": {
       "source": "../../../../tmp/specsfy-install-Tvtker/checkout/skills",

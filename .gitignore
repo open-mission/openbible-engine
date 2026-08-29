@@ -16,3 +16,6 @@ build-dir
 *.tsbuildinfo
 test-results
 playwright-report
+.native
+.zig-cache
+zig-out

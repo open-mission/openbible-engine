@@ -1,0 +1,62 @@
+{
+  "sdkRevision": "064ca9890cc0cf8adc198215bd0ddaeb586c220a",
+  "sdkVersion": "0.10.1",
+  "api": {
+    "core": ["Model", "Msg", "update"],
+    "markup": "src/app.native",
+    "serviceBoundary": "synchronous named operations called through generated Cmd/Msg clients",
+    "coreEffects": "Cmd/Msg; Promise and I/O do not cross the deterministic core",
+    "commands": [
+      "native dev --core",
+      "native check",
+      "native test",
+      "native build"
+    ]
+  },
+  "capabilities": {
+    "sqlite": "documented; engine-owned app.db only, pathless to the app",
+    "filesystem": "verified in service probe; resolved roots and Cmd file effects",
+    "network": "explicit installation only; Cmd.fetch uses bounded HTTP Range requests against the public R2 bucket",
+    "desktopAutomation": "implemented by Native markup; live automation is host-dependent"
+  },
+  "seam": {
+    "promisePort": "adapt at the core Cmd/Msg boundary; do not import Promise ports into core",
+    "filesystem": "service or native file effects, with physical paths kept outside Model",
+    "download": "service stages consecutive R2 ranges and delegates validation/commit to the Native adapter",
+    "legacySqlite": "verified by pure TypeScript read-only parser over filesystem bytes; node:sqlite service import rejected with NS1066 and Cmd.db cannot open an external file",
+    "selected": "filesystem service + pure TypeScript reader for the constrained legacy schema; registry is JSON in the app namespace"
+  },
+  "hosts": [
+    {
+      "name": "macos",
+      "status": "unverified",
+      "reason": "No macOS host is available in this environment."
+    },
+    {
+      "name": "linux",
+      "status": "unverified",
+      "reason": "consumer native check/test/build passed with Node 24.20.0; strict doctor reports missing WebKitGTK 6.0 and no live renderer support is claimed."
+    },
+    {
+      "name": "windows",
+      "status": "unverified",
+      "reason": "No Windows host is available in this environment."
+    }
+  ],
+  "environment": {
+    "os": "Linux 7.1.9-arch1-2 x86_64",
+    "monorepoNode": "v22.23.2",
+    "node": "v24.20.0",
+    "nativeCli": "0.10.1 (commit 064ca9890cc0cf8adc198215bd0ddaeb586c220a)",
+    "nativeCheck": "consumer passed: app.json, core and markup",
+    "nativeTest": "consumer passed: 25/25 build steps",
+    "nativeBuild": "consumer passed: ReleaseFast binary and service host",
+    "nativeDoctorStrict": "failed: WebKitGTK 6.0 unavailable; Chromium backend available",
+    "nodeSqliteService": "rejected: NS1066"
+  },
+  "prerequisites": {
+    "node": "24+",
+    "install": "npm install -g @native-sdk/cli",
+    "source": "https://native-sdk.dev/docs/quick-start"
+  }
+}

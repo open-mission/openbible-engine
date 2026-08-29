@@ -1,0 +1,19 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src",
+    "composite": true,
+    "jsx": "react-jsx",
+    "jsxImportSource": "@opentui/react",
+    "types": ["node"]
+  },
+  "include": ["src/**/*"],
+  "references": [
+    { "path": "../../packages/engine-core" },
+    { "path": "../../packages/engine" },
+    { "path": "../../packages/adapter-http" },
+    { "path": "../../packages/adapter-sqlite-node" }
+  ],
+  "exclude": ["node_modules", "dist", "coverage", "tests"]
+}
