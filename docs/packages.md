@@ -48,4 +48,5 @@
 | Terceiro | produção | @sqlite.org/sqlite-wasm | 3.53.0-build1 | SQLite Wasm conveniently wrapped as an ES Module. | https://github.com/sqlite/sqlite-wasm | https://github.com/sqlite/sqlite-wasm |
 | Terceiro | desenvolvimento | esbuild | catalog: | An extremely fast JavaScript and CSS bundler and minifier. | https://github.com/evanw/esbuild | https://github.com/evanw/esbuild |
 | Terceiro | desenvolvimento | ws | catalog: | Simple to use, blazing fast and thoroughly tested websocket client and server for Node.js | https://github.com/websockets/ws | https://github.com/websockets/ws |
+| Terceiro | produção | @openbible/personal-study-core | workspace:* | Finalidade não descrita nos metadados locais. |  | — |
 <!-- specsfy:documentator:end -->

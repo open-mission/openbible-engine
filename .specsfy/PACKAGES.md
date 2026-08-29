@@ -48,6 +48,7 @@
 | npm | produção | @sqlite.org/sqlite-wasm | 3.53.0-build1 | SQLite Wasm conveniently wrapped as an ES Module. | https://github.com/sqlite/sqlite-wasm |
 | npm | desenvolvimento | esbuild | catalog: | An extremely fast JavaScript and CSS bundler and minifier. | https://github.com/evanw/esbuild |
 | npm | desenvolvimento | ws | catalog: | Simple to use, blazing fast and thoroughly tested websocket client and server for Node.js | https://github.com/websockets/ws |
+| npm | produção | @openbible/personal-study-core | workspace:* | Finalidade não descrita nos metadados locais. |  |
 <!-- specsfy:documentator:end -->
 
 ## Observações
@@ -55,3 +56,6 @@
 - O script raiz `test:tdd` foi adicionado em `package.json` para executar os
   testes focados de `tests/` com Vitest; não introduz pacote novo nem altera o
   inventário de dependências.
+- `@openbible/personal-study-core` é um package workspace recém-criado sem
+  dependências de runtime; seus metadados estão em
+  `packages/personal-study-core/package.json`.

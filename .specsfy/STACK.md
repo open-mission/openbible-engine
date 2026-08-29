@@ -49,4 +49,8 @@ uma. Preserve decisões humanas nas seções livres deste arquivo.
 - O script raiz `test:tdd` executa os testes comportamentais focalizados em
   `tests/` com o runner Vitest; ele não altera a tecnologia estrutural do
   projeto.
+- O bounded context Personal Study adiciona o package portátil
+  `@openbible/personal-study-core`, com configuração Vitest própria em
+  `packages/personal-study-core/vitest.config.ts`; não há dependência de runtime
+  nova nesta camada.
 - SPEC-0003 (prontidão de distribuição, sem publish): `@openbible/adapter-sqlite-web` expõe o subpath de export `./worker` → `dist/worker/worker.js` (bundle do Worker + `sqlite3.wasm` + OPFS SAHPool), mantendo `files: ["dist"]`; `apps/distribution-harness/` (privado) empacota os tarballs dos 5 pacotes de runtime e prova a conversão de `workspace:*` + contrato de exports/files; `scripts/check-api-surface.mjs` é a guarda de regressão da superfície pública (e `--check-no-publish`); cada pacote de runtime ganhou `COMPATIBILITY.md` declarando semver/0.x e a superfície estável. Runner de execução dos testes do harness: Vitest (`apps/distribution-harness`).

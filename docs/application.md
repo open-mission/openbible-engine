@@ -66,6 +66,8 @@ Relação: relaciona cada arquivo observado à sua superfície.
 | Páginas | apps/consumer-web/.next/server/pages/_error.js | g, h, i, j, d, c, e, k |
 | Outras fontes | apps/consumer-web/.next/server/server-reference-manifest.js | — |
 | Outras fontes | apps/consumer-web/.next/server/webpack-runtime.js | c |
+| Outras fontes | apps/consumer-web/.next/static/b5okhuJOZBb2w_GQyWYSw/_buildManifest.js | — |
+| Outras fontes | apps/consumer-web/.next/static/b5okhuJOZBb2w_GQyWYSw/_ssgManifest.js | — |
 | Outras fontes | apps/consumer-web/.next/static/chunks/153-f2888457eb977c01.js | r, n, o, u, y, g, i, a |
 | Outras fontes | apps/consumer-web/.next/static/chunks/414d96a7-bb8b2e9dd6508ed4.js | i, s, c, f, d, p, _, U |
 | Outras fontes | apps/consumer-web/.next/static/chunks/625-eb7059476a4ae723.js | i, s, l, c, d, h, m, p |
@@ -85,8 +87,6 @@ Relação: relaciona cada arquivo observado à sua superfície.
 | Outras fontes | apps/consumer-web/.next/static/chunks/polyfills-42372ed130431b0a.js | e, t, Jm, Qm, Zm, tb, eb, rb |
 | Outras fontes | apps/consumer-web/.next/static/chunks/webpack-62d41f9d43ff54a5.js | r |
 | Outras fontes | apps/consumer-web/.next/static/css/cc62159cdd2a08a6.css | — |
-| Outras fontes | apps/consumer-web/.next/static/h3AlHpLCLnAmuZTmdJ_eU/_buildManifest.js | — |
-| Outras fontes | apps/consumer-web/.next/static/h3AlHpLCLnAmuZTmdJ_eU/_ssgManifest.js | — |
 | Outras fontes | apps/consumer-web/.next/static/media/worker.424e21a9.js | e, l, N, R, D, j, M, z |
 | Páginas | apps/consumer-web/.next/types/app/busca/page.ts | checkFields, if, PageProps, LayoutProps |
 | Páginas | apps/consumer-web/.next/types/app/ler/[versao]/[livro]/[capitulo]/page.ts | checkFields, if, PageProps, LayoutProps |
@@ -228,10 +228,22 @@ Relação: relaciona cada arquivo observado à sua superfície.
 | Outras fontes | packages/engine-testing/src/fixtures.ts | ARA_VERSION_ID, ARA_VERSION_NAME, buildDefaultBooks, buildDefaultVerses, BibleFixtureData, createAraFixture, createFixture, DEFAULT_ARA_FIXTURE |
 | Outras fontes | packages/engine-testing/src/index.ts | — |
 | Outras fontes | packages/engine-testing/vitest.config.ts | — |
+| Testes | packages/personal-study/src/__tests__/personal-study.test.ts | createStore |
+| Outras fontes | packages/personal-study/src/index.ts | — |
+| Outras fontes | packages/personal-study/src/personal-study.ts | createPersonalStudy, withAvailability, validateInput, runStorage |
+| Outras fontes | packages/personal-study/src/ports.ts | PersonalStudyStore, ReferenceAvailability, Clock, NoteIdFactory, StudyNoteInput, PersonalStudyOptions, PersonalStudy |
+| Outras fontes | packages/personal-study/vitest.config.ts | — |
+| Testes | packages/personal-study-core/src/__tests__/validation.test.ts | — |
+| Outras fontes | packages/personal-study-core/src/errors.ts | PersonalStudyError, isPersonalStudyError |
+| Outras fontes | packages/personal-study-core/src/index.ts | — |
+| Outras fontes | packages/personal-study-core/src/types.ts | StudyReference, StudyNote |
+| Outras fontes | packages/personal-study-core/src/validation.ts | BOOK_ID_PATTERN, MAX_MARKDOWN_LENGTH, validateStudyReference, validateNoteContent, isRecord, isPositiveInteger |
+| Outras fontes | packages/personal-study-core/vitest.config.ts | — |
 | Testes | tests/arch/api-regression.test.ts | ROOT, GUARD |
 | Testes | tests/arch/core-imports.test.ts | CORE_SRC, FORBIDDEN, walk |
 | Testes | tests/arch/engine-purity.test.ts | ENGINE_SRC, FORBIDDEN_ENGINE |
 | Testes | tests/arch/exports.test.ts | — |
+| Testes | tests/arch/personal-study-boundary.test.ts | ROOT |
 | Testes | tests/architecture/native-boundary.test.ts | — |
 | Testes | tests/native-sdk-capability.test.ts | — |
 | Testes | tests/native-sdk-spike.test.ts | NativeSdkHost, NativeSdkMatrix, readMatrix |

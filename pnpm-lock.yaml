@@ -400,6 +400,34 @@ importers:
         specifier: 'catalog:'
         version: 3.2.7(@types/node@26.3.0)(jiti@2.7.0)(jsdom@25.0.1)(lightningcss@1.32.0)(terser@5.51.0)(tsx@4.23.12)
 
+  packages/personal-study:
+    dependencies:
+      '@openbible/personal-study-core':
+        specifier: workspace:*
+        version: link:../personal-study-core
+    devDependencies:
+      eslint:
+        specifier: 'catalog:'
+        version: 9.39.5(jiti@2.7.0)
+      typescript:
+        specifier: 'catalog:'
+        version: 5.9.3
+      vitest:
+        specifier: 'catalog:'
+        version: 3.2.7(@types/node@26.3.0)(jiti@2.7.0)(jsdom@25.0.1)(lightningcss@1.32.0)(terser@5.51.0)(tsx@4.23.12)
+
+  packages/personal-study-core:
+    devDependencies:
+      eslint:
+        specifier: 'catalog:'
+        version: 9.39.5(jiti@2.7.0)
+      typescript:
+        specifier: 'catalog:'
+        version: 5.9.3
+      vitest:
+        specifier: 'catalog:'
+        version: 3.2.7(@types/node@26.3.0)(jiti@2.7.0)(jsdom@25.0.1)(lightningcss@1.32.0)(terser@5.51.0)(tsx@4.23.12)
+
 packages:
 
   '@adobe/css-tools@4.5.0':

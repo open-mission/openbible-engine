@@ -3,7 +3,7 @@
 <!-- specsfy:documentator:start -->
 ## Resumo
 
-- Arquivos de teste: 66.
+- Arquivos de teste: 69.
 - Runner: Vitest.
 - Scripts: build: turbo run build; build:web: turbo run build --filter=@openbible/consumer-web...; build:native: turbo run build --filter=@openbible/adapter-sqlite-native... && native build apps/consumer-native; test: turbo run test; test:tdd: vitest run tests; test:coverage: turbo run test:coverage; typecheck: turbo run typecheck; lint: turbo run lint; check: turbo run check; prepare: husky install.
 
@@ -68,10 +68,13 @@
 | packages/engine-core/src/__tests__/validation.test.ts |
 | packages/engine-testing/src/__tests__/contract-suite.test.ts |
 | packages/engine-testing/src/__tests__/fakes.test.ts |
+| packages/personal-study/src/__tests__/personal-study.test.ts |
+| packages/personal-study-core/src/__tests__/validation.test.ts |
 | tests/arch/api-regression.test.ts |
 | tests/arch/core-imports.test.ts |
 | tests/arch/engine-purity.test.ts |
 | tests/arch/exports.test.ts |
+| tests/arch/personal-study-boundary.test.ts |
 | tests/architecture/native-boundary.test.ts |
 | tests/native-sdk-capability.test.ts |
 | tests/native-sdk-spike.test.ts |
