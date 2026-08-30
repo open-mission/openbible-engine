@@ -5,7 +5,7 @@
 | Formato | Specsfy/2.0 |
 | ID | SPEC-0009 |
 | Slug | 0009-leitor-web-download-r2 |
-| Status | Reviewing |
+| Status | Complete |
 | Effort | 7 |
 | Effort updated at | 2026-08-30 |
 | Effort rationale | A integração R2, o shell e os pickers já estão comprovados, mas a nova rodada altera feedback de download, loading de leitura e composição offline, além de adicionar Sonner ao consumer. |
@@ -150,8 +150,9 @@ disponíveis localmente. Falhas não deixam arquivo, registro ou versão parcial
 
 #### Artefatos de pesquisa armazenados
 
-- Nenhum artefato externo foi consultado ou copiado. As evidências são locais,
-  versionadas e citadas diretamente pelas fontes acima.
+- `specs/completed/0009-leitor-web-download-r2/research/local-contracts.md` —
+  índice das evidências locais dos contratos consultados. Nenhum documento
+  externo foi copiado.
 
 #### Dúvidas respondidas
 

@@ -13,12 +13,12 @@
 | 06 | 0006-migracao-da-tui-para-consumir-openbible-engine | Complete | M02 |
 | 07 | 0007-bounded-context-personal-study-offline | Complete | — |
 | 08 | 0008-sincronizacao-multidispositivo-offline-first-com-turso | Complete | — |
-| 09 | 0009-leitor-web-download-r2 | Reviewing | M02 |
+| 09 | 0009-leitor-web-download-r2 | Complete | M02 |
 
 ## Marcos
 
 - M01: 2/2 specs concluídas (100%).
-- M02: 4/5 specs concluídas (80%).
+- M02: 5/5 specs concluídas (100%).
 <!-- specsfy:specs-index:end -->
 
 ## Próximas specs candidatas
