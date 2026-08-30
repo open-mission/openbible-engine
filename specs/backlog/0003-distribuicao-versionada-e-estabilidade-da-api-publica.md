@@ -9,9 +9,9 @@
 | Funcionalidade | Distribuição dos packages + compatibilidade da API pública |
 | Tipo | Técnico |
 | Prioridade | Alta — desbloqueia consumidores Web/PWA, Native SDK, TUI e React Native |
-| Milestones | M02 (proposto; ainda sem arquivo de milestone) |
+| Milestones | M02 |
 | Criado em | 2026-08-27 |
-| Spec promovida | `specs/draft/0003-distribuicao-versionada-e-estabilidade-da-api-publica/spec.md` |
+| Spec promovida | `specs/completed/0003-distribuicao-versionada-e-estabilidade-da-api-publica/spec.md` |
 
 ## Ideia original
 

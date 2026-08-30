@@ -10,7 +10,7 @@
 | Effort updated at | 2026-08-27 |
 | Effort rationale | A fatia combina investigação de um SDK pré-1.0, novo adapter de persistência, seam entre core síncrono e ports assíncronas existentes, consumer nativo e UI desktop multiplataforma. |
 | ClickUp Task | |
-| Milestones | M02 (proposto) |
+| Milestones | M02 |
 | Definition Gate | Passed |
 | Plan Gate | Passed |
 | Delivery Gate | Passed |

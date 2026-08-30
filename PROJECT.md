@@ -45,6 +45,18 @@ recomendada é estabilizar distribuição e ampliar o domínio:
 
 O consumer de referência em `apps/consumer-web` prova a composição da engine em
 Next.js App Router, com Biblioteca, Leitor, Busca e app shell PWA offline-first.
+Na primeira fatia M02, a Biblioteca resolve o catálogo por
+  `HttpBiblePackageSource`, com fallback/mapeamento público R2, e instala versões
+no adapter Web (Worker + SQLite WASM + OPFS), com progresso, cancelamento,
+  retry e leitura local após reabertura sem rede. `/` abre o Reader e
+  `/biblioteca` expõe o catálogo; os pickers de livro/capítulo e versão usam
+  somente a fachada pública da engine. A aquisição permanece fora da UI.
+
+O chrome visual dessa fatia acompanha a composição do aplicativo Web legado sem
+reutilizar sua implementação: shell em tela cheia, dock flutuante responsivo,
+toolbar pill do leitor, coluna tipográfica centralizada e tokens de tema. Notas e
+Destaques ficam visíveis apenas como ações desabilitadas; Personal Study e sua
+persistência continuam fora desta entrega.
 
 O consumer `apps/consumer-tui` prova a jornada terminal com Biblioteca, Leitor,
 Busca, referência, instalação, remoção e operação offline. Ele usa somente os

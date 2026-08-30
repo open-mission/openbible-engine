@@ -9,9 +9,9 @@
 | Funcionalidade | Consumer Web/PWA de referência |
 | Tipo | Historia |
 | Prioridade | Alta — valida a migração strangler e prova o consumo real da engine |
-| Milestones | M02 (proposto; ainda sem arquivo de milestone) |
+| Milestones | M02 |
 | Criado em | 2026-08-27 |
-| Spec promovida | `specs/draft/0004-consumer-web-pwa-de-referencia-em-next-js/spec.md` |
+| Spec promovida | `specs/completed/0004-consumer-web-pwa-de-referencia-em-next-js/spec.md` |
 
 ## Ideia original
 

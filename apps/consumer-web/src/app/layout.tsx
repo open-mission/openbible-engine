@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { BibleEngineProvider } from "@/engine/bible-engine-provider";
 import { AppShell } from "@/components/AppShell";
+import { Toaster } from "@/components/ui/sonner";
 import "@/styles/globals.css";
 
 export const metadata: Metadata = {
@@ -16,6 +17,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <BibleEngineProvider>
           <AppShell>{children}</AppShell>
+          <Toaster />
         </BibleEngineProvider>
       </body>
     </html>

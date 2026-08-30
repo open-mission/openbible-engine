@@ -11,7 +11,7 @@
 | Prioridade | Não priorizado |
 | Milestones | |
 | Criado em | 2026-08-29 |
-| Spec promovida | specs/defined/0008-sincronizacao-multidispositivo-offline-first-com-turso/spec.md |
+| Spec promovida | `specs/completed/0008-sincronizacao-multidispositivo-offline-first-com-turso/spec.md` |
 
 ## Ideia original
 

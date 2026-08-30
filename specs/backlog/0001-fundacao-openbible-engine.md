@@ -3,7 +3,7 @@
 | Metainformação | Valor |
 | --- | --- |
 | ID | 0001 |
-| Status | Captured |
+| Status | Promoted |
 | Produto | openbible-engine |
 | Épico | Fundação do motor headless |
 | Funcionalidade | Scripture Library (versões, livros, capítulos, versículos, busca, instalação) |
@@ -11,7 +11,7 @@
 | Prioridade | P1 — Crítica |
 | Milestones | M01 |
 | Criado em | 2026-08-26 |
-| Spec promovida | 0001-openbible-engine-scripture-library |
+| Spec promovida | `specs/completed/0001-openbible-engine-scripture-library/spec.md` |
 
 ## Ideia original
 
@@ -111,4 +111,4 @@ Ver AC-001..AC-030 na spec. Cada US/FR/NFR com 3+ cenários (feliz, variação, 
 
 ## Próximo passo
 
-Promovido para `$specsfy-03-specify` em `specs/draft/0001-openbible-engine-scripture-library/spec.md` (depois `defined` → `planned` → `in-progress` → `review` → `completed`).
+Implementado em `specs/completed/0001-openbible-engine-scripture-library/spec.md`; o status `Promoted` preserva o ciclo do backlog depois da promoção.

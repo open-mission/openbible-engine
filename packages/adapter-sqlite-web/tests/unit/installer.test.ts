@@ -49,7 +49,7 @@ describe("web installer", () => {
   });
 
   it("rejects a non-SQLite package with invalid_package and leaves storage clean", async () => {
-    // SPECSFY: US-002 FR-004 FR-005 FR-006 NFR-004 NFR-005 AC-006
+    // SPECSFY: US-001 US-003 FR-001 FR-003 FR-004 FR-005 FR-006 NFR-001 NFR-003 NFR-004 NFR-005 AC-003 AC-006
     const p = pool();
     const registry = new FakeRegistry();
     const installer = new WebInstaller(p, registry);
@@ -61,7 +61,7 @@ describe("web installer", () => {
   });
 
   it("maps a cancellation to cancelled without leaving partial data", async () => {
-    // SPECSFY: US-002 FR-004 FR-005 FR-006 NFR-004 NFR-005 AC-006
+    // SPECSFY: US-001 US-003 FR-001 FR-003 FR-004 FR-005 FR-006 NFR-001 NFR-003 NFR-004 NFR-005 AC-003 AC-006
     const p = pool();
     const registry = new FakeRegistry();
     const installer = new WebInstaller(p, registry);
@@ -72,7 +72,7 @@ describe("web installer", () => {
   });
 
   it("preserves the previous version when a reinstall fails", async () => {
-    // SPECSFY: US-002 FR-004 FR-005 FR-006 NFR-004 NFR-005 AC-007
+    // SPECSFY: US-001 US-003 FR-001 FR-003 FR-004 FR-005 FR-006 NFR-001 NFR-003 NFR-004 NFR-005 AC-003 AC-007
     const p = pool();
     const registry = new FakeRegistry();
     const installer = new WebInstaller(p, registry);

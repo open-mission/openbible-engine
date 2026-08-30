@@ -11,7 +11,7 @@
 | Prioridade | Não priorizado |
 | Milestones | |
 | Criado em | 2026-08-29 |
-| Spec promovida | `specs/defined/0007-bounded-context-personal-study-offline/spec.md` |
+| Spec promovida | `specs/completed/0007-bounded-context-personal-study-offline/spec.md` |
 
 ## Ideia original
 

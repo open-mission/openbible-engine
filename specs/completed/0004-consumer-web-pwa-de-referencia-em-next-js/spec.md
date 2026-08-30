@@ -10,7 +10,7 @@
 | Effort updated at | 2026-08-27 |
 | Effort rationale | Primeira UI do monorepo (Next.js App Router + React + Tailwind + shadcn/ui + ReUI + PWA), com Biblioteca/Leitor/Busca offline-first; perfil standard-alto. |
 | ClickUp Task | |
-| Milestones | M02 (proposto; ainda sem arquivo de milestone) |
+| Milestones | M02 |
 | Definition Gate | Passed |
 | Plan Gate | Passed |
 | Delivery Gate | Passed |

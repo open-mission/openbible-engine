@@ -9,9 +9,9 @@
 | Funcionalidade | Consumer desktop Native SDK |
 | Tipo | Feature técnica |
 | Prioridade | Não priorizado |
-| Milestones | M02 (proposto) |
+| Milestones | M02 |
 | Criado em | 2026-08-28 |
-| Spec promovida | `specs/draft/0005-adapter-native-sdk-e-consumer-desktop-minimo/spec.md` |
+| Spec promovida | `specs/completed/0005-adapter-native-sdk-e-consumer-desktop-minimo/spec.md` |
 | Interface para pessoas | Sim — UI desktop mínima |
 
 ## Ideia original

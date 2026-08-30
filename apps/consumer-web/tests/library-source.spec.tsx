@@ -1,5 +1,5 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-import { describe, expect, it, vi } from "vitest";
+import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import type { BibleEngine } from "@openbible/engine";
 import { AppLibrary } from "@/features/library/AppLibrary";
 
@@ -12,6 +12,12 @@ const engine = {
   installVersion,
   uninstallVersion: vi.fn(),
 } as unknown as BibleEngine;
+
+afterEach(() => {
+  cleanup();
+  vi.clearAllMocks();
+  vi.unstubAllGlobals();
+});
 
 vi.mock("@/engine/bible-engine-provider", () => ({
   useBibleEngine: () => ({
@@ -31,8 +37,43 @@ describe("Biblioteca e origem remota", () => {
 
     fireEvent.click(screen.getByRole("button", { name: "Instalar" }));
 
-    await waitFor(() => expect(installVersion).toHaveBeenCalledWith({ versionId: "ara", name: "ARA" }));
+    await waitFor(() => expect(installVersion).toHaveBeenCalledWith(
+      expect.objectContaining({ versionId: "ara", name: "ARA", token: expect.any(Object) }),
+      expect.objectContaining({ onProgress: expect.any(Function) }),
+    ));
     expect(fetchMock).not.toHaveBeenCalledWith("/fixtures/ara.db");
-    vi.unstubAllGlobals();
+  });
+
+  // SPECSFY: US-001 FR-001 NFR-001 NFR-003 AC-001
+  it("encaminha o observer de progresso para a instalação pública da engine", async () => {
+    render(<AppLibrary />);
+    await screen.findByText("ARA");
+
+    fireEvent.click(screen.getByRole("button", { name: "Instalar" }));
+
+    await waitFor(() => expect(installVersion).toHaveBeenCalledWith(
+      expect.objectContaining({ versionId: "ara", name: "ARA", token: expect.objectContaining({ aborted: false }) }),
+      expect.objectContaining({ onProgress: expect.any(Function) }),
+    ));
+  });
+
+  // SPECSFY: US-001 US-003 FR-001 FR-003 NFR-001 NFR-003 AC-003
+  it("mantém a operação cancelável até a engine concluir a limpeza", async () => {
+    let resolveInstall!: () => void;
+    installVersion.mockImplementationOnce(() => new Promise<undefined>((resolve) => { resolveInstall = () => resolve(undefined); }));
+    render(<AppLibrary />);
+    await screen.findByText("ARA");
+
+    fireEvent.click(screen.getByRole("button", { name: "Instalar" }));
+    const cancel = await screen.findByRole("button", { name: "Cancelar" });
+    fireEvent.click(cancel);
+
+    await waitFor(() => {
+      const calls = installVersion.mock.calls as unknown as Array<[{ token?: { aborted: boolean; reason?: unknown } }] >;
+      const input = calls[0]?.[0];
+      expect(input.token?.aborted).toBe(true);
+      expect(input.token?.reason).toBe("user_cancelled");
+    });
+    resolveInstall();
   });
 });

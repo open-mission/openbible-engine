@@ -8,14 +8,14 @@ export function Button({
   ...props
 }: React.ButtonHTMLAttributes<HTMLButtonElement> & { variant?: Variant }) {
   const styles: Record<Variant, string> = {
-    primary: "bg-sky-600 text-white hover:bg-sky-700",
-    secondary: "bg-slate-700 text-slate-100 hover:bg-slate-600",
-    ghost: "bg-transparent text-slate-200 hover:bg-slate-800",
+    primary: "bg-primary text-primary-foreground hover:brightness-110",
+    secondary: "bg-muted text-foreground hover:bg-accent",
+    ghost: "bg-transparent text-foreground hover:bg-accent",
     danger: "bg-rose-700 text-white hover:bg-rose-800",
   };
   return (
     <button
-      className={cn("rounded-md px-3 py-1.5 text-sm font-medium disabled:opacity-50", styles[variant], className)}
+      className={cn("rounded-md px-3 py-1.5 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background disabled:opacity-50", styles[variant], className)}
       {...props}
     />
   );

@@ -9,9 +9,9 @@
 | Funcionalidade | Consumer TUI baseado no engine |
 | Tipo | Técnico |
 | Prioridade | Alta — próximo consumidor real do M02 |
-| Milestones | M02 (proposto) |
+| Milestones | M02 |
 | Criado em | 2026-08-28 |
-| Spec promovida | `specs/draft/0006-migracao-da-tui-para-consumir-openbible-engine/spec.md` |
+| Spec promovida | `specs/completed/0006-migracao-da-tui-para-consumir-openbible-engine/spec.md` |
 
 ## Ideia original
 

@@ -65,6 +65,22 @@ describe("HttpBiblePackageSource", () => {
     expect(ids.length).toBe(16);
   });
 
+  // SPECSFY: US-001 FR-001 NFR-001 AC-002
+  it("falls back to the public R2 catalog when the catalog API fails", async () => {
+    const fetchImpl = vi.fn(async () => ({
+      ok: false,
+      status: 503,
+      statusText: "Service Unavailable",
+      headers: { get: () => null },
+      json: async () => null,
+    })) as unknown as typeof fetch;
+    const src = new HttpBiblePackageSource({ baseUrl: "https://example.com", fetchImpl });
+    const catalog = await src.listAvailable();
+
+    expect(catalog.map((version) => version.id)).toEqual(expect.arrayContaining(["ara", "nvi", "vfl"]));
+    expect(fetchImpl).toHaveBeenCalledWith("https://example.com/api/bibles", { method: "GET" });
+  });
+
   it("listAvailable fallback when no baseUrl", async () => {
     const src = new HttpBiblePackageSource({});
     expect((await src.listAvailable()).length).toBeGreaterThan(0);
@@ -98,6 +114,33 @@ describe("HttpBiblePackageSource", () => {
   it("fetchPackage honours a cancelled portable token", async () => {
     const src = new HttpBiblePackageSource({ baseUrl: "https://example.com", fetchImpl: makeFakeFetch(validHeaderBytes()) });
     await expect(src.fetchPackage("ara", { aborted: true, reason: "stop" })).rejects.toMatchObject({ code: "cancelled" });
+  });
+
+  // SPECSFY: US-001 US-003 FR-001 FR-003 NFR-001 NFR-003 AC-003
+  it("aborts an in-flight response when the portable token changes", async () => {
+    const token = { aborted: false as boolean, reason: undefined as unknown };
+    let rejectRead!: (reason?: unknown) => void;
+    const reader = {
+      read: vi.fn(() => new Promise<never>((_resolve, reject) => { rejectRead = reject; })),
+      cancel: vi.fn(async () => undefined),
+    };
+    const fetchImpl = vi.fn(async (_input: string, init?: RequestInit) => {
+      init?.signal?.addEventListener("abort", () => rejectRead(new DOMException("aborted", "AbortError")), { once: true });
+      return {
+        ok: true,
+        status: 200,
+        statusText: "OK",
+        headers: { get: (name: string) => name.toLowerCase() === "content-length" ? "32" : null },
+        body: { getReader: () => reader },
+      } as unknown as Response;
+    }) as unknown as typeof fetch;
+    const src = new HttpBiblePackageSource({ baseUrl: "https://example.com", fetchImpl });
+    const pending = src.fetchPackage("ara", token, { onProgress: vi.fn() });
+    await vi.waitFor(() => expect(reader.read).toHaveBeenCalled());
+    token.aborted = true;
+
+    await expect(pending).rejects.toMatchObject({ code: "cancelled" });
+    expect(fetchImpl).toHaveBeenCalled();
   });
 
   it("fetchPackage rejects a non-SQLite payload", async () => {

@@ -118,6 +118,12 @@ export async function createWebAdapter(options: WebAdapterOptions = {}): Promise
   const installer: BibleInstaller = {
     async install(input: InstallPackageInput, observer?: InstallationObserver): Promise<InstalledBible> {
       const operationId = `op-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+      let cancellationTimer: ReturnType<typeof setInterval> | undefined;
+      if (input.token) {
+        cancellationTimer = setInterval(() => {
+          if (input.token?.aborted) client.cancel(operationId);
+        }, 25);
+      }
       const onProgress = (e: unknown) => {
         const p = e as InstallationProgress;
         try {
@@ -126,7 +132,11 @@ export async function createWebAdapter(options: WebAdapterOptions = {}): Promise
           // observer errors do not abort installation
         }
       };
-      return request<InstalledBible>({ type: "installer.install", operationId, input }, onProgress);
+      try {
+        return await request<InstalledBible>({ type: "installer.install", operationId, input }, onProgress);
+      } finally {
+        if (cancellationTimer !== undefined) clearInterval(cancellationTimer);
+      }
     },
     async uninstall(versionId): Promise<void> {
       await request<void>({ type: "installer.uninstall", versionId });

@@ -9,7 +9,7 @@ export function PrevNextNav({
   next?: { href: string; label: string };
 }) {
   return (
-    <div className="mt-8 flex justify-between gap-3 border-t border-slate-800 pt-5">
+    <div className="mt-8 flex justify-between gap-3 border-t border-border pt-5">
       {previous ? <Link href={previous.href}><Button variant="secondary">← {previous.label}</Button></Link> : <span />}
       {next ? <Link href={next.href}><Button variant="secondary">{next.label} →</Button></Link> : <span />}
     </div>

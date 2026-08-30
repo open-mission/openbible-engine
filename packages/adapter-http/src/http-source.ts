@@ -57,12 +57,27 @@ function headerValid(bytes: Uint8Array): boolean {
   return true;
 }
 
+interface AbortBridge {
+  signal: AbortSignal;
+  dispose: () => void;
+}
+
 /** Bridges the portable CancellationToken to a DOM AbortSignal inside the adapter. */
-function toAbortSignal(token?: CancellationToken): AbortSignal | undefined {
+function toAbortSignal(token?: CancellationToken): AbortBridge | undefined {
   if (!token) return undefined;
   const controller = new AbortController();
-  if (token.aborted) controller.abort(token.reason);
-  return controller.signal;
+  let timer: ReturnType<typeof setInterval> | undefined;
+  const check = () => {
+    if (token.aborted && !controller.signal.aborted) controller.abort(token.reason);
+  };
+  check();
+  if (!controller.signal.aborted) timer = setInterval(check, 25);
+  return {
+    signal: controller.signal,
+    dispose: () => {
+      if (timer !== undefined) clearInterval(timer);
+    },
+  };
 }
 
 export class HttpBiblePackageSource implements BiblePackageSource {
@@ -112,7 +127,9 @@ export class HttpBiblePackageSource implements BiblePackageSource {
       throw new EngineError("network_unavailable", "HttpBiblePackageSource: no package URL configured and no bytes injection");
     }
 
-    const signal = toAbortSignal(token);
+    const abortBridge = toAbortSignal(token);
+    const signal = abortBridge?.signal;
+    try {
     const urls = [
       url,
       directUrl,
@@ -228,6 +245,9 @@ export class HttpBiblePackageSource implements BiblePackageSource {
     if (token?.aborted) throw new EngineError("cancelled", "Operation cancelled");
 
     return bytes;
+    } finally {
+      abortBridge?.dispose();
+    }
   }
 }
 

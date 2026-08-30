@@ -27,8 +27,8 @@
 | Terceiro | produção | react | 19.2.4 | React is a JavaScript library for building user interfaces. | https://github.com/facebook/react | https://github.com/facebook/react |
 | Terceiro | desenvolvimento | @types/react | ^19.0.0 | TypeScript definitions for react | https://github.com/DefinitelyTyped/DefinitelyTyped | https://github.com/DefinitelyTyped/DefinitelyTyped |
 | Terceiro | desenvolvimento | tsx | ^4.19.0 | TypeScript Execute (tsx): Node.js enhanced with esbuild to run TypeScript & ESM files | privatenumber/tsx | — |
-| Terceiro | produção | @libsql/client | ^0.8.0 | libSQL driver for TypeScript and JavaScript | https://github.com/libsql/libsql-client-ts | https://github.com/libsql/libsql-client-ts |
 | Terceiro | produção | @ducanh2912/next-pwa | ^10.2.9 | PWA for Next.js, powered by Workbox. | https://github.com/DuCanhGH/next-pwa | https://github.com/DuCanhGH/next-pwa |
+| Terceiro | produção | @libsql/client | ^0.8.0 | libSQL driver for TypeScript and JavaScript | https://github.com/libsql/libsql-client-ts | https://github.com/libsql/libsql-client-ts |
 | Terceiro | produção | @libsql/kysely-libsql | 0.4.1 | Kysely dialect for libSQL | github:libsql/kysely-libsql | — |
 | Terceiro | produção | @openbible/adapter-sync-turso | workspace:* | Finalidade não descrita nos metadados locais. |  | — |
 | Terceiro | produção | @openbible/sync | workspace:* | Finalidade não descrita nos metadados locais. |  | — |
@@ -38,6 +38,7 @@
 | Terceiro | produção | next | ^15.4.0 | The React Framework | vercel/next.js | — |
 | Terceiro | produção | react | ^19.0.0 | React is a JavaScript library for building user interfaces. | https://github.com/facebook/react | https://github.com/facebook/react |
 | Terceiro | produção | react-dom | ^19.0.0 | React package for working with the DOM. | https://github.com/react/react | https://github.com/react/react |
+| Terceiro | produção | sonner | 2.0.7 | An opinionated toast component for React. | https://github.com/emilkowalski/sonner | https://github.com/emilkowalski/sonner |
 | Terceiro | produção | tailwind-merge | ^2.5.0 | Merge Tailwind CSS classes without style conflicts | https://github.com/dcastil/tailwind-merge | https://github.com/dcastil/tailwind-merge |
 | Terceiro | desenvolvimento | @playwright/test | catalog: | A high-level API to automate web browsers | https://github.com/microsoft/playwright | https://github.com/microsoft/playwright |
 | Terceiro | desenvolvimento | @tailwindcss/postcss | ^4.0.0 | PostCSS plugin for Tailwind CSS, a utility-first CSS framework for rapidly building custom user interfaces | https://github.com/tailwindlabs/tailwindcss | https://github.com/tailwindlabs/tailwindcss |

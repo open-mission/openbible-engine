@@ -1,5 +1,5 @@
-import { AppLibrary } from "@/features/library/AppLibrary";
+import { Reader } from "@/features/reader/Reader";
 
 export default function HomePage() {
-  return <AppLibrary />;
+  return <Reader />;
 }

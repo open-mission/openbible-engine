@@ -10,7 +10,7 @@
 | Effort updated at | 2026-08-27 |
 | Effort rationale | Prontidão de distribuição: harness de consumo, guarda de regressão de API, matriz de exports por ambiente e distribuição de assets Worker/WASM; perfil standard-alto. |
 | ClickUp Task | |
-| Milestones | M02 (proposto; ainda sem arquivo de milestone) |
+| Milestones | M02 |
 | Definition Gate | Passed |
 | Plan Gate | Passed |
 | Delivery Gate | Passed |

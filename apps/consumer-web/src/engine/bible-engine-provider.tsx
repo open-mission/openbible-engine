@@ -4,6 +4,7 @@ import { createContext, useContext, useEffect, useState, type ReactNode } from "
 import { createWebAdapter, type WebAdapter } from "@openbible/adapter-sqlite-web";
 import { createBibleEngine, type BibleEngine } from "@openbible/engine";
 import { HttpBiblePackageSource } from "@openbible/adapter-http";
+import { getEngineErrorMessage } from "@/lib/engine-error";
 
 export type EngineStatus = "loading" | "ready" | "error";
 
@@ -32,6 +33,8 @@ export function BibleEngineProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     let mounted = true;
     let adapter: WebAdapter | undefined;
+    const refresh = () => setGeneration((value) => value + 1);
+    setState({ engine: null, adapter: null, status: "loading", refresh });
     (async () => {
       try {
         adapter = await createWebAdapter({
@@ -53,19 +56,19 @@ export function BibleEngineProvider({ children }: { children: ReactNode }) {
           }),
         });
         if (mounted) {
-          setState({ engine, adapter, status: "ready", refresh: () => setGeneration((value) => value + 1) });
+          setState({ engine, adapter, status: "ready", refresh });
         } else {
           await adapter.close();
         }
       } catch (error) {
+        await adapter?.close().catch(() => undefined);
         if (mounted) {
-          const code = error instanceof Error && "code" in error ? String(error.code) : "storage_unavailable";
           setState({
             engine: null,
             adapter: null,
             status: "error",
-            message: `${code}: ${error instanceof Error ? error.message : "Não foi possível abrir o armazenamento local."}`,
-            refresh: () => setGeneration((value) => value + 1),
+            message: getEngineErrorMessage(error, "Não foi possível abrir o armazenamento local."),
+            refresh,
           });
         }
       }

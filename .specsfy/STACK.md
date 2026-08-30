@@ -28,7 +28,8 @@ uma. Preserve decisões humanas nas seções livres deste arquivo.
 - `turbo.json` orquestra build/test/typecheck/lint/check com `dependsOn ^build`; fronteiras arquiteturais via `package.json`/`exports`/`eslint`/`tests/arch`, não via Turbo.
 - O monorepo mantém Node.js 22.x como engine global dos packages existentes. O consumer `apps/consumer-tui` declara Node.js `>=26.4.0` e executa com `NODE_OPTIONS=--experimental-ffi`, requisito efetivo do OpenTUI `0.5.8`; a capacidade foi comprovada em Node.js `26.7.0`. Node.js 22 não é suporte declarado para a TUI.
 - `apps/consumer-web` adiciona Next.js 15 App Router, React 19, Tailwind CSS 4,
-  `@ducanh2912/next-pwa`, Vitest com jsdom/Testing Library e Playwright. O
+  Sonner 2.0.7, `@ducanh2912/next-pwa`, Vitest com jsdom/Testing Library e
+  Playwright. O
   script `copy-web-assets.mjs` expõe somente os bundles oficiais do Worker e
   `sqlite3.wasm` como overrides públicos do adapter; `pnpm --filter
   @openbible/consumer-web run check` valida a app completa.

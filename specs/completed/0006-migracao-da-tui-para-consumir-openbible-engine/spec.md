@@ -10,7 +10,7 @@
 | Effort updated at | 2026-08-28 |
 | Effort rationale | Prova vertical com integração HTTP, adapter SQLite Node, UI OpenTUI em Node, preservação de atalhos, isolamento de dados e conformance offline. |
 | ClickUp Task | |
-| Milestones | M02 (proposto) |
+| Milestones | M02 |
 | Definition Gate | Passed |
 | Plan Gate | Passed |
 | Delivery Gate | Passed |
