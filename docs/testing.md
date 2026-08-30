@@ -3,7 +3,7 @@
 <!-- specsfy:documentator:start -->
 ## Resumo
 
-- Arquivos de teste: 69.
+- Arquivos de teste: 90.
 - Runner: Vitest.
 - Scripts: build: turbo run build; build:web: turbo run build --filter=@openbible/consumer-web...; build:native: turbo run build --filter=@openbible/adapter-sqlite-native... && native build apps/consumer-native; test: turbo run test; test:tdd: vitest run tests; test:coverage: turbo run test:coverage; typecheck: turbo run typecheck; lint: turbo run lint; check: turbo run check; prepare: husky install.
 
@@ -25,6 +25,8 @@
 | apps/consumer-tui/tests/runtime-spike.test.ts |
 | apps/consumer-tui/tests/search-offline.test.ts |
 | apps/consumer-tui/tests/ui-navigation.test.ts |
+| apps/consumer-web/tests/auth.test.ts |
+| apps/consumer-web/tests/bible-preferences.test.ts |
 | apps/consumer-web/tests/boundary.test.ts |
 | apps/consumer-web/tests/browser/consumer.spec.ts |
 | apps/consumer-web/tests/install-failure.spec.tsx |
@@ -36,6 +38,8 @@
 | apps/consumer-web/tests/reader.spec.tsx |
 | apps/consumer-web/tests/search.spec.tsx |
 | apps/consumer-web/tests/states.a11y.spec.tsx |
+| apps/consumer-web/tests/sync-api.test.ts |
+| apps/consumer-web/tests/sync-keys.test.ts |
 | apps/distribution-harness/tests/harness-browser.spec.ts |
 | apps/distribution-harness/tests/harness-node.spec.ts |
 | packages/adapter-http/src/__tests__/http-source.test.ts |
@@ -60,6 +64,8 @@
 | packages/adapter-sqlite-web/tests/unit/installer.test.ts |
 | packages/adapter-sqlite-web/tests/unit/public-api.test.ts |
 | packages/adapter-sqlite-web/tests/unit/reconciliation.test.ts |
+| packages/adapter-sync-turso/src/__tests__/adapter.test.ts |
+| packages/adapter-sync-turso/src/__tests__/schema.test.ts |
 | packages/engine/src/__tests__/engine.test.ts |
 | packages/engine/src/__tests__/install.test.ts |
 | packages/engine/src/__tests__/search.test.ts |
@@ -70,11 +76,26 @@
 | packages/engine-testing/src/__tests__/fakes.test.ts |
 | packages/personal-study/src/__tests__/personal-study.test.ts |
 | packages/personal-study-core/src/__tests__/validation.test.ts |
+| packages/sync/src/__tests__/account-delete.test.ts |
+| packages/sync/src/__tests__/auth-state.test.ts |
+| packages/sync/src/__tests__/bible-preferences.test.ts |
+| packages/sync/src/__tests__/conflict.test.ts |
+| packages/sync/src/__tests__/device-keys.test.ts |
+| packages/sync/src/__tests__/import.test.ts |
+| packages/sync/src/__tests__/limits.test.ts |
+| packages/sync/src/__tests__/offline.test.ts |
+| packages/sync/src/__tests__/outbox.test.ts |
+| packages/sync/src/__tests__/privacy.test.ts |
+| packages/sync/src/__tests__/reconcile.test.ts |
+| packages/sync/src/__tests__/sync.test.ts |
+| packages/sync-core/src/__tests__/validation.test.ts |
+| packages/sync-testing/src/__tests__/fakes.test.ts |
 | tests/arch/api-regression.test.ts |
 | tests/arch/core-imports.test.ts |
 | tests/arch/engine-purity.test.ts |
 | tests/arch/exports.test.ts |
 | tests/arch/personal-study-boundary.test.ts |
+| tests/arch/sync-boundary.test.ts |
 | tests/architecture/native-boundary.test.ts |
 | tests/native-sdk-capability.test.ts |
 | tests/native-sdk-spike.test.ts |

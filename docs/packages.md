@@ -27,7 +27,14 @@
 | Terceiro | produção | react | 19.2.4 | React is a JavaScript library for building user interfaces. | https://github.com/facebook/react | https://github.com/facebook/react |
 | Terceiro | desenvolvimento | @types/react | ^19.0.0 | TypeScript definitions for react | https://github.com/DefinitelyTyped/DefinitelyTyped | https://github.com/DefinitelyTyped/DefinitelyTyped |
 | Terceiro | desenvolvimento | tsx | ^4.19.0 | TypeScript Execute (tsx): Node.js enhanced with esbuild to run TypeScript & ESM files | privatenumber/tsx | — |
+| Terceiro | produção | @libsql/client | ^0.8.0 | libSQL driver for TypeScript and JavaScript | https://github.com/libsql/libsql-client-ts | https://github.com/libsql/libsql-client-ts |
 | Terceiro | produção | @ducanh2912/next-pwa | ^10.2.9 | PWA for Next.js, powered by Workbox. | https://github.com/DuCanhGH/next-pwa | https://github.com/DuCanhGH/next-pwa |
+| Terceiro | produção | @libsql/kysely-libsql | 0.4.1 | Kysely dialect for libSQL | github:libsql/kysely-libsql | — |
+| Terceiro | produção | @openbible/adapter-sync-turso | workspace:* | Finalidade não descrita nos metadados locais. |  | — |
+| Terceiro | produção | @openbible/sync | workspace:* | Finalidade não descrita nos metadados locais. |  | — |
+| Terceiro | produção | @openbible/sync-core | workspace:* | Finalidade não descrita nos metadados locais. |  | — |
+| Terceiro | produção | better-auth | 1.7.2 | The most comprehensive authentication framework for TypeScript. | https://github.com/better-auth/better-auth | https://github.com/better-auth/better-auth |
+| Terceiro | produção | kysely | ^0.29.5 | Type safe SQL query builder | https://github.com/kysely-org/kysely | https://github.com/kysely-org/kysely |
 | Terceiro | produção | next | ^15.4.0 | The React Framework | vercel/next.js | — |
 | Terceiro | produção | react | ^19.0.0 | React is a JavaScript library for building user interfaces. | https://github.com/facebook/react | https://github.com/facebook/react |
 | Terceiro | produção | react-dom | ^19.0.0 | React package for working with the DOM. | https://github.com/react/react | https://github.com/react/react |

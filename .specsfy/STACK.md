@@ -19,6 +19,7 @@ uma. Preserve decisões humanas nas seções livres deste arquivo.
 | Versionamento | Changesets | `.changeset/config.json` |
 | Build | tsc declarations | `tsconfig.json` strict ESM |
 | Persistência | SQLite real (`node:sqlite`) | `packages/adapter-sqlite-node/src/driver.ts`, `bible-store.ts`, `registry.ts`, `fixtures.ts` |
+| Biblioteca | `@openbible/sync-core` | `packages/sync-core/package.json` (TypeScript portátil, zero dependências de runtime) |
 <!-- specsfy:stack:end -->
 
 ## Decisões e observações do projeto

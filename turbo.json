@@ -1,6 +1,12 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "globalDependencies": ["**/.env.*local"],
+  "globalEnv": [
+    "BETTER_AUTH_URL",
+    "BETTER_AUTH_SECRET",
+    "DATABASE_URL",
+    "DATABASE_TURSO_TOKEN"
+  ],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],

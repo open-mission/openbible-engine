@@ -27,7 +27,14 @@
 | npm | produção | react | 19.2.4 | React is a JavaScript library for building user interfaces. | https://github.com/facebook/react |
 | npm | desenvolvimento | @types/react | ^19.0.0 | TypeScript definitions for react | https://github.com/DefinitelyTyped/DefinitelyTyped |
 | npm | desenvolvimento | tsx | ^4.19.0 | TypeScript Execute (tsx): Node.js enhanced with esbuild to run TypeScript & ESM files | privatenumber/tsx |
+| npm | produção | @libsql/client | ^0.8.0 | libSQL driver for TypeScript and JavaScript | https://github.com/libsql/libsql-client-ts |
 | npm | produção | @ducanh2912/next-pwa | ^10.2.9 | PWA for Next.js, powered by Workbox. | https://github.com/DuCanhGH/next-pwa |
+| npm | produção | @libsql/kysely-libsql | 0.4.1 | Kysely dialect for libSQL | github:libsql/kysely-libsql |
+| npm | produção | @openbible/adapter-sync-turso | workspace:* | Finalidade não descrita nos metadados locais. |  |
+| npm | produção | @openbible/sync | workspace:* | Finalidade não descrita nos metadados locais. |  |
+| npm | produção | @openbible/sync-core | workspace:* | Finalidade não descrita nos metadados locais. |  |
+| npm | produção | better-auth | 1.7.2 | The most comprehensive authentication framework for TypeScript. | https://github.com/better-auth/better-auth |
+| npm | produção | kysely | ^0.29.5 | Type safe SQL query builder | https://github.com/kysely-org/kysely |
 | npm | produção | next | ^15.4.0 | The React Framework | vercel/next.js |
 | npm | produção | react | ^19.0.0 | React is a JavaScript library for building user interfaces. | https://github.com/facebook/react |
 | npm | produção | react-dom | ^19.0.0 | React package for working with the DOM. | https://github.com/react/react |
@@ -59,3 +66,5 @@
 - `@openbible/personal-study-core` é um package workspace recém-criado sem
   dependências de runtime; seus metadados estão em
   `packages/personal-study-core/package.json`.
+- `@openbible/sync-core` é um package workspace recém-criado sem dependências de
+  runtime; seus metadados estão em `packages/sync-core/package.json`.

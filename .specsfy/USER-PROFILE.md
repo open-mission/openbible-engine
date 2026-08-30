@@ -7,3 +7,5 @@ Fontes: conversa com o usuário em 2026-08-26
 
 - Orientações equilibradas: explicações curtas, aprofundando somente decisões importantes.
 - Alcance: comunicação geral durante setup, especificação e implementação do projeto.
+- Durante o refinamento do backlog 0008, prefere responder a sequência de perguntas sem confirmações intermediárias entre elas; o limite finito de cada ciclo do Specsfy permanece aplicável.
+- Fonte: conversa com o usuário em 2026-08-29. Alcance: refinamento do backlog 0008.

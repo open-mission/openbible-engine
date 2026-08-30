@@ -42,6 +42,10 @@ Para TypeScript, explicite regras de tipagem estrita e modularização.
 - TursoDB fora do milestone 1; ARA embarcada pelo consumidor, não distribuída no npm.
 - pnpm + Turborepo + Changesets; GitHub Actions para lint/typecheck/test/build; `docs/` via `specsfy-documentator` e `.specsfy/PACKAGES.md`.
 
+- Após cada implementação concluída, executar o specsfy-documentator e, em seguida, atualizar a página central `Open Bible` no Notion usando ntn e o identificador `NOTION_PROJECT_PAGE_ID` (ID atual: `3cb5172e-771b-813d-be0d-dbb99cad197d`); se a autenticação, a variável ou a atualização falhar, não declarar a implementação concluída e reportar a falha sem registrar tokens.
+
+- O Notion é a superfície de planejamento e acompanhamento; as specs em specs/<estado>/<NNNN>-<slug>/spec.md e o código versionado no GitHub permanecem a fonte normativa, e o Custom Agent consulta o repositório em modo somente leitura sem editar código, fazer push ou criar pull requests.
+
 ## Regras específicas do projeto
 
 - Não criar `plan.md`, `tasks.md`, `research.md`, `data-model.md`, `.feature`; fonte normativa é `specs/<estado>/<NNNN>-<slug>/spec.md` e seção 14 para tarefas.

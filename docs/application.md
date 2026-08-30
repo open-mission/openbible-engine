@@ -43,19 +43,45 @@ Relação: relaciona cada arquivo observado à sua superfície.
 | Testes | apps/consumer-tui/tests/ui-navigation.test.ts | — |
 | Páginas | apps/consumer-web/.next/server/app/_not-found/page.js | M |
 | Páginas | apps/consumer-web/.next/server/app/_not-found/page_client-reference-manifest.js | — |
-| Páginas | apps/consumer-web/.next/server/app/busca/page.js | f, g, h, from, i, e, M, l |
+| Rotas e APIs | apps/consumer-web/.next/server/app/api/auth/[...all]/route.js | d, w, x, h, i, j |
+| Rotas e APIs | apps/consumer-web/.next/server/app/api/auth/[...all]/route_client-reference-manifest.js | — |
+| Rotas e APIs | apps/consumer-web/.next/server/app/api/sync/v1/account-delete/route.js | w, x |
+| Rotas e APIs | apps/consumer-web/.next/server/app/api/sync/v1/account-delete/route_client-reference-manifest.js | — |
+| Rotas e APIs | apps/consumer-web/.next/server/app/api/sync/v1/devices/approve/route.js | w, x |
+| Rotas e APIs | apps/consumer-web/.next/server/app/api/sync/v1/devices/approve/route_client-reference-manifest.js | — |
+| Rotas e APIs | apps/consumer-web/.next/server/app/api/sync/v1/devices/revoke/route.js | w, x |
+| Rotas e APIs | apps/consumer-web/.next/server/app/api/sync/v1/devices/revoke/route_client-reference-manifest.js | — |
+| Rotas e APIs | apps/consumer-web/.next/server/app/api/sync/v1/devices/route.js | w, x |
+| Rotas e APIs | apps/consumer-web/.next/server/app/api/sync/v1/devices/route_client-reference-manifest.js | — |
+| Rotas e APIs | apps/consumer-web/.next/server/app/api/sync/v1/pull/route.js | w, x |
+| Rotas e APIs | apps/consumer-web/.next/server/app/api/sync/v1/pull/route_client-reference-manifest.js | — |
+| Rotas e APIs | apps/consumer-web/.next/server/app/api/sync/v1/push/route.js | w, x |
+| Rotas e APIs | apps/consumer-web/.next/server/app/api/sync/v1/push/route_client-reference-manifest.js | — |
+| Rotas e APIs | apps/consumer-web/.next/server/app/api/sync/v1/reconcile/route.js | w, x |
+| Rotas e APIs | apps/consumer-web/.next/server/app/api/sync/v1/reconcile/route_client-reference-manifest.js | — |
+| Rotas e APIs | apps/consumer-web/.next/server/app/api/sync/v1/route.js | v, A, B, g |
+| Rotas e APIs | apps/consumer-web/.next/server/app/api/sync/v1/route_client-reference-manifest.js | — |
+| Páginas | apps/consumer-web/.next/server/app/busca/page.js | f, g, h, from, M, e, l, m |
 | Páginas | apps/consumer-web/.next/server/app/busca/page_client-reference-manifest.js | — |
-| Páginas | apps/consumer-web/.next/server/app/ler/[versao]/[livro]/[capitulo]/page.js | f, g, h, i, e, p, q, r |
+| Páginas | apps/consumer-web/.next/server/app/ler/[versao]/[livro]/[capitulo]/page.js | f, from, g, h, p, q, r, e |
 | Páginas | apps/consumer-web/.next/server/app/ler/[versao]/[livro]/[capitulo]/page_client-reference-manifest.js | — |
-| Rotas e APIs | apps/consumer-web/.next/server/app/manifest.webmanifest/route.js | g, c, e, f, m, n, o, h |
+| Rotas e APIs | apps/consumer-web/.next/server/app/manifest.webmanifest/route.js | m, n, o, k, l, e, f, g |
 | Páginas | apps/consumer-web/.next/server/app/manifest.webmanifest/route_client-reference-manifest.js | — |
-| Páginas | apps/consumer-web/.next/server/app/page.js | from, f, g, h, i, M, n, p |
+| Páginas | apps/consumer-web/.next/server/app/page.js | f, g, h, n, p, w, x, y |
 | Páginas | apps/consumer-web/.next/server/app/page_client-reference-manifest.js | — |
-| Outras fontes | apps/consumer-web/.next/server/chunks/141.js | c, f, n, o, u, g, p, q |
+| Outras fontes | apps/consumer-web/.next/server/chunks/141.js | n, o, u, g, c, e, f, d |
+| Outras fontes | apps/consumer-web/.next/server/chunks/191.js | f, g, h, j |
+| Outras fontes | apps/consumer-web/.next/server/chunks/275.js | f, d, e, h, i, j, k, g |
+| Outras fontes | apps/consumer-web/.next/server/chunks/310.js | f, d, extends, a, c, e, i, j |
 | Outras fontes | apps/consumer-web/.next/server/chunks/42.js | l, n |
-| Outras fontes | apps/consumer-web/.next/server/chunks/483.js | a, j, k, l, m, n, o, p |
-| Outras fontes | apps/consumer-web/.next/server/chunks/724.js | i, m, n, e, f, g, h, c |
-| Outras fontes | apps/consumer-web/.next/server/chunks/842.js | from, i, j, h, k |
+| Outras fontes | apps/consumer-web/.next/server/chunks/483.js | d, e, j, k, f, c, a, g |
+| Outras fontes | apps/consumer-web/.next/server/chunks/503.js | e, f, g, c, i, o, p, q |
+| Outras fontes | apps/consumer-web/.next/server/chunks/714.js | g, h, extends |
+| Outras fontes | apps/consumer-web/.next/server/chunks/842.js | h, k, from, i, j |
+| Outras fontes | apps/consumer-web/.next/server/chunks/860.js | — |
+| Outras fontes | apps/consumer-web/.next/server/chunks/866.js | extends |
+| Outras fontes | apps/consumer-web/.next/server/chunks/966.js | extends |
+| Outras fontes | apps/consumer-web/.next/server/chunks/982.js | g, h, j, k, l, m, n, o |
 | Outras fontes | apps/consumer-web/.next/server/chunks/static/media/worker.b46496cb.js | a, c, B, C, D, E, F, G |
 | Outras fontes | apps/consumer-web/.next/server/interception-route-rewrite-manifest.js | — |
 | Outras fontes | apps/consumer-web/.next/server/middleware-build-manifest.js | — |
@@ -63,21 +89,30 @@ Relação: relaciona cada arquivo observado à sua superfície.
 | Outras fontes | apps/consumer-web/.next/server/next-font-manifest.js | — |
 | Páginas | apps/consumer-web/.next/server/pages/_app.js | h, i, d, g, j, k, l, o |
 | Páginas | apps/consumer-web/.next/server/pages/_document.js | — |
-| Páginas | apps/consumer-web/.next/server/pages/_error.js | g, h, i, j, d, c, e, k |
+| Páginas | apps/consumer-web/.next/server/pages/_error.js | e, c, d, f, g, i, j, z |
 | Outras fontes | apps/consumer-web/.next/server/server-reference-manifest.js | — |
 | Outras fontes | apps/consumer-web/.next/server/webpack-runtime.js | c |
-| Outras fontes | apps/consumer-web/.next/static/b5okhuJOZBb2w_GQyWYSw/_buildManifest.js | — |
-| Outras fontes | apps/consumer-web/.next/static/b5okhuJOZBb2w_GQyWYSw/_ssgManifest.js | — |
+| Outras fontes | apps/consumer-web/.next/static/0L-R_M0KXpt5rjk0NNIp5/_buildManifest.js | — |
+| Outras fontes | apps/consumer-web/.next/static/0L-R_M0KXpt5rjk0NNIp5/_ssgManifest.js | — |
 | Outras fontes | apps/consumer-web/.next/static/chunks/153-f2888457eb977c01.js | r, n, o, u, y, g, i, a |
 | Outras fontes | apps/consumer-web/.next/static/chunks/414d96a7-bb8b2e9dd6508ed4.js | i, s, c, f, d, p, _, U |
 | Outras fontes | apps/consumer-web/.next/static/chunks/625-eb7059476a4ae723.js | i, s, l, c, d, h, m, p |
 | Outras fontes | apps/consumer-web/.next/static/chunks/694-63a1e196dd5a22eb.js | p, b |
 | Outras fontes | apps/consumer-web/.next/static/chunks/831-09f18f876cbc58b1.js | r, n, o, e, m, E, d, p |
 | Páginas | apps/consumer-web/.next/static/chunks/app/_not-found/page-fd946ac87c19ceca.js | o |
+| Rotas e APIs | apps/consumer-web/.next/static/chunks/app/api/auth/[...all]/route-f66cade2e1fcd6eb.js | — |
+| Rotas e APIs | apps/consumer-web/.next/static/chunks/app/api/sync/v1/account-delete/route-f66cade2e1fcd6eb.js | — |
+| Rotas e APIs | apps/consumer-web/.next/static/chunks/app/api/sync/v1/devices/approve/route-f66cade2e1fcd6eb.js | — |
+| Rotas e APIs | apps/consumer-web/.next/static/chunks/app/api/sync/v1/devices/revoke/route-f66cade2e1fcd6eb.js | — |
+| Rotas e APIs | apps/consumer-web/.next/static/chunks/app/api/sync/v1/devices/route-f66cade2e1fcd6eb.js | — |
+| Rotas e APIs | apps/consumer-web/.next/static/chunks/app/api/sync/v1/pull/route-f66cade2e1fcd6eb.js | — |
+| Rotas e APIs | apps/consumer-web/.next/static/chunks/app/api/sync/v1/push/route-f66cade2e1fcd6eb.js | — |
+| Rotas e APIs | apps/consumer-web/.next/static/chunks/app/api/sync/v1/reconcile/route-f66cade2e1fcd6eb.js | — |
+| Rotas e APIs | apps/consumer-web/.next/static/chunks/app/api/sync/v1/route-f66cade2e1fcd6eb.js | — |
 | Páginas | apps/consumer-web/.next/static/chunks/app/busca/page-30e39b2855048db3.js | n, r, u, x, f, j, v, g |
 | Páginas | apps/consumer-web/.next/static/chunks/app/layout-1ac3bcb446e11ebf.js | — |
 | Páginas | apps/consumer-web/.next/static/chunks/app/ler/[versao]/[livro]/[capitulo]/page-0f9afba605fcb358.js | l, a, n, i, p, b, j, c |
-| Páginas | apps/consumer-web/.next/static/chunks/app/manifest.webmanifest/route-63ecccc4aa45f7b6.js | — |
+| Páginas | apps/consumer-web/.next/static/chunks/app/manifest.webmanifest/route-f66cade2e1fcd6eb.js | — |
 | Páginas | apps/consumer-web/.next/static/chunks/app/page-cac31e8d6d98f503.js | l, r, n, i, x, b, y, k |
 | Outras fontes | apps/consumer-web/.next/static/chunks/framework-54629660111d8b71.js | l, a, s, e, k, w, S, which |
 | Outras fontes | apps/consumer-web/.next/static/chunks/main-8579e0d658f1357a.js | a, i, o, f, d, h, u, r |
@@ -88,17 +123,36 @@ Relação: relaciona cada arquivo observado à sua superfície.
 | Outras fontes | apps/consumer-web/.next/static/chunks/webpack-62d41f9d43ff54a5.js | r |
 | Outras fontes | apps/consumer-web/.next/static/css/cc62159cdd2a08a6.css | — |
 | Outras fontes | apps/consumer-web/.next/static/media/worker.424e21a9.js | e, l, N, R, D, j, M, z |
+| Rotas e APIs | apps/consumer-web/.next/types/app/api/auth/[...all]/route.ts | if, PageProps, LayoutProps, checkFields |
+| Rotas e APIs | apps/consumer-web/.next/types/app/api/sync/v1/account-delete/route.ts | if, PageProps, LayoutProps, checkFields |
+| Rotas e APIs | apps/consumer-web/.next/types/app/api/sync/v1/devices/approve/route.ts | if, PageProps, LayoutProps, checkFields |
+| Rotas e APIs | apps/consumer-web/.next/types/app/api/sync/v1/devices/revoke/route.ts | if, PageProps, LayoutProps, checkFields |
+| Rotas e APIs | apps/consumer-web/.next/types/app/api/sync/v1/devices/route.ts | if, PageProps, LayoutProps, checkFields |
+| Rotas e APIs | apps/consumer-web/.next/types/app/api/sync/v1/pull/route.ts | if, PageProps, LayoutProps, checkFields |
+| Rotas e APIs | apps/consumer-web/.next/types/app/api/sync/v1/push/route.ts | if, PageProps, LayoutProps, checkFields |
+| Rotas e APIs | apps/consumer-web/.next/types/app/api/sync/v1/reconcile/route.ts | if, PageProps, LayoutProps, checkFields |
+| Rotas e APIs | apps/consumer-web/.next/types/app/api/sync/v1/route.ts | if, PageProps, LayoutProps, checkFields |
 | Páginas | apps/consumer-web/.next/types/app/busca/page.ts | checkFields, if, PageProps, LayoutProps |
 | Páginas | apps/consumer-web/.next/types/app/ler/[versao]/[livro]/[capitulo]/page.ts | checkFields, if, PageProps, LayoutProps |
 | Páginas | apps/consumer-web/.next/types/app/page.ts | checkFields, if, PageProps, LayoutProps |
 | Outras fontes | apps/consumer-web/.next/types/cache-life.d.ts | unstable_cacheLife |
-| Outras fontes | apps/consumer-web/.next/types/routes.d.ts | ParamMap, LayoutSlotMap, Page, PageProps, Layout |
+| Outras fontes | apps/consumer-web/.next/types/routes.d.ts | ParamMap, LayoutSlotMap, Page, PageProps, Layout, GET, RouteContext |
 | Outras fontes | apps/consumer-web/.next/types/validator.ts | — |
 | Outras fontes | apps/consumer-web/next-env.d.ts | — |
 | Outras fontes | apps/consumer-web/playwright.config.ts | — |
 | Outras fontes | apps/consumer-web/public/engine-worker/worker.js | _EngineError, callee, callee2, sqlite3InitModule, locateFile, updateMemoryViews, initMemory, preRun |
 | Outras fontes | apps/consumer-web/public/sw.js | — |
 | Outras fontes | apps/consumer-web/public/workbox-5194662c.js | s, r, i, a, h, p, y, m |
+| Rotas e APIs | apps/consumer-web/src/app/api/auth/[...all]/route.ts | — |
+| Rotas e APIs | apps/consumer-web/src/app/api/sync/v1/__tests__/auth-boundary.test.ts | — |
+| Rotas e APIs | apps/consumer-web/src/app/api/sync/v1/account-delete/route.ts | POST |
+| Rotas e APIs | apps/consumer-web/src/app/api/sync/v1/devices/approve/route.ts | POST |
+| Rotas e APIs | apps/consumer-web/src/app/api/sync/v1/devices/revoke/route.ts | POST |
+| Rotas e APIs | apps/consumer-web/src/app/api/sync/v1/devices/route.ts | GET |
+| Rotas e APIs | apps/consumer-web/src/app/api/sync/v1/pull/route.ts | GET |
+| Rotas e APIs | apps/consumer-web/src/app/api/sync/v1/push/route.ts | POST |
+| Rotas e APIs | apps/consumer-web/src/app/api/sync/v1/reconcile/route.ts | POST |
+| Rotas e APIs | apps/consumer-web/src/app/api/sync/v1/route.ts | GET |
 | Páginas | apps/consumer-web/src/app/busca/page.tsx | SearchPage |
 | Páginas | apps/consumer-web/src/app/layout.tsx | RootLayout |
 | Páginas | apps/consumer-web/src/app/ler/[versao]/[livro]/[capitulo]/page.tsx | ReaderPage |
@@ -113,6 +167,7 @@ Relação: relaciona cada arquivo observado à sua superfície.
 | Componentes | apps/consumer-web/src/components/ui/input.tsx | Input |
 | Componentes | apps/consumer-web/src/components/ui/skeleton.tsx | Skeleton |
 | Outras fontes | apps/consumer-web/src/engine/bible-engine-provider.tsx | EngineState, DEFAULT_STATE, DEFAULT_BIBLE_API_URL, DEFAULT_BIBLE_PACKAGE_BASE_URL, EngineContext, BibleEngineProvider, useBibleEngine |
+| Outras fontes | apps/consumer-web/src/engine/bible-preferences.ts | BiblePreferenceSyncDependencies, BiblePreferenceApplyResult, applyBibleVersionPreference |
 | Outras fontes | apps/consumer-web/src/features/library/AppLibrary.tsx | AppLibrary, load, install, remove |
 | Outras fontes | apps/consumer-web/src/features/library/VersionCard.tsx | VersionCard |
 | Outras fontes | apps/consumer-web/src/features/reader/PrevNextNav.tsx | PrevNextNav |
@@ -121,8 +176,14 @@ Relação: relaciona cada arquivo observado à sua superfície.
 | Outras fontes | apps/consumer-web/src/features/search/SearchForm.tsx | SearchForm |
 | Outras fontes | apps/consumer-web/src/features/search/SearchResults.tsx | DisplaySearchResult, SearchResults |
 | Outras fontes | apps/consumer-web/src/features/search/search-installed.ts | searchInstalledVersions |
+| Outras fontes | apps/consumer-web/src/lib/auth.ts | requiredRuntimeEnv, getServerSession, ServerSyncCredentials, getServerSyncCredentials |
 | Outras fontes | apps/consumer-web/src/lib/cn.ts | cn |
+| Outras fontes | apps/consumer-web/src/lib/sync-api.ts | SyncApiDependencies, createSyncApiHandlers, sanitizeOperation, parseDeviceKeyEnvelope, readObject, errorResponse, statusFor, json |
+| Outras fontes | apps/consumer-web/src/lib/sync-keys.ts | CURVE, WRAPPING_ALGORITHM, DeviceIdentity, DeviceKeyManager, createDeviceKeyManager, importPublicKey, deriveWrappingKey, parseEnvelope |
+| Outras fontes | apps/consumer-web/src/lib/sync-server.ts | getSyncRemote, required |
 | Outras fontes | apps/consumer-web/src/styles/globals.css | — |
+| Testes | apps/consumer-web/tests/auth.test.ts | authRequest |
+| Testes | apps/consumer-web/tests/bible-preferences.test.ts | makeDependencies |
 | Testes | apps/consumer-web/tests/boundary.test.ts | — |
 | Testes | apps/consumer-web/tests/browser/consumer.spec.ts | — |
 | Testes | apps/consumer-web/tests/install-failure.spec.tsx | de |
@@ -134,6 +195,8 @@ Relação: relaciona cada arquivo observado à sua superfície.
 | Testes | apps/consumer-web/tests/reader.spec.tsx | — |
 | Testes | apps/consumer-web/tests/search.spec.tsx | — |
 | Testes | apps/consumer-web/tests/states.a11y.spec.tsx | — |
+| Testes | apps/consumer-web/tests/sync-api.test.ts | request, makeHandlers |
+| Testes | apps/consumer-web/tests/sync-keys.test.ts | — |
 | Outras fontes | apps/consumer-web/vitest.config.ts | — |
 | Outras fontes | apps/consumer-web/vitest.setup.ts | — |
 | Testes | apps/distribution-harness/tests/harness-browser.spec.ts | ROOT, WEB_DIR, WEB_PKG, exists |
@@ -196,56 +259,4 @@ Relação: relaciona cada arquivo observado à sua superfície.
 | Testes | packages/adapter-sqlite-web/tests/unit/helpers/fake-registry.ts | FakeRegistry |
 | Testes | packages/adapter-sqlite-web/tests/unit/helpers/fixture.ts | VerseRow, FixtureOptions, buildLegacyFixture, NON_SQLITE, INVALID_BYTES, GEN_VERSES, LEGACY_FIXTURE |
 | Testes | packages/adapter-sqlite-web/tests/unit/installer.test.ts | pool, input, cancelledToken |
-| Testes | packages/adapter-sqlite-web/tests/unit/public-api.test.ts | — |
-| Testes | packages/adapter-sqlite-web/tests/unit/reconciliation.test.ts | pool, installed |
-| Outras fontes | packages/adapter-sqlite-web/vitest.config.ts | — |
-| Testes | packages/engine/src/__tests__/engine.test.ts | — |
-| Outras fontes | packages/engine/src/__tests__/helpers.ts | MakeEngineOptions, FALLBACK_SOURCE, makeEngine |
-| Testes | packages/engine/src/__tests__/install.test.ts | — |
-| Testes | packages/engine/src/__tests__/search.test.ts | — |
-| Outras fontes | packages/engine/src/engine.ts | isEngineError, throwIfAborted, emit, wrapUnknown, BibleEngineDeps, BibleEngine, toBibleReference, createBibleEngine |
-| Outras fontes | packages/engine/src/index.ts | — |
-| Outras fontes | packages/engine/src/ports.ts | BibleLibrary, InstalledBibleRegistry, BiblePackageSource, Clock, InstallationObserver, InstallPackageInput, BibleInstaller |
-| Outras fontes | packages/engine/src/use-cases/index.ts | — |
-| Outras fontes | packages/engine/src/use-cases/install.ts | — |
-| Outras fontes | packages/engine/vitest.config.ts | — |
-| Testes | packages/engine-core/src/__tests__/contracts.test.ts | — |
-| Testes | packages/engine-core/src/__tests__/parser.test.ts | — |
-| Testes | packages/engine-core/src/__tests__/validation.test.ts | — |
-| Outras fontes | packages/engine-core/src/book-meta.ts | BOOKS, BOOK_BY_ID, BOOK_MAP, BOOK_BY_ABBR, getBookById, getBookByAbbreviation |
-| Outras fontes | packages/engine-core/src/errors.ts | EngineErrorOptions, EngineError, createEngineError, isEngineError, throwEngineError |
-| Outras fontes | packages/engine-core/src/index.ts | — |
-| Outras fontes | packages/engine-core/src/normalize.ts | KEBAB_REGEX, stripAccents, containsPathTraversal, normalizeKebabRaw, normalizeVersionId, normalizeBookId, normalizeId |
-| Outras fontes | packages/engine-core/src/parser.ts | ParsedReference, normalizeForParse, getBookKeys, buildExactMap, parseReference, parseReferenceToBibleReference |
-| Outras fontes | packages/engine-core/src/types.ts | BibleVersion, BibleBook, Verse, BibleReference, InstalledBible, SearchRequest, SearchResult, InstallationProgress |
-| Outras fontes | packages/engine-core/src/validation.ts | KEBAB_REGEX, containsTraversal, validateVersionId, validateBookId, isValidVersionId, isValidBookId, isKebabId, assertValidVersionId |
-| Outras fontes | packages/engine-core/vitest.config.ts | — |
-| Testes | packages/engine-testing/src/__tests__/contract-suite.test.ts | seededLibrary |
-| Testes | packages/engine-testing/src/__tests__/fakes.test.ts | — |
-| Outras fontes | packages/engine-testing/src/builders.ts | BibleVersionBuilder, BibleBookBuilder, VerseBuilder, aBibleVersion, aBibleBook, aVerse |
-| Outras fontes | packages/engine-testing/src/contract-suite.ts | assert, canonicalOrderMap, ORDER, isSortedByCanonical, isSortedVerses, isSearchSorted, ContractSuiteOptions, runContractSuite |
-| Outras fontes | packages/engine-testing/src/fakes.ts | FakeClock, FakeRegistry, ORDER_MAP, stripAccents, normalizeForSearch, FakeLibraryEntry, FakeLibrary, FakeInstallerOptions |
-| Outras fontes | packages/engine-testing/src/fixtures.ts | ARA_VERSION_ID, ARA_VERSION_NAME, buildDefaultBooks, buildDefaultVerses, BibleFixtureData, createAraFixture, createFixture, DEFAULT_ARA_FIXTURE |
-| Outras fontes | packages/engine-testing/src/index.ts | — |
-| Outras fontes | packages/engine-testing/vitest.config.ts | — |
-| Testes | packages/personal-study/src/__tests__/personal-study.test.ts | createStore |
-| Outras fontes | packages/personal-study/src/index.ts | — |
-| Outras fontes | packages/personal-study/src/personal-study.ts | createPersonalStudy, withAvailability, validateInput, runStorage |
-| Outras fontes | packages/personal-study/src/ports.ts | PersonalStudyStore, ReferenceAvailability, Clock, NoteIdFactory, StudyNoteInput, PersonalStudyOptions, PersonalStudy |
-| Outras fontes | packages/personal-study/vitest.config.ts | — |
-| Testes | packages/personal-study-core/src/__tests__/validation.test.ts | — |
-| Outras fontes | packages/personal-study-core/src/errors.ts | PersonalStudyError, isPersonalStudyError |
-| Outras fontes | packages/personal-study-core/src/index.ts | — |
-| Outras fontes | packages/personal-study-core/src/types.ts | StudyReference, StudyNote |
-| Outras fontes | packages/personal-study-core/src/validation.ts | BOOK_ID_PATTERN, MAX_MARKDOWN_LENGTH, validateStudyReference, validateNoteContent, isRecord, isPositiveInteger |
-| Outras fontes | packages/personal-study-core/vitest.config.ts | — |
-| Testes | tests/arch/api-regression.test.ts | ROOT, GUARD |
-| Testes | tests/arch/core-imports.test.ts | CORE_SRC, FORBIDDEN, walk |
-| Testes | tests/arch/engine-purity.test.ts | ENGINE_SRC, FORBIDDEN_ENGINE |
-| Testes | tests/arch/exports.test.ts | — |
-| Testes | tests/arch/personal-study-boundary.test.ts | ROOT |
-| Testes | tests/architecture/native-boundary.test.ts | — |
-| Testes | tests/native-sdk-capability.test.ts | — |
-| Testes | tests/native-sdk-spike.test.ts | NativeSdkHost, NativeSdkMatrix, readMatrix |
-| Outras fontes | vitest.config.ts | — |
 <!-- specsfy:documentator:end -->
