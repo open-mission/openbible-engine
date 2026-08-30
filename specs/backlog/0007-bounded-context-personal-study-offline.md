@@ -37,7 +37,7 @@ Bounded context separado do Scripture Library, com descoberta de domínio e dado
 
 - Inbox (origem): `specs/inbox/2026-08-26-193949-bounded-context-personal-study-offline.md` — captura de origem.
 - Spec relacionada (limite do Scripture Library): `specs/completed/0001-openbible-engine-scripture-library/spec.md` — Personal Study permanece separado e fora da primeira entrega.
-- Spec relacionada (limite do consumer Web): `specs/in-progress/0004-consumer-web-pwa-de-referencia-em-next-js/spec.md` — notas e destaques estão fora do consumer atual.
+- Spec relacionada (limite do consumer Web): `specs/completed/0004-consumer-web-pwa-de-referencia-em-next-js/spec.md` — notas e destaques estão fora do consumer atual.
 - Documentação relacionada: `PROJECT.md` — Personal Study é a próxima evolução como bounded context local separado.
 - Regra relacionada: `.specsfy/RULES.md` — Personal Study e Sync futuros não devem ser acoplados ao core de Scripture Library.
 

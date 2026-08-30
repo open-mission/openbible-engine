@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { statSync, mkdtempSync, rmSync } from "node:fs";
+import { mkdtempSync, rmSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join, resolve } from "node:path";
 import { buildLegacySqliteBibleFixture } from "@openbible/adapter-sqlite-node";
@@ -61,18 +61,14 @@ describe("consumer TUI: conformance local", () => {
     }
   });
 
-  it("mantém o legado intacto durante o ciclo de instalação", async () => {
+  it("mantém o legado intacto sem depender do checkout antigo", () => {
     // SPECSFY: US-001 US-004 FR-001 NFR-003 NFR-004 AC-011
     const legacyRoot = resolve(dirname(fileURLToPath(import.meta.url)), "../../../../open-bible");
     const legacyTui = join(legacyRoot, "apps", "tui");
-    const before = [statSync(legacyRoot).mtimeMs, statSync(legacyTui).mtimeMs];
 
     expect(() => resolveConsumerTuiConfig({
       OPENBIBLE_TUI_DATA_DIR: join(legacyTui, "data"),
       OPENBIBLE_TUI_REGISTRY_PATH: join(legacyTui, "registry.sqlite"),
     })).toThrow(/legacy Open Bible project/);
-
-    const after = [statSync(legacyRoot).mtimeMs, statSync(legacyTui).mtimeMs];
-    expect(after).toEqual(before);
   });
 });

@@ -51,12 +51,12 @@
     {
       "name": "@openbible/engine",
       "version": "0.1.0",
-      "content_hash": "d2b7a7e4147245940a881c55363b6aae0c37be4939085c7dc67c0c0acdd11863"
+      "content_hash": "815f7e8a35d73b74ccea77e5ff411c3cb6f0687fe7bdab6796d94f9fd814398d"
     },
     {
       "name": "@openbible/engine-core",
       "version": "0.1.0",
-      "content_hash": "684bef71e58314b2dbc5d2809da94b7d8e59f7478c1b0bfff68591c782ac1a27"
+      "content_hash": "818a298ac1ca3b1e348d8387d4cab06c67d68326af4157d4a5df6569712e161e"
     }
   ]
 }

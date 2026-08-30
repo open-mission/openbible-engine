@@ -11,7 +11,7 @@
 | Turno da conversa | Não se aplica. |
 | Integridade do original | SHA-256 `3224d9db3dba553c88c27d0c7e4a0fc46e60d3cc744252d62d3def5ab0346558` |
 | Backlog derivado | `specs/backlog/0004-consumer-web-pwa-de-referencia-em-next-js.md` |
-| Spec derivada | `specs/in-progress/0004-consumer-web-pwa-de-referencia-em-next-js/spec.md` |
+| Spec derivada | `specs/completed/0004-consumer-web-pwa-de-referencia-em-next-js/spec.md` |
 
 ## Texto original
 

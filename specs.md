@@ -8,11 +8,11 @@
 | 01 | 0001-openbible-engine-scripture-library | Complete | M01 |
 | 02 | 0002-adapter-web-sqlite-offline-com-opfs | Complete | M01 |
 | 03 | 0003-distribuicao-versionada-e-estabilidade-da-api-publica | Complete | — |
-| 04 | 0005-adapter-native-sdk-e-consumer-desktop-minimo | Complete | — |
-| 05 | 0006-migracao-da-tui-para-consumir-openbible-engine | Complete | — |
-| 06 | 0007-bounded-context-personal-study-offline | Complete | — |
-| 07 | 0008-sincronizacao-multidispositivo-offline-first-com-turso | Complete | — |
-| 08 | 0004-consumer-web-pwa-de-referencia-em-next-js | Implementing | — |
+| 04 | 0004-consumer-web-pwa-de-referencia-em-next-js | Complete | — |
+| 05 | 0005-adapter-native-sdk-e-consumer-desktop-minimo | Complete | — |
+| 06 | 0006-migracao-da-tui-para-consumir-openbible-engine | Complete | — |
+| 07 | 0007-bounded-context-personal-study-offline | Complete | — |
+| 08 | 0008-sincronizacao-multidispositivo-offline-first-com-turso | Complete | — |
 
 ## Marcos
 

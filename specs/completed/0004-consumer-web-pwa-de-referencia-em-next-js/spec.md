@@ -5,7 +5,7 @@
 | Formato | Specsfy/2.0 |
 | ID | SPEC-0004 |
 | Slug | 0004-consumer-web-pwa-de-referencia-em-next-js |
-| Status | Implementing |
+| Status | Complete |
 | Effort | 6 |
 | Effort updated at | 2026-08-27 |
 | Effort rationale | Primeira UI do monorepo (Next.js App Router + React + Tailwind + shadcn/ui + ReUI + PWA), com Biblioteca/Leitor/Busca offline-first; perfil standard-alto. |
@@ -13,10 +13,10 @@
 | Milestones | M02 (proposto; ainda sem arquivo de milestone) |
 | Definition Gate | Passed |
 | Plan Gate | Passed |
-| Delivery Gate | In Progress |
+| Delivery Gate | Passed |
 | Evidence Contract | 1 |
 | Interface para pessoas | Sim |
-| Atualizada em | 2026-08-27 |
+| Atualizada em | 2026-08-30 |
 
 ## Ato I — Definir
 
@@ -461,10 +461,10 @@ apps/consumer-web/
 
 | IDs | BDD de referência | Teste TDD informado pelo BDD | RED observado | GREEN observado | Refactor/regressão |
 | --- | --- | --- | --- | --- | --- |
-| US-001, US-004, FR-001, FR-004, NFR-001, NFR-004, AC-001 | AC-001 (seção 6) | `apps/consumer-web/tests/library.spec.tsx` (marcador `SPECSFY: US-001 US-004 FR-001 FR-004 NFR-001 NFR-004 AC-001`) | Materializado após scaffold; histórico RED não foi capturado nesta retomada | Vitest 9/9; Chromium instalar/remover e persistência local aprovados | Suite consumer e conformance Chromium |
-| US-002, FR-002, FR-004, NFR-001, NFR-002, NFR-005, AC-002 | AC-002 (seção 6) | `apps/consumer-web/tests/reader.spec.tsx` (marcador `SPECSFY: US-002 FR-002 FR-004 NFR-001 NFR-002 NFR-005 AC-002`) | Materializado após scaffold; histórico RED não foi capturado nesta retomada | Vitest 9/9; Chromium abriu Gênesis 1 e exibiu versículos ordenados | Suite consumer e conformance Chromium |
-| US-003, FR-003, NFR-002, NFR-005, AC-003 | AC-003 (seção 6) | `apps/consumer-web/tests/search.spec.tsx` (marcador `SPECSFY: US-003 FR-003 NFR-002 NFR-005 AC-003`) | Materializado após scaffold; histórico RED não foi capturado nesta retomada | Vitest 9/9; Chromium buscou e marcou ARA | Suite consumer e conformance Chromium |
-| US-004, FR-004, NFR-001, NFR-004, AC-004 | AC-004 (seção 6) | `apps/consumer-web/tests/pwa.spec.ts` (marcador `SPECSFY: US-004 FR-004 NFR-001 NFR-004 AC-004`) | Materializado após scaffold; histórico RED não foi capturado nesta retomada | Manifest, service worker, Worker/WASM e fixture entram no precache; Chromium aprovado | `pnpm run build` + conformance Chromium |
+| US-001, US-004, FR-001, FR-004, NFR-001, NFR-004, AC-001 | AC-001 (seção 6) | `apps/consumer-web/tests/library.spec.tsx` (marcador `SPECSFY: US-001 US-004 FR-001 FR-004 NFR-001 NFR-004 AC-001`) | Materializado após scaffold; histórico RED não foi capturado nesta retomada | Vitest 21/21; Chromium e WebKit instalar/remover e persistência local aprovados | Suite consumer e conformance Chromium/WebKit |
+| US-002, FR-002, FR-004, NFR-001, NFR-002, NFR-005, AC-002 | AC-002 (seção 6) | `apps/consumer-web/tests/reader.spec.tsx` (marcador `SPECSFY: US-002 FR-002 FR-004 NFR-001 NFR-002 NFR-005 AC-002`) | Materializado após scaffold; histórico RED não foi capturado nesta retomada | Vitest 21/21; Chromium e WebKit abriram Gênesis 1 e exibiram versículos ordenados | Suite consumer e conformance Chromium/WebKit |
+| US-003, FR-003, NFR-002, NFR-005, AC-003 | AC-003 (seção 6) | `apps/consumer-web/tests/search.spec.tsx` (marcador `SPECSFY: US-003 FR-003 NFR-002 NFR-005 AC-003`) | Materializado após scaffold; histórico RED não foi capturado nesta retomada | Vitest 21/21; Chromium e WebKit buscaram e marcaram ARA | Suite consumer e conformance Chromium/WebKit |
+| US-004, FR-004, NFR-001, NFR-004, AC-004 | AC-004 (seção 6) | `apps/consumer-web/tests/pwa.spec.ts` (marcador `SPECSFY: US-004 FR-004 NFR-001 NFR-004 AC-004`) | Materializado após scaffold; histórico RED não foi capturado nesta retomada | Manifest, service worker, Worker/WASM e fixture entram no precache; Chromium e WebKit aprovados | `pnpm run build` + conformance Chromium/WebKit |
 | US-001, US-002, US-003, FR-003, NFR-002, AC-005 | AC-005 (seção 6) | `apps/consumer-web/tests/boundary.test.ts` (marcador `SPECSFY: US-001 US-002 US-003 FR-003 NFR-002 AC-005`) | Materializado após scaffold; histórico RED não foi capturado nesta retomada | Vitest 9/9; imports apenas por exports públicos | `pnpm run test:tdd` |
 | US-001, US-003, FR-001, FR-003, NFR-003, NFR-005, AC-006 | AC-006 (seção 6) | `apps/consumer-web/tests/states.a11y.spec.tsx` (marcador `SPECSFY: US-001 US-003 FR-001 FR-003 NFR-003 NFR-005 AC-006`) | Materializado após scaffold; histórico RED não foi capturado nesta retomada | Vitest 9/9; label, foco e alert verificados | `pnpm run test:tdd` |
 | US-001, FR-001, NFR-001, NFR-003, AC-007 | AC-007 (seção 6) | `apps/consumer-web/tests/install-failure.spec.tsx` (marcador `SPECSFY: US-001 FR-001 NFR-001 NFR-003 AC-007`) | Materializado após scaffold; histórico RED não foi capturado nesta retomada | Vitest 9/9; erro e retry preservados | `pnpm run test:tdd` |
@@ -477,14 +477,14 @@ apps/consumer-web/
 
 | Requisito | Cenário BDD | Nível | Arquivo/comando esperado | Evidência |
 | --- | --- | --- | --- | --- |
-| FR-001 | AC-001, AC-006, AC-007, AC-009 | Unidade + browser | `apps/consumer-web/tests/library*.spec.tsx` + `test:tdd` + Playwright | Passed em Vitest/Chromium |
-| FR-002 | AC-002, AC-008, AC-009 | Unidade + browser | `apps/consumer-web/tests/reader.spec.tsx` | Passed em Vitest/Chromium |
-| FR-003 | AC-003, AC-005, AC-006 | Unidade + browser | `apps/consumer-web/tests/search.spec.tsx` | Passed em Vitest/Chromium |
-| FR-004 | AC-001, AC-002, AC-004, AC-008 | Browser + PWA | `apps/consumer-web/tests/pwa.spec.ts` + Playwright offline | Passed em Chromium; WebKit bloqueado por dependências do host |
-| NFR-001 | AC-001, AC-002, AC-004, AC-007, AC-008 | Browser | Playwright offline (rede removida) | App shell, Worker/WASM e OPFS preparados; Chromium smoke aprovado |
+| FR-001 | AC-001, AC-006, AC-007, AC-009 | Unidade + browser | `apps/consumer-web/tests/library*.spec.tsx` + `test:tdd` + Playwright | Passed em Vitest/Chromium/WebKit |
+| FR-002 | AC-002, AC-008, AC-009 | Unidade + browser | `apps/consumer-web/tests/reader.spec.tsx` | Passed em Vitest/Chromium/WebKit |
+| FR-003 | AC-003, AC-005, AC-006 | Unidade + browser | `apps/consumer-web/tests/search.spec.tsx` | Passed em Vitest/Chromium/WebKit |
+| FR-004 | AC-001, AC-002, AC-004, AC-008 | Browser + PWA | `apps/consumer-web/tests/pwa.spec.ts` + Playwright offline | Passed em Chromium/WebKit |
+| NFR-001 | AC-001, AC-002, AC-004, AC-007, AC-008 | Browser | Playwright offline (rede removida) | App shell, Worker/WASM e OPFS preparados; Chromium/WebKit aprovados |
 | NFR-002 | AC-002, AC-003, AC-005 | Unidade | `apps/consumer-web/tests/boundary.test.ts` | Passed, 22/22 IDs |
 | NFR-003 | AC-006, AC-007, AC-008 | Unidade + a11y | `apps/consumer-web/tests/states.a11y.spec.tsx` | Passed em Vitest |
-| NFR-004 | AC-001, AC-004, AC-009 | Browser | Playwright Chromium/WebKit | Chromium Passed; WebKit não executável no host |
+| NFR-004 | AC-001, AC-004, AC-009 | Browser | Playwright Chromium/WebKit | Chromium e WebKit Passed |
 | NFR-005 | AC-002, AC-003, AC-006 | Unidade | `apps/consumer-web/tests/search.spec.tsx` + limite | Passed em Vitest |
 
 ### 13. Validações
@@ -492,20 +492,21 @@ apps/consumer-web/
 #### Gate do Ato I — Definição
 
 ^- **Resultado**: Passed
-- **Comando**: `node .agents/skills/specsfy-04-validate/scripts/validate_spec.mjs specs/in-progress/0004-consumer-web-pwa-de-referencia-em-next-js/spec.md`
+- **Comando**: `node .agents/skills/specsfy-04-validate/scripts/validate_spec.mjs specs/completed/0004-consumer-web-pwa-de-referencia-em-next-js/spec.md`
 - **Achados**: Revisão semântica concluída. Sem BLOCKER; cobertura mínima US/FR/NFR ↔ 3 ACs satisfeita (9 cenários AC); Interface para pessoas: Sim com as 9 partes da seção 10 (stack Next/React/Tailwind/shadcn/ReUI, telas, fluxo, menus, formulário, composição, blocos React, estados/acessibilidade).
 
 #### Gate do Ato II — Plano
 
 ^- **Resultado**: Passed
-- **Comando**: `node .agents/skills/specsfy-05-tasks/scripts/validate_tasks.mjs specs/in-progress/0004-consumer-web-pwa-de-referencia-em-next-js/spec.md`; `node .agents/skills/specsfy-05-tasks/scripts/validate_interface_tasks.mjs specs/in-progress/0004-consumer-web-pwa-de-referencia-em-next-js/spec.md`
+- **Comando**: `node .agents/skills/specsfy-05-tasks/scripts/validate_tasks.mjs specs/completed/0004-consumer-web-pwa-de-referencia-em-next-js/spec.md`; `node .agents/skills/specsfy-05-tasks/scripts/validate_interface_tasks.mjs specs/completed/0004-consumer-web-pwa-de-referencia-em-next-js/spec.md`
 - **Achados**: Plano atualizado com 24 tarefas, 14 predecessores TDD, interface validada e cobertura 22/22 IDs. REDs T018–T020 observados antes da implementação; sem dependências cíclicas.
 
 #### Gate do Ato III — Entrega
 
-^- **Resultado**: In Progress
-- **Comando**: `pnpm turbo run build test typecheck lint check --force`; `node .agents/skills/specsfy-06-tdd-bdd/scripts/check_traceability.mjs specs/in-progress/0004-consumer-web-pwa-de-referencia-em-next-js/spec.md apps/consumer-web`; `node .agents/skills/specsfy-07-implement/scripts/verify_evidence.mjs specs/in-progress/0004-consumer-web-pwa-de-referencia-em-next-js/spec.md . --all`; `node .agents/skills/specsfy-06-tdd-bdd/scripts/verify_acceptance.mjs specs/in-progress/0004-consumer-web-pwa-de-referencia-em-next-js/spec.md apps/consumer-web`
-- **Achados**: Pipeline completo passou (`41/41`), testes consumer `10/10`, adapter HTTP `9/9`, Chromium remoto `2/2`, rastreabilidade `22/22`, evidência strict e QA passaram. A API usada é `https://openbible-prod.vercel.app`; o fallback direto é o bucket R2 `/bibles`. WebKit não executou por dependências nativas ausentes (`libicu74`, `libxml2`, `libflite1`); por isso o Delivery Gate permanece In Progress.
+^- **Resultado**: Passed
+- **Data**: 2026-08-30
+- **Comando**: `pnpm turbo run build test typecheck lint check --force --filter=@openbible/consumer-web...`; `CI=1 pnpm --filter @openbible/consumer-web exec playwright test`; `node .agents/skills/specsfy-06-tdd-bdd/scripts/check_traceability.mjs specs/completed/0004-consumer-web-pwa-de-referencia-em-next-js/spec.md apps/consumer-web`; `node .agents/skills/specsfy-07-implement/scripts/verify_evidence.mjs specs/completed/0004-consumer-web-pwa-de-referencia-em-next-js/spec.md . --all`; `node .agents/skills/specsfy-06-tdd-bdd/scripts/verify_acceptance.mjs specs/completed/0004-consumer-web-pwa-de-referencia-em-next-js/spec.md apps/consumer-web`
+- **Achados**: O pipeline focado do consumer Web e dependências passou (`45/45` tarefas), o check do consumer passou (typecheck, lint, Vitest `21/21` e build), a conformance Playwright passou em Chromium/WebKit (`4/4`), os IDs requeridos têm rastreabilidade `22/22`, a evidência strict e QA passaram. O scanner também lista marcadores órfãos de Auth/Sync pertencentes às SPECs posteriores no mesmo app; eles não são IDs requeridos desta spec. O fixture `tests/browser/fixtures.ts` usa contexto persistente isolado por teste, necessário para o OPFS no WebKit Playwright. A API usada é `https://openbible-prod.vercel.app`; o fallback direto é o bucket R2 `/bibles`. O pipeline amplo do monorepo permanece dependente de Node 26 para `apps/consumer-tui`, fora do escopo desta spec.
 
 ### 14. Tarefas
 
@@ -699,9 +700,10 @@ Cada tarefa possui exatamente este checklist, atualizado durante a execução:
 - [x] T024 [TEST] [US-001] Reexecutar regressão, download por URL, rastreabilidade e checks em apps/consumer-web/tests/, packages/adapter-http/src/__tests__/ e no monorepo — Refs: US-001, US-002, US-003, US-004, FR-001, FR-002, FR-003, FR-004, NFR-001, NFR-002, NFR-003, NFR-004, NFR-005, AC-001, AC-002, AC-003, AC-004, AC-005, AC-006, AC-007, AC-008, AC-009 — Depends: T022, T023
   - [x] **PREP**: Suite do adapter, consumer, origem R2 e conformance identificadas.
   - [x] **EXECUTE**: Download remoto via `openbible-prod.vercel.app`, fallback R2 direto e regressão preparados para execução.
-  - [x] **VERIFY**: Testes unitários, Chromium e checks completos passaram; WebKit foi reportado como indisponível por dependências do host.
-  - [x] **EVIDENCE**: URLs, arquivos e IDs registrados na seção 13; `check_traceability` scoped consumer `22/22`, `verify_evidence --all` strict e `verify_acceptance` passaram.
-  - [x] **IMPROVE**: Fallback API → R2 direto foi coberto para evitar indisponibilidade de uma única origem.
+  - [x] **VERIFY**: Check do consumer, pipeline focado de dependências e conformance Chromium/WebKit passaram; a matriz browser terminou `4/4`.
+  - [x] **EVIDENCE**: URLs, fixture persistente, arquivos e IDs registrados na seção 13; os IDs requeridos têm cobertura `22/22`, `verify_evidence --all` strict e `verify_acceptance` passaram. O scanner lista somente marcadores de Auth/Sync de specs posteriores como órfãos neste escopo compartilhado.
+  - [x] **IMPROVE**: Fixture persistente isolado por teste torna o requisito OPFS do WebKit explícito sem alterar o runtime de produção; fallback API → R2 direto continua coberto.
+  <!-- specsfy:evidence {"task":"T024","refs":["US-001","US-002","US-003","US-004","FR-001","FR-002","FR-003","FR-004","NFR-001","NFR-002","NFR-003","NFR-004","NFR-005","AC-001","AC-002","AC-003","AC-004","AC-005","AC-006","AC-007","AC-008","AC-009"],"files":["apps/consumer-web/tests/browser/consumer.spec.ts","apps/consumer-web/tests/browser/fixtures.ts","apps/consumer-web/playwright.config.ts"],"commands":[{"run":"pnpm --filter @openbible/consumer-web run check","exit":0},{"run":"pnpm turbo run build test typecheck lint check --force --filter=@openbible/consumer-web...","exit":0},{"run":"CI=1 pnpm --filter @openbible/consumer-web exec playwright test","exit":0}]} -->
 
 ### 15. Ordem de execução
 
@@ -748,8 +750,8 @@ Cada tarefa possui exatamente este checklist, atualizado durante a execução:
 
   - [x] `Definition Gate` está `Passed`.
   - [x] `Plan Gate` está `Passed`.
-- [ ] `Delivery Gate` está `Passed`.
-- [ ] Todos os cenários `AC` aplicáveis passam.
-- [ ] Todos os requisitos possuem evidência de verificação.
+  - [x] `Delivery Gate` está `Passed`.
+  - [x] Todos os cenários `AC` aplicáveis passam.
+  - [x] Todos os requisitos possuem evidência de verificação.
   - [x] Todas as tarefas na seção 14 estão concluídas.
   - [x] Testes e checks estáticos disponíveis passam.

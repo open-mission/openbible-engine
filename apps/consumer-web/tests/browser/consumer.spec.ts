@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, test } from "./fixtures";
 
 test("baixa ARA da origem remota, lê e busca offline", async ({ page }) => {
   await page.goto("/");
@@ -13,6 +13,18 @@ test("baixa ARA da origem remota, lê e busca offline", async ({ page }) => {
   await expect(page.getByRole("heading", { name: "Gênesis 1", exact: true })).toBeVisible({ timeout: 30_000 });
   await expect(page.locator("p").filter({ hasText: "No princípio, criou Deus os céus e a terra." }).first()).toBeVisible();
   await page.getByRole("link", { name: "Buscar versículos" }).click();
+  await expect(page.getByRole("heading", { name: "Buscar na Bíblia", exact: true })).toBeVisible({ timeout: 30_000 });
+  await page.reload();
+  await page.evaluate(async () => {
+    if ("serviceWorker" in navigator) await navigator.serviceWorker.ready;
+  });
+  await page.waitForFunction(() => Boolean(navigator.serviceWorker?.controller), undefined, { timeout: 30_000 });
+  if (test.info().project.name === "webkit") {
+    await page.route("**/*", (route) => route.abort());
+  } else {
+    await page.context().setOffline(true);
+    await page.reload();
+  }
   await page.getByLabel("Buscar versículos").fill("princípio");
   await page.getByRole("button", { name: "Buscar" }).click();
   await expect(page.getByText("ARA", { exact: true }).first()).toBeVisible({ timeout: 30_000 });

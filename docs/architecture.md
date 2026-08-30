@@ -5,8 +5,8 @@
 
 | Tipo | Quantidade |
 | --- | --- |
-| Código | 335 |
-| Testes | 90 |
+| Código | 336 |
+| Testes | 91 |
 
 ## Diagramas
 

@@ -43,7 +43,7 @@ Relação: relaciona cada arquivo observado à sua superfície.
 | Testes | apps/consumer-tui/tests/ui-navigation.test.ts | — |
 | Páginas | apps/consumer-web/.next/server/app/_not-found/page.js | M |
 | Páginas | apps/consumer-web/.next/server/app/_not-found/page_client-reference-manifest.js | — |
-| Rotas e APIs | apps/consumer-web/.next/server/app/api/auth/[...all]/route.js | d, w, x, h, i, j |
+| Rotas e APIs | apps/consumer-web/.next/server/app/api/auth/[...all]/route.js | w, x, d, h, i, j |
 | Rotas e APIs | apps/consumer-web/.next/server/app/api/auth/[...all]/route_client-reference-manifest.js | — |
 | Rotas e APIs | apps/consumer-web/.next/server/app/api/sync/v1/account-delete/route.js | w, x |
 | Rotas e APIs | apps/consumer-web/.next/server/app/api/sync/v1/account-delete/route_client-reference-manifest.js | — |
@@ -61,23 +61,23 @@ Relação: relaciona cada arquivo observado à sua superfície.
 | Rotas e APIs | apps/consumer-web/.next/server/app/api/sync/v1/reconcile/route_client-reference-manifest.js | — |
 | Rotas e APIs | apps/consumer-web/.next/server/app/api/sync/v1/route.js | v, A, B, g |
 | Rotas e APIs | apps/consumer-web/.next/server/app/api/sync/v1/route_client-reference-manifest.js | — |
-| Páginas | apps/consumer-web/.next/server/app/busca/page.js | f, g, h, from, M, e, l, m |
+| Páginas | apps/consumer-web/.next/server/app/busca/page.js | M, f, g, h, from, e, l, m |
 | Páginas | apps/consumer-web/.next/server/app/busca/page_client-reference-manifest.js | — |
 | Páginas | apps/consumer-web/.next/server/app/ler/[versao]/[livro]/[capitulo]/page.js | f, from, g, h, p, q, r, e |
 | Páginas | apps/consumer-web/.next/server/app/ler/[versao]/[livro]/[capitulo]/page_client-reference-manifest.js | — |
 | Rotas e APIs | apps/consumer-web/.next/server/app/manifest.webmanifest/route.js | m, n, o, k, l, e, f, g |
 | Páginas | apps/consumer-web/.next/server/app/manifest.webmanifest/route_client-reference-manifest.js | — |
-| Páginas | apps/consumer-web/.next/server/app/page.js | f, g, h, n, p, w, x, y |
+| Páginas | apps/consumer-web/.next/server/app/page.js | M, f, g, h, n, p, w, x |
 | Páginas | apps/consumer-web/.next/server/app/page_client-reference-manifest.js | — |
 | Outras fontes | apps/consumer-web/.next/server/chunks/141.js | n, o, u, g, c, e, f, d |
 | Outras fontes | apps/consumer-web/.next/server/chunks/191.js | f, g, h, j |
+| Outras fontes | apps/consumer-web/.next/server/chunks/204.js | h, k, from, i, j |
 | Outras fontes | apps/consumer-web/.next/server/chunks/275.js | f, d, e, h, i, j, k, g |
 | Outras fontes | apps/consumer-web/.next/server/chunks/310.js | f, d, extends, a, c, e, i, j |
 | Outras fontes | apps/consumer-web/.next/server/chunks/42.js | l, n |
 | Outras fontes | apps/consumer-web/.next/server/chunks/483.js | d, e, j, k, f, c, a, g |
 | Outras fontes | apps/consumer-web/.next/server/chunks/503.js | e, f, g, c, i, o, p, q |
 | Outras fontes | apps/consumer-web/.next/server/chunks/714.js | g, h, extends |
-| Outras fontes | apps/consumer-web/.next/server/chunks/842.js | h, k, from, i, j |
 | Outras fontes | apps/consumer-web/.next/server/chunks/860.js | — |
 | Outras fontes | apps/consumer-web/.next/server/chunks/866.js | extends |
 | Outras fontes | apps/consumer-web/.next/server/chunks/966.js | extends |
@@ -92,14 +92,14 @@ Relação: relaciona cada arquivo observado à sua superfície.
 | Páginas | apps/consumer-web/.next/server/pages/_error.js | e, c, d, f, g, i, j, z |
 | Outras fontes | apps/consumer-web/.next/server/server-reference-manifest.js | — |
 | Outras fontes | apps/consumer-web/.next/server/webpack-runtime.js | c |
-| Outras fontes | apps/consumer-web/.next/static/0L-R_M0KXpt5rjk0NNIp5/_buildManifest.js | — |
-| Outras fontes | apps/consumer-web/.next/static/0L-R_M0KXpt5rjk0NNIp5/_ssgManifest.js | — |
+| Outras fontes | apps/consumer-web/.next/static/VjmG9r7-fffD0svwuZOCy/_buildManifest.js | — |
+| Outras fontes | apps/consumer-web/.next/static/VjmG9r7-fffD0svwuZOCy/_ssgManifest.js | — |
 | Outras fontes | apps/consumer-web/.next/static/chunks/153-f2888457eb977c01.js | r, n, o, u, y, g, i, a |
 | Outras fontes | apps/consumer-web/.next/static/chunks/414d96a7-bb8b2e9dd6508ed4.js | i, s, c, f, d, p, _, U |
 | Outras fontes | apps/consumer-web/.next/static/chunks/625-eb7059476a4ae723.js | i, s, l, c, d, h, m, p |
 | Outras fontes | apps/consumer-web/.next/static/chunks/694-63a1e196dd5a22eb.js | p, b |
 | Outras fontes | apps/consumer-web/.next/static/chunks/831-09f18f876cbc58b1.js | r, n, o, e, m, E, d, p |
-| Páginas | apps/consumer-web/.next/static/chunks/app/_not-found/page-fd946ac87c19ceca.js | o |
+| Páginas | apps/consumer-web/.next/static/chunks/app/_not-found/page-371ea458c2a63220.js | o |
 | Rotas e APIs | apps/consumer-web/.next/static/chunks/app/api/auth/[...all]/route-f66cade2e1fcd6eb.js | — |
 | Rotas e APIs | apps/consumer-web/.next/static/chunks/app/api/sync/v1/account-delete/route-f66cade2e1fcd6eb.js | — |
 | Rotas e APIs | apps/consumer-web/.next/static/chunks/app/api/sync/v1/devices/approve/route-f66cade2e1fcd6eb.js | — |
@@ -109,14 +109,14 @@ Relação: relaciona cada arquivo observado à sua superfície.
 | Rotas e APIs | apps/consumer-web/.next/static/chunks/app/api/sync/v1/push/route-f66cade2e1fcd6eb.js | — |
 | Rotas e APIs | apps/consumer-web/.next/static/chunks/app/api/sync/v1/reconcile/route-f66cade2e1fcd6eb.js | — |
 | Rotas e APIs | apps/consumer-web/.next/static/chunks/app/api/sync/v1/route-f66cade2e1fcd6eb.js | — |
-| Páginas | apps/consumer-web/.next/static/chunks/app/busca/page-30e39b2855048db3.js | n, r, u, x, f, j, v, g |
-| Páginas | apps/consumer-web/.next/static/chunks/app/layout-1ac3bcb446e11ebf.js | — |
-| Páginas | apps/consumer-web/.next/static/chunks/app/ler/[versao]/[livro]/[capitulo]/page-0f9afba605fcb358.js | l, a, n, i, p, b, j, c |
+| Páginas | apps/consumer-web/.next/static/chunks/app/busca/page-5138426d6bba6b52.js | n, r, u, x, f, j, v, g |
+| Páginas | apps/consumer-web/.next/static/chunks/app/layout-505c80a649b00947.js | — |
+| Páginas | apps/consumer-web/.next/static/chunks/app/ler/[versao]/[livro]/[capitulo]/page-19c57efc64c7d9bb.js | l, a, n, i, p, b, j, c |
 | Páginas | apps/consumer-web/.next/static/chunks/app/manifest.webmanifest/route-f66cade2e1fcd6eb.js | — |
-| Páginas | apps/consumer-web/.next/static/chunks/app/page-cac31e8d6d98f503.js | l, r, n, i, x, b, y, k |
+| Páginas | apps/consumer-web/.next/static/chunks/app/page-2d3ed119ec659710.js | l, r, n, i, x, b, y, k |
 | Outras fontes | apps/consumer-web/.next/static/chunks/framework-54629660111d8b71.js | l, a, s, e, k, w, S, which |
 | Outras fontes | apps/consumer-web/.next/static/chunks/main-8579e0d658f1357a.js | a, i, o, f, d, h, u, r |
-| Outras fontes | apps/consumer-web/.next/static/chunks/main-app-1eecdffacc3abc22.js | — |
+| Outras fontes | apps/consumer-web/.next/static/chunks/main-app-19534ef1496d5b1a.js | — |
 | Páginas | apps/consumer-web/.next/static/chunks/pages/_app-737414d29f0a81d7.js | — |
 | Páginas | apps/consumer-web/.next/static/chunks/pages/_error-da60616077c89450.js | — |
 | Outras fontes | apps/consumer-web/.next/static/chunks/polyfills-42372ed130431b0a.js | e, t, Jm, Qm, Zm, tb, eb, rb |
@@ -186,6 +186,7 @@ Relação: relaciona cada arquivo observado à sua superfície.
 | Testes | apps/consumer-web/tests/bible-preferences.test.ts | makeDependencies |
 | Testes | apps/consumer-web/tests/boundary.test.ts | — |
 | Testes | apps/consumer-web/tests/browser/consumer.spec.ts | — |
+| Testes | apps/consumer-web/tests/browser/fixtures.ts | — |
 | Testes | apps/consumer-web/tests/install-failure.spec.tsx | de |
 | Testes | apps/consumer-web/tests/library-source.spec.tsx | — |
 | Testes | apps/consumer-web/tests/library-states.spec.tsx | — |
@@ -258,5 +259,4 @@ Relação: relaciona cada arquivo observado à sua superfície.
 | Testes | packages/adapter-sqlite-web/tests/unit/helpers/fake-pool.ts | Handle, FakePool |
 | Testes | packages/adapter-sqlite-web/tests/unit/helpers/fake-registry.ts | FakeRegistry |
 | Testes | packages/adapter-sqlite-web/tests/unit/helpers/fixture.ts | VerseRow, FixtureOptions, buildLegacyFixture, NON_SQLITE, INVALID_BYTES, GEN_VERSES, LEGACY_FIXTURE |
-| Testes | packages/adapter-sqlite-web/tests/unit/installer.test.ts | pool, input, cancelledToken |
 <!-- specsfy:documentator:end -->

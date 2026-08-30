@@ -3,7 +3,7 @@
 <!-- specsfy:documentator:start -->
 ## Resumo
 
-- Arquivos de teste: 90.
+- Arquivos de teste: 91.
 - Runner: Vitest.
 - Scripts: build: turbo run build; build:web: turbo run build --filter=@openbible/consumer-web...; build:native: turbo run build --filter=@openbible/adapter-sqlite-native... && native build apps/consumer-native; test: turbo run test; test:tdd: vitest run tests; test:coverage: turbo run test:coverage; typecheck: turbo run typecheck; lint: turbo run lint; check: turbo run check; prepare: husky install.
 
@@ -29,6 +29,7 @@
 | apps/consumer-web/tests/bible-preferences.test.ts |
 | apps/consumer-web/tests/boundary.test.ts |
 | apps/consumer-web/tests/browser/consumer.spec.ts |
+| apps/consumer-web/tests/browser/fixtures.ts |
 | apps/consumer-web/tests/install-failure.spec.tsx |
 | apps/consumer-web/tests/library-source.spec.tsx |
 | apps/consumer-web/tests/library-states.spec.tsx |
