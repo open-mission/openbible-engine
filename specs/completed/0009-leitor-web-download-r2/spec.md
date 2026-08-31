@@ -6,9 +6,9 @@
 | ID | SPEC-0009 |
 | Slug | 0009-leitor-web-download-r2 |
 | Status | Complete |
-| Effort | 7 |
+| Effort | 4 |
 | Effort updated at | 2026-08-30 |
-| Effort rationale | A integração R2, o shell e os pickers já estão comprovados, mas a nova rodada altera feedback de download, loading de leitura e composição offline, além de adicionar Sonner ao consumer. |
+| Effort rationale | A seleção de versículos é uma extensão localizada do Reader, com estado efêmero, popover acessível e cópia para clipboard; não altera engine, persistência ou APIs. |
 | ClickUp Task | |
 | Milestones | M02 |
 | Definition Gate | Passed |
@@ -28,7 +28,9 @@ O consumer Web precisa iniciar a migração do aplicativo legado sem copiar sua
 implementação, seu banco ou seus artefatos. A primeira jornada precisa provar
 que uma pessoa consegue obter uma versão bíblica oficial do R2, instalá-la pelo
 contrato público da engine e ler um capítulo no mesmo consumer Web depois de
-reabrir o contexto e perder a rede.
+reabrir o contexto e perder a rede. Durante a leitura, ela também precisa
+selecionar um ou mais versículos e agir sobre a seleção sem perder o contexto do
+capítulo.
 
 Hoje a aplicação já compõe Biblioteca, Leitor e Busca, mas a primeira fatia da
 migração ainda não tem uma especificação normativa que fixe a origem R2, o ciclo
@@ -42,13 +44,16 @@ cancelar o download de uma versão publicada no R2, acompanha o estado da
 instalação, abre livro e capítulo e lê versículos em ordem canônica. A tela de
 leitura deve ter a mesma linguagem visual do aplicativo Web legado: shell em
 tela cheia, dock flutuante, toolbar compacta de livro/capítulo/versão, coluna de
-leitura centralizada e composição responsiva equivalente. Após fechar e reabrir
+leitura centralizada e composição responsiva equivalente. Ao selecionar um ou
+mais versículos, o Reader exibe um popover flutuante próximo à seleção com as
+ações de copiar o texto selecionado ou copiar a referência bíblica com a versão.
+Após fechar e reabrir
 o contexto sem rede, a versão instalada e o mesmo capítulo continuam
 disponíveis localmente. Falhas não deixam arquivo, registro ou versão parcial.
 
 #### Métricas de sucesso
 
-- 100% dos cenários AC-001 a AC-014 passam no teste focal e nos gates finais.
+- 100% dos cenários AC-001 a AC-017 passam no teste focal e nos gates finais.
 - Uma versão instalada permanece legível após reabrir o adapter Web e bloquear a
   rede no teste Playwright do Chromium; o cenário WebKit é executado e seu
   resultado é registrado conforme a matriz existente.
@@ -57,6 +62,8 @@ disponíveis localmente. Falhas não deixam arquivo, registro ou versão parcial
   acoplamentos proibidos.
 - Toda falha de aquisição, validação, cancelamento ou storage apresenta ação de
   recuperação e não altera uma instalação anterior utilizável.
+- A seleção de um ou mais versículos abre o popover correto, produz formatos de
+  cópia determinísticos e não cria persistência paralela.
 
 ### 2. Research e esclarecimentos
 
@@ -108,6 +115,12 @@ disponíveis localmente. Falhas não deixam arquivo, registro ou versão parcial
   usa a abreviação pública do `BibleBook`, normalizada em minúsculas e sem acentos
   para manter URLs curtas e legíveis; assim, Gênesis é `gn` e a engine continua
   recebendo o ID canônico `gen`.
+- **R-011**: Como a seleção de versículos funciona na referência? → Cada clique
+  alterna o versículo na seleção; a seleção pode conter um ou mais versículos do
+  capítulo atual. O popover fica ancorado visualmente à área selecionada e oferece
+  somente `Copiar referência` e `Copiar texto` nesta fatia. A referência agrupa
+  números contíguos em intervalos e inclui a versão; o texto inclui a referência
+  na primeira linha e os versículos numerados em ordem canônica.
 
 #### Análise MCR-10
 
@@ -123,11 +136,20 @@ disponíveis localmente. Falhas não deixam arquivo, registro ou versão parcial
 | Posição | A instalação passa por estados de progresso; a versão passa de disponível para instalada ou retorna a recuperável. |
 | Posse | Nenhuma conta, permissão, nota ou identidade remota é necessária nesta fatia. |
 | Ação e afecção | Instalar, cancelar, reabrir e ler produzem progresso, conteúdo local ou erro recuperável sem parcialidade. |
+| Seleção | Um clique alterna um versículo selecionado; a seleção pode conter vários versículos do capítulo e é somente estado de interface. |
+| Cópia | A referência e o texto selecionados são formatos determinísticos, copiados pelo clipboard com fallback seguro e feedback de sucesso/erro. |
 
 #### Fontes e contexto consultados
 
 - Pedido confirmado na conversa de 2026-08-30: começar pelo Leitor bíblico e pelo
   download das versões do R2.
+- Pedido literal incorporado nesta atualização: "seguindo o specsfy eu quero que
+  desenolva no @apps/consumer-web/ a funcionalidade de selecionar os versos da
+  biblia, seguindo o projeto de referencia open-bible/apps/web precisamos poder
+  selecionar os versos ao selecionar mostre o popover com as opcoes, ele j foi
+  implementado no app de referencia, precisamos implementar no projeto atual,
+  seguindo a mesma identidade visual e components com as opcoes de copiar o
+  texto selecionaod ou a referencia biblia + versao."
 - `specs/backlog/0009-migracao-integral-consumer-web-legado.md`.
 - `specs/milestones/M02.md`.
 - `PROJECT.md`, `DESIGNSYSTEM.MD`, `INTERFACE.md`, `.specsfy/STACK.md`,
@@ -136,6 +158,9 @@ disponíveis localmente. Falhas não deixam arquivo, registro ou versão parcial
   `packages/adapter-sqlite-web`, `packages/engine` e `packages/engine-core`.
 - `/home/claudio/Projects/open-bible/apps/web`, consultado somente como
   referência de comportamento; nenhuma alteração ou import interno será feito.
+  A implementação de referência está em `features/bible-reader/components/verse-row.tsx`,
+  `features/bible-reader/components/verse-selection-popover.tsx` e
+  `features/bible-reader/utils/verse-reference.ts`.
 
 #### Documentação consultada
 
@@ -150,7 +175,7 @@ disponíveis localmente. Falhas não deixam arquivo, registro ou versão parcial
 
 #### Artefatos de pesquisa armazenados
 
-- `specs/completed/0009-leitor-web-download-r2/research/local-contracts.md` —
+- `specs/in-progress/0009-leitor-web-download-r2/research/local-contracts.md` —
   índice das evidências locais dos contratos consultados. Nenhum documento
   externo foi copiado.
 
@@ -182,6 +207,11 @@ disponíveis localmente. Falhas não deixam arquivo, registro ou versão parcial
   **A**: usar Sonner para o ciclo de download, skeleton representativo para o
   capítulo e um badge offline recolhido no canto inferior esquerdo que expande a
   mensagem completa ao clique.
+- **Q**: Como selecionar e copiar versículos? → **A**: seguir a interação do
+  legado com seleção alternável de um ou mais versículos e popover contextual;
+  oferecer copiar referência com livro/capítulo/intervalos e versão, ou copiar
+  texto com referência e versículos numerados. Highlights, notas e persistência
+  permanecem fora desta fatia.
 
 #### Dúvidas abertas
 
@@ -214,6 +244,9 @@ disponíveis localmente. Falhas não deixam arquivo, registro ou versão parcial
 - Feedback de leitura e offline: o Leitor exibe skeleton com toolbar, cabeçalho e
   linhas de versículos durante a carga; a mensagem de disponibilidade offline não
   fica expandida por padrão e é acessível por um badge fixo clicável.
+- Seleção no Leitor: cada versículo pode ser alternado individualmente; um ou mais
+  versículos selecionados exibem um popover contextual com cópia de referência ou
+  de texto. A seleção vive somente durante a leitura do capítulo.
 - Pickers do Leitor: seleção de livro/capítulo baseada nos livros retornados pela
   engine e seleção de versão com instaladas/disponíveis, busca, instalação e
   seleção; modal central no desktop e drawer inferior no mobile.
@@ -229,6 +262,8 @@ disponíveis localmente. Falhas não deixam arquivo, registro ou versão parcial
 - API pública nova, publicação de pacotes, Tauri, Native SDK ou React Native.
 - Parser, ordenação, validação, queries SQLite, instalação ou persistência
   implementados na camada React.
+- Highlights, notas, categorias, seleção entre capítulos ou versões e qualquer
+  persistência da seleção.
 
 #### Atores
 
@@ -262,6 +297,9 @@ disponíveis localmente. Falhas não deixam arquivo, registro ou versão parcial
   completa.
 - **PR-008**: Toda alteração de tela reutiliza ou registra componentes em
   `INTERFACE.md`; não cria biblioteca de UI incompatível com a stack.
+- **PR-009**: A seleção de versículos é estado efêmero do Reader; o popover usa
+  somente dados já retornados pela engine e não introduz persistência, parser ou
+  regra bíblica no consumer.
 
 ### 5. Histórias de usuário
 
@@ -517,6 +555,54 @@ Feature: Rotas públicas do consumer
     And `/biblioteca` e `/busca` não são rotas canônicas do consumer
 ```
 
+#### AC-015 — Seleção de um versículo e popover contextual
+
+**Cobre**: US-002, FR-002, FR-005, NFR-003
+
+```gherkin
+@US-002 @FR-002 @FR-005 @NFR-003 @AC-015
+Feature: Seleção de versículos
+
+  Scenario: Pessoa seleciona um versículo no capítulo
+    Given o Leitor exibe um capítulo com versículos retornados pela engine
+    When a pessoa clica no versículo 1
+    Then o versículo fica visualmente selecionado
+    And um popover contextual acessível aparece próximo à seleção
+    And o popover oferece "Copiar referência" e "Copiar texto"
+```
+
+#### AC-016 — Seleção múltipla e formatos de cópia
+
+**Cobre**: US-002, FR-002, FR-005, NFR-003
+
+```gherkin
+@US-002 @FR-002 @FR-005 @NFR-003 @AC-016
+Feature: Cópia de versículos selecionados
+
+  Scenario: Pessoa seleciona versículos contíguos e copia a referência ou o texto
+    Given os versículos 1 e 2 estão selecionados em Gênesis 1 na versão ARA
+    When a pessoa escolhe "Copiar referência"
+    Then o clipboard recebe "Gênesis 1:1-2 (ARA)"
+    When a pessoa escolhe "Copiar texto"
+    Then o clipboard recebe a referência na primeira linha e os textos numerados em ordem
+```
+
+#### AC-017 — Limpeza da seleção e recuperação do clipboard
+
+**Cobre**: US-002, FR-005, NFR-003
+
+```gherkin
+@US-002 @FR-005 @NFR-003 @AC-017
+Feature: Controle da seleção de versículos
+
+  Scenario: Pessoa limpa a seleção ou o clipboard recusa a cópia
+    Given o popover de seleção está aberto
+    When a pessoa escolhe "Limpar seleção" ou o clipboard não pode receber o conteúdo
+    Then a seleção é removida no primeiro caso
+    And uma mensagem acessível de erro é exibida no segundo caso
+    And nenhum dado é persistido ou enviado pela aplicação
+```
+
 ### 7. Requisitos
 
 #### Funcionais
@@ -531,6 +617,12 @@ Feature: Rotas públicas do consumer
   livro/capítulo e oferecer navegação anterior/próxima somente para destinos
   válidos, usando a composição visual de toolbar, conteúdo e navegação do
   aplicativo Web legado.
+- **FR-005**: O Leitor deve permitir alternar a seleção de um ou mais versículos
+  do capítulo atual e exibir um popover contextual com as ações `Copiar referência`,
+  `Copiar texto` e `Limpar seleção`. A referência deve usar nome do livro,
+  capítulo, intervalos contíguos e versão; o texto deve incluir essa referência e
+  os versículos numerados em ordem canônica. A cópia deve usar o clipboard com
+  fallback seguro e feedback acessível, sem persistir a seleção.
 - **FR-004**: `/` deve abrir o Leitor com a primeira versão instalada disponível,
   enquanto `/library` deve compor o catálogo e `/search` deve compor a Busca. O
   Leitor deve abrir um picker de livro/capítulo e um picker de versão; ambos devem
@@ -559,7 +651,9 @@ Feature: Rotas públicas do consumer
   progresso/estado, `role=alert` para erro, teclado e ações recuperáveis. O
   carregamento do capítulo deve usar skeleton representativo, o controle
   `Exibição` deve compartilhar a cor dos controles da toolbar e a disponibilidade
-  offline deve iniciar como badge fixo expansível no canto inferior esquerdo.
+  offline deve iniciar como badge fixo expansível no canto inferior esquerdo. O
+  popover de seleção deve ter nome acessível, foco visível, ações por teclado,
+  fechamento explícito e não bloquear a leitura em desktop ou mobile.
   **Verificação**: testes Testing Library, Playwright desktop/mobile, inspeção de
   acessibilidade e regressão visual/manual somente quando necessário.
 
@@ -582,6 +676,12 @@ Feature: Rotas públicas do consumer
   inválido.
 - Resposta sem `Content-Length` → mostrar estado de recebimento sem percentual;
   nunca inventar uma porcentagem.
+- Nenhum versículo selecionado → não renderizar popover nem habilitar ações de
+  cópia.
+- Seleção com versículos contíguos ou não contíguos → formatar intervalos e
+  segmentos na ordem numérica, sem alterar os dados retornados pela engine.
+- Clipboard indisponível, recusado ou falha no fallback → manter o Reader e a
+  seleção utilizáveis e anunciar erro seguro; não expor exceção interna.
 
 ## Ato II — Projetar e provar
 
@@ -614,6 +714,11 @@ Feature: Rotas públicas do consumer
   cancelamento; a UI cria um token portátil e passa observer público à engine.
 - `apps/consumer-web/src/features/reader`: carregamento, seleção, conteúdo,
   navegação e pickers responsivos; todos os dados vêm da engine.
+- `apps/consumer-web/src/features/reader/VerseRow.tsx`: renderiza um versículo
+  como controle de seleção acessível, sem conhecer a origem persistente dos dados.
+- `apps/consumer-web/src/features/reader/VerseSelectionPopover.tsx` e
+  `verse-reference.ts`: compõem as ações contextuais e os formatos determinísticos
+  de cópia; não dependem de engine, SQLite ou Personal Study.
 - `apps/consumer-web/src/components`: shell, dock, notificações e toolbar de leitura próprios do
   consumer; a composição visual pode seguir o legado sem importar seus módulos.
 - `apps/consumer-web/src/components/ui`: primitives/feedback locais e a integração
@@ -637,6 +742,9 @@ deveria ser uma nova especificação e passar pelo mapa `.specsfy/DATABASE.md`.
   cancelamento sem passar `AbortSignal` ao core.
 - `EngineError`: código estável usado para selecionar mensagem segura e ação de
   recuperação; mensagens internas não são contrato de produto.
+- `VerseSelection`: estado efêmero do Reader contendo os IDs dos versículos
+  selecionados e uma âncora visual calculada a partir dos elementos renderizados;
+  não é persistido nem enviado a qualquer serviço.
 
 #### Controllers e casos de uso
 
@@ -653,7 +761,9 @@ instalada antes da leitura.
 - Biblioteca `/library`: mantém Breadcrumb, OfflineBanner, título, cards e ações inline;
   acrescenta ou ajusta progresso textual/indeterminado e cancelamento sem modal.
 - Leitor `/[version]/[book]/[chapter]`: mantém Breadcrumb, versão, título,
-  toolbar e card de versículos; pickers e navegação continuam válidos em mobile.
+  toolbar e card de versículos; cada versículo é selecionável e o popover de
+  ações aparece próximo à seleção. Pickers, popover e navegação continuam válidos
+  em mobile.
 - Estado de inicialização: skeleton sem ações falsas.
 - Estado vazio: orienta instalar ou voltar à Biblioteca.
 - Estado de erro: `ErrorState` com mensagem segura, `role=alert` e retry quando a
@@ -665,6 +775,11 @@ instalada antes da leitura.
   desktop e vira uma barra inferior segura no mobile; o Leitor usa uma toolbar
   pill sticky e uma coluna tipográfica centralizada. Notas, destaques e ajustes
   avançados não ganham implementação de domínio nesta fatia.
+- Ao selecionar versículos, o Reader mostra uma barra flutuante arredondada,
+  visualmente alinhada ao popover do legado, ancorada acima da seleção quando há
+  espaço e abaixo quando necessário. A barra contém `Copiar referência`,
+  `Copiar texto` e `Limpar seleção`; no mobile ela se ajusta à largura disponível
+  sem retirar os rótulos acessíveis.
 
 #### Queries e repositórios
 
@@ -681,7 +796,7 @@ rollback/cleanup. Retry é explícito pela pessoa, não automático e ilimitado.
 #### Estrutura de arquivos
 
 ```text
-  specs/draft/0009-leitor-web-download-r2/
+  specs/in-progress/0009-leitor-web-download-r2/
   spec.md
 apps/consumer-web/src/engine/bible-engine-provider.tsx
 apps/consumer-web/src/features/library/AppLibrary.tsx
@@ -693,6 +808,9 @@ apps/consumer-web/src/features/reader/PrevNextNav.tsx
 apps/consumer-web/src/features/reader/BookChapterPicker.tsx
 apps/consumer-web/src/features/reader/VersionPicker.tsx
 apps/consumer-web/src/features/reader/ResponsivePicker.tsx
+apps/consumer-web/src/features/reader/VerseRow.tsx
+apps/consumer-web/src/features/reader/VerseSelectionPopover.tsx
+apps/consumer-web/src/features/reader/verse-reference.ts
 apps/consumer-web/src/components/NavigationDock.tsx
 apps/consumer-web/src/components/AppShell.tsx
 apps/consumer-web/src/components/ui/download-toast.tsx
@@ -728,6 +846,10 @@ packages/adapter-sqlite-web/
 | InstalledBible | instalada | remover | disponível | installer fecha, remove e atualiza registry |
 | Leitor | loading | engine retorna capítulo | conteúdo ou vazio | dados vieram somente da versão instalada |
 | Leitor | loading | engine retorna erro | erro recuperável | código é seguro e não expõe implementação |
+| Leitor | sem seleção | pessoa alterna um versículo | seleção ativa | o versículo pertence ao capítulo renderizado |
+| Leitor | seleção ativa | pessoa alterna outro versículo | seleção com um ou mais itens | somente IDs do capítulo atual são considerados |
+| Seleção | ativa | pessoa copia referência ou texto | feedback de sucesso/erro | nenhum dado é persistido ou enviado |
+| Seleção | ativa | pessoa limpa, muda capítulo ou fecha o popover | sem seleção | popover e ações deixam de ser renderizados |
 
 #### Migração e retenção
 
@@ -768,7 +890,8 @@ registry é reconstruído/reconciliado pelo adapter; nenhuma conta ou dado pesso
 - **Leitor `/`**: pessoa leitora abre a primeira versão instalada e pode escolher
   livro, capítulo e versão pelos pickers responsivos.
 - **Leitor `/[version]/[book]/[chapter]`**: pessoa leitora consulta uma
-   versão instalada, escolhe livro/capítulo, lê versículos e navega pela sequência.
+   versão instalada, escolhe livro/capítulo, lê versículos, seleciona um ou mais
+   itens, copia o texto ou a referência e navega pela sequência.
 - **Erro de storage/global**: o provider mantém o shell e oferece alerta seguro e
   retry; não apresenta dados simulados.
 
@@ -785,6 +908,11 @@ registry é reconstruído/reconciliado pelo adapter; nenhuma conta ou dado pesso
   `/<version>/gn/1`.
 - Leitor consulta livros, capítulo e nome da versão local; os pickers mudam a rota,
   e `PrevNextNav` segue o cânone sem gerar destino inválido.
+- A pessoa alterna versículos diretamente no conteúdo. O Reader mantém os IDs
+  selecionados, calcula a área visual comum dos elementos e renderiza o popover
+  contextual sem nova consulta à engine. Copiar usa o nome do livro, capítulo,
+  números selecionados e a versão atual; limpar ou trocar de capítulo remove a
+  seleção.
 - Breadcrumb da Biblioteca: `Open Bible / Biblioteca` com tela atual sem link.
 - Breadcrumb do Leitor: `Open Bible / Biblioteca / <livro> <capítulo>`; Biblioteca
   é link válido e a tela atual usa semântica de página.
@@ -803,6 +931,8 @@ registry é reconstruído/reconciliado pelo adapter; nenhuma conta ou dado pesso
 - O Leitor usa links para Busca e Biblioteca, pickers para livro/capítulo/versão e
   navegação anterior/próxima. Em mobile, itens refluem verticalmente sem ocultar
   instalação, leitura, retry ou retorno.
+- O popover do Leitor é contextual, não adiciona item ao dock e não altera a rota;
+  suas ações são `Copiar referência`, `Copiar texto` e `Limpar seleção`.
 
 #### Formulários e ações
 
@@ -816,6 +946,9 @@ registry é reconstruído/reconciliado pelo adapter; nenhuma conta ou dado pesso
   engine e fecham após uma seleção válida.
 - Erros são exibidos junto da ação em `role=alert`; retry não perde o estado de
   versões anteriormente instaladas.
+- Cada versículo é um controle focável com `aria-pressed`; a seleção mantém o
+  texto legível e o popover informa sucesso ou erro de cópia em região viva. Escape,
+  clique fora ou `Limpar seleção` fecham o contexto sem navegar.
 - O aviso offline é um badge fixo recolhido no canto inferior esquerdo; clique ou
   teclado alterna a expansão da mensagem completa sem retirar a leitura da tela.
 
@@ -837,6 +970,10 @@ registry é reconstruído/reconciliado pelo adapter; nenhuma conta ou dado pesso
   toolbar, cabeçalho e linhas de versículos, evitando um bloco genérico isolado.
 - Densidade prioriza leitura: espaçamento amplo, número do versículo em `sup`,
   line-height 8 e foco visível em links, botões e selects.
+- A seleção usa destaque discreto por `accent`/`primary` sem substituir a
+  tipografia serifada. O popover usa a mesma superfície `popover`, borda, sombra,
+  cantos arredondados e foco visível do restante do consumer; em desktop flutua
+  acima ou abaixo da seleção e em mobile ocupa somente a largura necessária.
 
 #### Blocos React e componentes selecionados
 
@@ -856,6 +993,8 @@ registry é reconstruído/reconciliado pelo adapter; nenhuma conta ou dado pesso
 | Leitor | BookChapterPicker | Buscar e selecionar livro/capítulo | `apps/consumer-web/src/features/reader/BookChapterPicker.tsx` | Modal desktop + drawer mobile | Nova composição própria baseada no picker legado | Reutilizar no Reader; livros/capítulos vêm da engine |
 | Leitor | VersionPicker | Buscar, instalar e selecionar versão | `apps/consumer-web/src/features/reader/VersionPicker.tsx` | Modal desktop + drawer mobile | Nova composição própria baseada no picker legado | Reutilizar no Reader; aquisição delegada à engine |
 | Global | DownloadToast | Exibir recebimento, progresso, sucesso e erro de uma versão | `apps/consumer-web/src/components/ui/download-toast.tsx` | Toast customizado | Composição própria com Sonner e tokens locais | Reutilizar na Biblioteca e no Reader; recebe somente eventos públicos |
+| Leitor | VerseRow | Exibir um versículo e alternar sua seleção | `apps/consumer-web/src/features/reader/VerseRow.tsx` | Controle React + tipografia do Reader | Nova composição própria baseada na referência visual legada | Reutilizar somente no Reader; não adicionar regra de engine |
+| Leitor | VerseSelectionPopover | Exibir ações da seleção e copiar referência/texto | `apps/consumer-web/src/features/reader/VerseSelectionPopover.tsx` | Popover contextual + Button shadcn/ui-style | Nova composição própria baseada no popover do legado | Reutilizar no Reader; manter estado e clipboard locais |
 
 #### Estados e acessibilidade
 
@@ -872,6 +1011,9 @@ registry é reconstruído/reconciliado pelo adapter; nenhuma conta ou dado pesso
   instaladas continuam com ação Ler.
 - Todos os controles têm nome acessível, foco visível, ordem de tabulação natural
   e contraste compatível com o tema. Ações ficam disponíveis por teclado.
+- Cada versículo selecionável é focável, possui nome acessível e comunica seu
+  estado com `aria-pressed`; o popover tem nome, ações focáveis, estado de cópia
+  em `aria-live`, Escape e fechamento explícito.
 - Viewport mobile reorganiza cards, pickers e ações em coluna; desktop conserva
   leitura centralizada e ações alinhadas.
 - O dock usa `aria-current` na área ativa e `aria-disabled`/texto explicativo para
@@ -885,6 +1027,9 @@ registry é reconstruído/reconciliado pelo adapter; nenhuma conta ou dado pesso
   e `getChapter`.
 - O contrato de erro é `EngineError.code`; a interface mapeia códigos para
   mensagens em português sem expor `cause`.
+- A seleção e a cópia não criam API de aplicação: o popover recebe `BibleBook`,
+  `Verse[]`, capítulo e identificador da versão já obtidos pelo Reader. O clipboard
+  é acessado somente no client e a falha é traduzida em feedback seguro.
 
 #### APIs externas utilizadas
 
@@ -923,8 +1068,9 @@ registry é reconstruído/reconciliado pelo adapter; nenhuma conta ou dado pesso
 ### 11. Estratégia TDD
 
 - **Unidade**: `HttpBiblePackageSource` para fallback, streaming, cancelamento e
-  header; componentes `VersionCard`, `AppLibrary`, `Reader`, feedback e
-  `PrevNextNav` para estados, ações e limites.
+  header; componentes `VersionCard`, `AppLibrary`, `Reader`, feedback,
+  `PrevNextNav`, `VerseRow`, `VerseSelectionPopover` e o formatador de
+  referência para estados, ações e limites.
 - **Interface**: `AppShell`, `NavigationDock` e `ReaderToolbar` para shell em tela
   cheia, dock responsivo, toolbar pill, foco, `aria-current` e ações futuras
   explicitamente indisponíveis.
@@ -933,6 +1079,9 @@ registry é reconstruído/reconciliado pelo adapter; nenhuma conta ou dado pesso
   persistência após reopen.
 - **BDD/aceite**: AC-001 a AC-014 são a referência Gherkin para os testes; cada
   teste deve preservar seu marcador `// SPECSFY:` com IDs reais.
+- **BDD/aceite de seleção**: AC-015 a AC-017 são a referência para seleção
+  alternável, popover contextual, formatos de clipboard, limpeza e recuperação;
+  os testes devem preservar seus marcadores `// SPECSFY:`.
 - **BDD/aceite visual**: AC-010 é a referência para o teste de composição do shell
   e do Leitor em desktop/mobile; a verificação não compara pixels frágeis, mas
   prova as regiões, roles e classes estruturais da interface.
@@ -970,6 +1119,9 @@ registry é reconstruído/reconciliado pelo adapter; nenhuma conta ou dado pesso
 | FR-004, NFR-003, AC-012 | Namespace antigo `/ler` | `apps/consumer-web/tests/browser/consumer.spec.ts` | RED histórico: `/ler/` permaneceu em `/ler` antes do alias; superseded pela decisão de remover o namespace | GREEN no Chromium: `/ler/`, `/biblioteca` e `/busca` respondem 404 | A rota profunda canônica passa a ser `/<version>/<book>/<chapter>` |
 | FR-002, FR-004, NFR-002, NFR-003, AC-013 | Rota profunda `/<version>/<book>/<chapter>` | `apps/consumer-web/tests/reader.spec.tsx`, `tests/browser/consumer.spec.ts` | RED em 2026-08-30: Reader ainda gerava `/ler/<versao>/<livro>/<capitulo>` e lia o segmento interno `gen` | GREEN: seleção abre `/ara/gn/2`, exibe Gênesis 2 e a engine recebe `gen` | A engine continua usando IDs canônicos internos |
 | FR-004, NFR-003, AC-014 | Rotas estáticas em inglês | `apps/consumer-web/tests/app-shell.spec.tsx`, `tests/browser/consumer.spec.ts` | RED em 2026-08-30: páginas e links ainda usavam `/biblioteca` e `/busca` | GREEN no Chromium: `/library` e `/search` respondem com sucesso e o dock aponta para elas | Não criar aliases em português |
+| US-002, FR-002, FR-005, NFR-003, AC-015 | AC-015 na seção 6 | `apps/consumer-web/tests/verse-selection.spec.tsx` | RED em 2026-08-30: Reader não oferecia controle focável de versículo nem popover contextual | GREEN em 2026-08-30: botão com `aria-pressed`, seleção visual, dialog nomeado e ações passaram |
+| US-002, FR-005, NFR-003, AC-016 | AC-016 na seção 6 | `apps/consumer-web/tests/verse-reference.test.ts`, `tests/verse-selection.spec.tsx` | RED em 2026-08-30: formatador não existia e o Reader não escrevia os formatos esperados no clipboard | GREEN em 2026-08-30: intervalos, referência com versão e texto numerado foram copiados |
+| US-002, FR-005, NFR-003, AC-017 | AC-017 na seção 6 | `apps/consumer-web/tests/verse-selection.spec.tsx` | RED em 2026-08-30: Reader não tinha limpeza, Escape, clique fora ou recuperação do clipboard | GREEN em 2026-08-30: erro preserva seleção e Escape, clique fora e limpeza fecham o popover |
 
 ### 12. Plano de testes e rastreabilidade
 
@@ -988,6 +1140,9 @@ registry é reconstruído/reconciliado pelo adapter; nenhuma conta ou dado pesso
 | FR-004 | AC-012 | Browser | `apps/consumer-web/tests/browser/consumer.spec.ts` | Passed no Chromium: `/ler/` responde 404 |
 | FR-002 | AC-013 | Componente/browser | `apps/consumer-web/tests/reader.spec.tsx`, `tests/browser/consumer.spec.ts` | Passed: `/ara/gn/2` exibe Gênesis 2 sem `/ler`; navegação preserva o slug público |
 | FR-004 | AC-014 | Componente/browser | `apps/consumer-web/tests/app-shell.spec.tsx`, `tests/browser/consumer.spec.ts` | Passed: `/library` e `/search` são as rotas estáticas canônicas |
+| FR-005 | AC-015 | Componente/a11y | `apps/consumer-web/tests/verse-selection.spec.tsx` | Passed: seleção focável, estado `aria-pressed`, popover nomeado e ações |
+| FR-005 | AC-016 | Unidade/componente | `apps/consumer-web/tests/verse-reference.test.ts`, `tests/verse-selection.spec.tsx` | Passed: intervalos, referência com versão e texto numerado no clipboard |
+| FR-005 | AC-017 | Componente/a11y | `apps/consumer-web/tests/verse-selection.spec.tsx` | Passed: limpeza, Escape, clique fora e erro acessível sem persistência |
 | FR-002 | AC-008 | Componente/a11y | `apps/consumer-web/tests/offline-empty.spec.tsx`, `states.a11y.spec.tsx` | Passed: loading, erro, retry e labels |
 | FR-003 | AC-003 | Integração/adapter | `apps/consumer-web/tests/install-failure.spec.tsx`, adapter rollback | Passed: nenhuma instalação parcial |
 | FR-003 | AC-006 | Browser | `apps/consumer-web/tests/browser/consumer.spec.ts` | Passed no Chromium com rede bloqueada |
@@ -1013,45 +1168,55 @@ registry é reconstruído/reconciliado pelo adapter; nenhuma conta ou dado pesso
 | NFR-003 | AC-011 | Componente/browser/a11y | `apps/consumer-web/tests/reader-pickers.spec.tsx`, `tests/browser/consumer.spec.ts` | Passed: tokens semânticos, dialog nomeado, Escape, modal desktop, drawer mobile e foco visível |
 | FR-001 | AC-001/AC-008 | Componente/integracao | `apps/consumer-web/tests/download-toast.spec.tsx`, `tests/browser/consumer.spec.ts` | Passed: ciclo Sonner com progresso determinado/indeterminado, sucesso e erro |
 | NFR-003 | AC-008/AC-010 | Componente/a11y | `apps/consumer-web/tests/feedback.spec.tsx`, `tests/reader.spec.tsx`, `tests/version-picker.spec.tsx` | Passed: badge offline expansível, skeleton representativo, hover de versão e cor compartilhada da toolbar |
+| NFR-003 | AC-015/AC-016/AC-017 | Componente/browser/a11y | `apps/consumer-web/tests/verse-selection.spec.tsx`, `tests/verse-reference.test.ts`, `tests/browser/consumer.spec.ts` | Passed: foco, seleção, feedback de clipboard, fechamento e regressão Chromium desktop/mobile |
 
 ### 13. Validações
 
 #### Gate do Ato I — Definição
 
-- **Resultado**: Passed em 2026-08-30 após incorporar a rota profunda sem
-  namespace, os caminhos estáticos em inglês e os critérios de abreviação pública.
-- **Comando**: `node .agents/skills/specsfy-04-validate/scripts/validate_spec.mjs specs/draft/0009-leitor-web-download-r2/spec.md --allow-draft` e `node .agents/skills/specsfy-04-validate/scripts/review_findings.mjs specs/draft/0009-leitor-web-download-r2/spec.md`.
-- **Achados**: nenhum blocker; AC-012 a AC-014 possuem cenários, requisitos,
-  arquivos e tarefas explícitos. A evidência anterior foi preservada como
-  histórico da decisão de alias.
+- **Resultado**: Passed em 2026-08-30 após incorporar a seleção alternável de
+  versículos, o popover contextual e as ações de clipboard.
+- **Comando**: `node .agents/skills/specsfy-04-validate/scripts/validate_spec.mjs specs/in-progress/0009-leitor-web-download-r2/spec.md`.
+- **Achados**: nenhum blocker; AC-015 a AC-017 possuem comportamento observável,
+  FR-005 tem três aceites distintos, NFR-003 mantém cobertura mínima e a seção 10
+  descreve stack, tela, fluxo, ações, composição, componentes, estados e
+  acessibilidade. A evidência anterior de AC-001 a AC-014 permanece histórica.
 - Findings especializados, quando aplicáveis, seguem `FIND-PROD|ARCH|SEC-NNN`,
   severidade `P1|P2|P3`, estado `Open|Resolved|Accepted`, refs e evidência.
 
 #### Gate do Ato II — Plano
 
-- **Resultado**: Passed em 2026-08-30 após validar T040-T041 e a
-  rastreabilidade dos novos cenários.
-- **Comandos**: `node .agents/skills/specsfy-05-tasks/scripts/validate_tasks.mjs specs/defined/0009-leitor-web-download-r2/spec.md --allow-draft`, `node .agents/skills/specsfy-05-tasks/scripts/validate_interface_tasks.mjs specs/defined/0009-leitor-web-download-r2/spec.md` e `node .agents/skills/specsfy-06-tdd-bdd/scripts/check_traceability.mjs specs/defined/0009-leitor-web-download-r2/spec.md . --full-chain`.
-- **Achados**: T040 cobre o RED das rotas e T041 concentra a implementação,
-  incluindo o helper de abreviação pública, as páginas em inglês e a remoção
-  do namespace `/ler`.
+- **Resultado**: Passed em 2026-08-30 após materializar T042-T044, observar os
+  REDs e validar T042-T046 com os arquivos de interface declarados.
+- **Comandos**: `node .agents/skills/specsfy-05-tasks/scripts/validate_tasks.mjs
+  specs/in-progress/0009-leitor-web-download-r2/spec.md`,
+  `node .agents/skills/specsfy-05-tasks/scripts/validate_interface_tasks.mjs
+  specs/in-progress/0009-leitor-web-download-r2/spec.md` e
+  `node .agents/skills/specsfy-06-tdd-bdd/scripts/check_traceability.mjs
+  specs/in-progress/0009-leitor-web-download-r2/spec.md . --full-chain`.
+- **Achados**: 43 tarefas, 215 itens de checklist, 28/28 IDs cobertos e
+  interface válida; T042-T044 possuem testes RED com marcadores `SPECSFY` e
+  T045 depende deles. As evidências históricas T001-T041 permanecem preservadas.
 
 #### Gate do Ato III — Entrega
 
-- **Resultado**: Passed em 2026-08-30 para o escopo Web; a suíte TDD, checks
-  estáticos, build autenticado e Chromium comprovam a migração.
+- **Resultado**: Passed em 2026-08-30 após concluir T045-T046 e verificar a
+  seleção de versículos sem alteração de engine, persistência ou APIs.
 - **Comandos**: `pnpm --filter @openbible/consumer-web run test:tdd`,
   `pnpm --filter @openbible/consumer-web run typecheck`,
   `pnpm --filter @openbible/consumer-web run lint`, build autenticado do
-  consumer, `pnpm test` (falha somente no consumer TUI por Node 22),
-  `pnpm typecheck`, `pnpm lint`, `pnpm build` autenticado e Playwright
-  Chromium `3/3`.
-- **Achados**: `/ara/gn/2`, `/library` e `/search` passaram; `/ler/`,
-  `/biblioteca` e `/busca` respondem 404. WebKit foi executado, mas o host não
-  possui `libicu74`, `libxml2` e `libflite1`; a limitação não afeta o Chromium
-  bloqueante. A rastreabilidade desta spec está completa (`24/24`); o verificador
-  global ainda lista marcadores órfãos pertencentes às specs históricas 0001–0008,
-  mantidos fora do escopo desta mudança.
+  consumer, Playwright Chromium `3/3`,
+  `node .agents/skills/specsfy-documentator/scripts/build_documentation.mjs
+  --project /home/claudio/Projects/openbible-engine --check`,
+  `node .agents/skills/specsfy-setup/scripts/monitor_context.mjs --project
+  /home/claudio/Projects/openbible-engine --check` e validação estrita de
+  evidência de T045.
+- **Achados**: os 48 testes TDD, tipos, lint, build, os três cenários Chromium
+  com viewport desktop/mobile e a documentação passaram. A rastreabilidade da
+  SPEC está completa em `28/28`; o verificador global continua reportando apenas
+  marcadores órfãos históricos de outras specs, mantidos fora desta atualização.
+  WebKit permanece limitado pelas dependências ausentes do host conforme a
+  evidência histórica; nenhuma funcionalidade desta fatia depende dele.
 
 ### 14. Tarefas
 
@@ -1374,13 +1539,50 @@ recuperável.
   - [x] **IMPROVE**: Centralizar a montagem/parsing da rota em `reader-route.ts`, reutilizado por Reader e busca, sem duplicar slug.
   <!-- specsfy:evidence {"task":"T041","refs":["US-002","FR-002","FR-004","NFR-002","NFR-003","AC-012","AC-013","AC-014"],"files":["apps/consumer-web/src/app/[version]/[book]/[chapter]/page.tsx","apps/consumer-web/src/app/library/page.tsx","apps/consumer-web/src/app/search/page.tsx","apps/consumer-web/src/features/reader/reader-route.ts","apps/consumer-web/src/features/reader/Reader.tsx","apps/consumer-web/src/features/search/SearchResults.tsx","apps/consumer-web/src/features/search/search-installed.ts","apps/consumer-web/src/components/NavigationDock.tsx","apps/consumer-web/src/features/library/VersionCard.tsx","apps/consumer-web/tests/browser/consumer.spec.ts"],"commands":[{"run":"pnpm --filter @openbible/consumer-web run test:tdd","exit":0},{"run":"pnpm --filter @openbible/consumer-web run typecheck","exit":0},{"run":"pnpm --filter @openbible/consumer-web run lint","exit":0},{"run":"BETTER_AUTH_URL=http://127.0.0.1:3104 BETTER_AUTH_SECRET=local-build-secret-32-characters-long-xxxxxxxx DATABASE_URL=libsql://localhost DATABASE_TURSO_TOKEN=local-build-token pnpm --filter @openbible/consumer-web run build","exit":0},{"run":"BETTER_AUTH_URL=http://127.0.0.1:3104 BETTER_AUTH_SECRET=local-build-secret-32-characters-long-xxxxxxxx DATABASE_URL=libsql://localhost DATABASE_TURSO_TOKEN=local-build-token CI=1 pnpm --filter @openbible/consumer-web exec playwright test tests/browser/consumer.spec.ts --project=chromium --workers=1","exit":0}]} -->
 
+- [x] T042 [TEST] [TDD] [US-002] Derivar do AC-015 o teste de seleção de um versículo e abertura do popover em `apps/consumer-web/tests/verse-selection.spec.tsx` — Refs: US-002, FR-002, FR-005, NFR-003, AC-015 — Depends: none
+  - [x] **PREP**: Confirmar a interação alternável da referência, o estado `aria-pressed` e o popover contextual nomeado.
+  - [x] **EXECUTE**: Escrever o teste Vitest com marcador `SPECSFY`, cobrindo foco do versículo, seleção visual e ações nomeadas.
+  - [x] **VERIFY**: Executar `pnpm --filter @openbible/consumer-web exec vitest run tests/verse-selection.spec.tsx --reporter=verbose`; RED válido porque o Reader ainda não renderiza controle de versículo.
+  - [x] **EVIDENCE**: Registrar a falha RED, o ID AC-015 e os contratos esperados na seção 11.
+  - [x] **IMPROVE**: Isolar o teste da seleção da lógica de clipboard para manter uma causa de falha por caso.
+
+- [x] T043 [TEST] [TDD] [US-002] Derivar do AC-016 os testes de seleção múltipla e formatos de cópia em `apps/consumer-web/tests/verse-reference.test.ts` e `apps/consumer-web/tests/verse-selection.spec.tsx` — Refs: US-002, FR-002, FR-005, NFR-003, AC-016 — Depends: none
+  - [x] **PREP**: Confirmar intervalos contíguos, segmentos não contíguos, referência com versão e texto numerado.
+  - [x] **EXECUTE**: Escrever testes Vitest com marcadores `SPECSFY` para formatos puros e escrita no clipboard.
+  - [x] **VERIFY**: Executar `pnpm --filter @openbible/consumer-web exec vitest run tests/verse-reference.test.ts tests/verse-selection.spec.tsx --reporter=verbose`; RED válido porque o formatador não existe e o Reader não oferece seleção.
+  - [x] **EVIDENCE**: Registrar a falha RED, exemplos determinísticos e o ID AC-016 na seção 11.
+  - [x] **IMPROVE**: Manter a ordenação e o agrupamento testados no helper puro, sem duplicar regra no componente.
+
+- [x] T044 [TEST] [TDD] [US-002] Derivar do AC-017 os testes de limpeza, Escape, clique fora e falha do clipboard em `apps/consumer-web/tests/verse-selection.spec.tsx` — Refs: US-002, FR-005, NFR-003, AC-017 — Depends: T042
+  - [x] **PREP**: Confirmar as saídas de seleção, o fechamento explícito e o feedback seguro de erro.
+  - [x] **EXECUTE**: Escrever testes Vitest com marcador `SPECSFY`, verificando seleção intacta após falha e ausência após limpeza.
+  - [x] **VERIFY**: Executar `pnpm --filter @openbible/consumer-web exec vitest run tests/verse-selection.spec.tsx --reporter=verbose`; RED válido porque os handlers de fechamento e recuperação não existem.
+  - [x] **EVIDENCE**: Registrar a falha RED, os eventos de teclado/pointer e o ID AC-017 na seção 11.
+  - [x] **IMPROVE**: Cobrir a recuperação sem depender de permissões reais do browser ou de dados persistidos.
+
+- [x] T045 [CODE] [US-002] Implementar seleção de versículos e popover contextual em `apps/consumer-web/src/features/reader/Reader.tsx`, `VerseRow.tsx`, `VerseSelectionPopover.tsx`, `verse-reference.ts`, `apps/consumer-web/src/styles/globals.css` e `apps/consumer-web/tests/browser/consumer.spec.ts` — Refs: US-002, FR-002, FR-005, NFR-003, AC-015, AC-016, AC-017 — Depends: T042, T043, T044
+  - [x] **PREP**: Reutilizar `Button`, tokens do Reader e contratos `BibleBook`/`Verse`; não importar componentes, contexto, storage ou regras do legado.
+  - [x] **EXECUTE**: Antes de produzir código, reconstruir `docs/` com `$specsfy-documentator`; depois adicionar seleção efêmera por versículo, âncora responsiva, popover com copiar referência/texto/limpar, feedback Sonner e estados acessíveis.
+  - [x] **VERIFY**: Executar testes focais, suíte TDD, typecheck, lint e build do consumer; validar desktop/mobile quando o ambiente permitir.
+  - [x] **EVIDENCE**: Registrar arquivos, formatos de clipboard, ações de recuperação e resultados para AC-015 a AC-017.
+  - [x] **IMPROVE**: Manter o Reader como orquestrador, extrair formatação pura e preservar leitura, navegação e layout existentes; a animação foi mantida separada do transform de ancoragem para não deslocar o popover.
+  <!-- specsfy:evidence {"task":"T045","refs":["US-002","FR-002","FR-005","NFR-003","AC-015","AC-016","AC-017"],"files":["INTERFACE.md","apps/consumer-web/src/features/reader/Reader.tsx","apps/consumer-web/src/features/reader/VerseRow.tsx","apps/consumer-web/src/features/reader/VerseSelectionPopover.tsx","apps/consumer-web/src/features/reader/verse-reference.ts","apps/consumer-web/src/styles/globals.css","apps/consumer-web/tests/verse-reference.test.ts","apps/consumer-web/tests/verse-selection.spec.tsx","apps/consumer-web/tests/browser/consumer.spec.ts"],"commands":[{"run":"pnpm --filter @openbible/consumer-web exec vitest run tests/verse-selection.spec.tsx tests/verse-reference.test.ts --reporter=verbose","exit":0},{"run":"pnpm --filter @openbible/consumer-web run test:tdd","exit":0},{"run":"pnpm --filter @openbible/consumer-web run typecheck","exit":0},{"run":"pnpm --filter @openbible/consumer-web run lint","exit":0},{"run":"BETTER_AUTH_URL=http://127.0.0.1:3104 BETTER_AUTH_SECRET=local-build-secret-32-characters-long-xxxxxxxx DATABASE_URL=libsql://localhost DATABASE_TURSO_TOKEN=local-build-token pnpm --filter @openbible/consumer-web run build","exit":0},{"run":"BETTER_AUTH_URL=http://127.0.0.1:3104 BETTER_AUTH_SECRET=local-build-secret-32-characters-long-xxxxxxxx DATABASE_URL=libsql://localhost DATABASE_TURSO_TOKEN=local-build-token CI=1 pnpm --filter @openbible/consumer-web exec playwright test tests/browser/consumer.spec.ts --project=chromium --workers=1","exit":0},{"run":"node .agents/skills/specsfy-documentator/scripts/build_documentation.mjs --project /home/claudio/Projects/openbible-engine --check","exit":0},{"run":"node .agents/skills/specsfy-setup/scripts/monitor_context.mjs --project /home/claudio/Projects/openbible-engine --check","exit":0}]} -->
+
+- [x] T046 [DOC] [US-002] Atualizar `INTERFACE.md`, a matriz da SPEC-0009 e a documentação técnica após a implementação da seleção em `apps/consumer-web` — Refs: US-002, FR-002, FR-005, NFR-003, AC-015, AC-016, AC-017 — Depends: T045
+  - [x] **PREP**: Conferir os blocos React criados, consumidores reais, estados e comandos de verificação.
+  - [x] **EXECUTE**: Registrar `VerseRow`, `VerseSelectionPopover` e o formatador em `INTERFACE.md` e executar o `specsfy-documentator`.
+  - [x] **VERIFY**: Executar rastreabilidade, monitor de contexto e os checks finais sem alterar a documentação histórica dos aceites anteriores.
+  - [x] **EVIDENCE**: Registrar os comandos finais, a limitação de WebKit se ocorrer e os resultados por viewport.
+  - [x] **IMPROVE**: Confirmar que não há dependência nova, persistência ou acoplamento ao projeto de referência; a documentação gerada reconhece os três módulos e os dois novos arquivos de teste.
+  <!-- specsfy:evidence {"task":"T046","refs":["US-002","FR-002","FR-005","NFR-003","AC-015","AC-016","AC-017"],"files":["INTERFACE.md","docs/README.md","docs/application.md","docs/architecture.md","docs/frontend.md","docs/testing.md",".specsfy/PACKAGES.md","specs/in-progress/0009-leitor-web-download-r2/spec.md"],"commands":[{"run":"node .agents/skills/specsfy-documentator/scripts/build_documentation.mjs --project /home/claudio/Projects/openbible-engine","exit":0},{"run":"node .agents/skills/specsfy-documentator/scripts/build_documentation.mjs --project /home/claudio/Projects/openbible-engine --check","exit":0},{"run":"node .agents/skills/specsfy-setup/scripts/monitor_context.mjs --project /home/claudio/Projects/openbible-engine --check","exit":0},{"run":"node .agents/skills/specsfy-05-tasks/scripts/validate_tasks.mjs specs/in-progress/0009-leitor-web-download-r2/spec.md","exit":0},{"run":"node .agents/skills/specsfy-05-tasks/scripts/validate_interface_tasks.mjs specs/in-progress/0009-leitor-web-download-r2/spec.md","exit":0}]} -->
+
 
 ### 15. Ordem de execução
 
 - Caminho crítico: T001/T002/T003/T004/T011/T012/T013/T014/T015/T016/T017/T018/T019
   → T005 → T006/T007 → T008 → T020/T021 → T022/T025/T026 → T023 → T024
   → T027 → T028/T032 → T029/T033 → T030 → T031 → T034 → T035 → T036
-  → T037/T038 → T039 → T040 → T041.
+  → T037/T038 → T039 → T040 → T041 → T042 → T043 → T044.
 - Tarefas paralelas: T001–T004 e T011–T019 podem ser materializadas em paralelo
   porque são casos TDD independentes; T005–T008 seguem suas fronteiras e
   predecessores RED. T022 é independente da entrega R2 e precede T023.
@@ -1415,6 +1617,9 @@ recuperável.
   nos checkpoints existentes e installer mantém rollback/cleanup.
 - Alteração visual pode quebrar foco/mobile → testes Testing Library/Playwright e
   inspeção de `INTERFACE.md` antes/depois reduzem o risco.
+- Clipboard pode variar entre contexto seguro, permissões e browsers → manter
+  fallback com textarea, feedback acessível e a seleção intacta quando a cópia
+  falhar.
 
 #### Suposições
 
@@ -1428,6 +1633,10 @@ recuperável.
   reinstalação, conforme o contrato do installer Web.
 - Não há necessidade de autenticação, sincronização ou retenção remota para ler
   uma versão pública instalada localmente.
+- O identificador da versão em cópias é a abreviação pública em maiúsculas, como
+  `ARA`, preservando o formato já usado pelo Reader de referência.
+- A seleção pode alternar itens não contíguos; o formatador agrupa somente
+  números contíguos e mantém segmentos separados por vírgula.
 
 ### 17. Decisões
 
@@ -1467,13 +1676,19 @@ recuperável.
 - **DEC-011**: Remover o namespace `/ler` e usar `/<version>/<book>/<chapter>`
   como rota profunda, com abreviação pública de livro e páginas estáticas em
   `/library` e `/search` — mantém URLs curtas, legíveis e sem termos em português.
+- **DEC-012**: Adicionar seleção alternável por versículo e um popover contextual
+  ancorado à seleção — reproduz a interação do Reader legado sem importar seus
+  componentes, contexts, highlights ou notas.
+- **DEC-013**: Oferecer somente cópia de referência e de texto nesta atualização,
+  com formato determinístico, fallback de clipboard e feedback local — entrega o
+  pedido atual sem criar persistência ou ampliar o bounded context Personal Study.
 
 ### 18. Definition of Done
 
-- [x] `Definition Gate` está `Passed`.
-- [x] `Plan Gate` está `Passed`.
-- [x] `Delivery Gate` está `Passed`.
-- [x] Todos os cenários `AC` aplicáveis passam.
-- [x] Todos os requisitos possuem evidência de verificação.
-- [x] Todas as tarefas na seção 14 estão concluídas.
-- [x] Testes e checks estáticos disponíveis passam.
+- [ ] `Definition Gate` está `Passed`.
+- [ ] `Plan Gate` está `Passed`.
+- [ ] `Delivery Gate` está `Passed`.
+- [ ] Todos os cenários `AC` aplicáveis passam.
+- [ ] Todos os requisitos possuem evidência de verificação.
+- [ ] Todas as tarefas na seção 14 estão concluídas.
+- [ ] Testes e checks estáticos disponíveis passam.

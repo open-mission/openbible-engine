@@ -27,7 +27,7 @@ Não implementa Personal Study (notas, destaques, categorias) nem Sync (TursoDB,
 
 ## Contexto técnico
 
-Monorepo pnpm 10 + Turborepo 2 + `workspace:*` + pnpm catalogs + Changesets, TypeScript 5.7 strict ESM, Vitest 3, ESLint 9 flat, Node 22 para os packages existentes, GitHub Actions, `turbo run build/test/typecheck/lint/check`. O consumer TUI exige Node.js 26.4+ com `--experimental-ffi` por causa do OpenTUI 0.5.8. Fronteiras garantidas por `package.json`, exports e testes arquiteturais, não por Turborepo. Detalhes em `.specsfy/STACK.md` e `.specsfy/DATABASE.md`.
+Monorepo pnpm 10 + Turborepo 2 + `workspace:*` + pnpm catalogs + Changesets, TypeScript 5.7 strict ESM, Vitest 3, ESLint 9 flat, Node 22 para os packages existentes, GitHub Actions, `turbo run build/test/typecheck/lint/check`. O consumer Web usa Next.js 16.3.3 com App Router, Turbopack no desenvolvimento e Webpack apenas no build por causa do plugin PWA. O consumer TUI exige Node.js 26.4+ com `--experimental-ffi` por causa do OpenTUI 0.5.8. Fronteiras garantidas por `package.json`, exports e testes arquiteturais, não por Turborepo. Detalhes em `.specsfy/STACK.md` e `.specsfy/DATABASE.md`.
 
 ## Roadmap de evolução
 

@@ -14,6 +14,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { BookChapterPicker } from "@/features/reader/BookChapterPicker";
 import { ReaderToolbar, type ReaderWidth } from "@/features/reader/ReaderToolbar";
 import { VersionPicker } from "@/features/reader/VersionPicker";
+import { VerseRow } from "@/features/reader/VerseRow";
+import { VerseSelectionPopover, type SelectionAnchor } from "@/features/reader/VerseSelectionPopover";
 import { bookRouteSegment, findBookByRouteSegment, readerPath } from "@/features/reader/reader-route";
 import { getEngineErrorMessage } from "@/lib/engine-error";
 
@@ -73,18 +75,23 @@ export function Reader() {
   const [displayOpen, setDisplayOpen] = useState(false);
   const [bookPickerOpen, setBookPickerOpen] = useState(false);
   const [versionPickerOpen, setVersionPickerOpen] = useState(false);
+  const [selectedVerseIds, setSelectedVerseIds] = useState<string[]>([]);
+  const [selectionAnchor, setSelectionAnchor] = useState<SelectionAnchor>();
   const [pickerInitialView, setPickerInitialView] = useState<"books" | "chapters">("books");
   const [installingVersionId, setInstallingVersionId] = useState<string>();
   const [installProgress, setInstallProgress] = useState<InstallationProgress>();
   const [installError, setInstallError] = useState<string>();
   const installControl = useRef<{ aborted: boolean; reason?: unknown } | undefined>(undefined);
   const pickerBookId = useRef<string | undefined>(undefined);
+  const readerContentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!engine || status !== "ready") return;
     let active = true;
     setLoading(true);
     setError(undefined);
+    setSelectedVerseIds([]);
+    setSelectionAnchor(undefined);
 
     void (async () => {
       const installed = await engine.listInstalledVersions();
@@ -131,6 +138,8 @@ export function Reader() {
   const bookIndex = books.findIndex((book) => book.id === bookId);
   const book = bookIndex >= 0 ? books[bookIndex] : undefined;
   const versionName = installedVersions.find((item) => item.id === versionId)?.name ?? versionId.toUpperCase();
+  const selectedVerses = verses.filter((verse) => selectedVerseIds.includes(verse.id));
+  const selectedVerseKey = selectedVerseIds.join("|");
   const previous = versionId && book && chapter > 1
     ? { href: readerPath(versionId, bookRouteSegment(book, books), chapter - 1), label: "Capítulo anterior" }
     : versionId && bookIndex > 0 && books[bookIndex - 1]
@@ -187,6 +196,56 @@ export function Reader() {
     installControl.current.aborted = true;
     installControl.current.reason = "user_cancelled";
   }
+
+  function toggleVerse(verseId: string) {
+    setSelectedVerseIds((current) => current.includes(verseId)
+      ? current.filter((id) => id !== verseId)
+      : [...current, verseId]);
+  }
+
+  function updateSelectionAnchor() {
+    const root = readerContentRef.current;
+    if (!root || selectedVerseIds.length === 0) return;
+
+    const elements = Array.from(root.querySelectorAll<HTMLElement>("[data-verse-id]"))
+      .filter((element) => selectedVerseIds.includes(element.dataset.verseId ?? ""));
+    if (elements.length === 0) return;
+
+    const rootRect = root.getBoundingClientRect();
+    const rects = elements.map((element) => element.getBoundingClientRect());
+    const topEdge = Math.min(...rects.map((rect) => rect.top));
+    const bottomEdge = Math.max(...rects.map((rect) => rect.bottom));
+    const leftEdge = Math.min(...rects.map((rect) => rect.left));
+    const rightEdge = Math.max(...rects.map((rect) => rect.right));
+    const placement = topEdge < 96 ? "bottom" : "top";
+    const edge = placement === "top" ? topEdge : bottomEdge;
+    const rawCenterX = (leftEdge + rightEdge) / 2 - rootRect.left;
+    const halfPopover = Math.min(150, rootRect.width / 2);
+    const centerX = rootRect.width > 0
+      ? Math.min(Math.max(rawCenterX, halfPopover), rootRect.width - halfPopover)
+      : rawCenterX;
+
+    setSelectionAnchor({
+      top: edge - rootRect.top + root.scrollTop,
+      centerX: centerX + root.scrollLeft,
+      placement,
+    });
+  }
+
+  useEffect(() => {
+    if (selectedVerseIds.length === 0) {
+      setSelectionAnchor(undefined);
+      return;
+    }
+
+    updateSelectionAnchor();
+    window.addEventListener("resize", updateSelectionAnchor);
+    window.addEventListener("scroll", updateSelectionAnchor, true);
+    return () => {
+      window.removeEventListener("resize", updateSelectionAnchor);
+      window.removeEventListener("scroll", updateSelectionAnchor, true);
+    };
+  }, [selectedVerseKey, verses]);
 
   function installVersion(version: BibleVersion) {
     if (!engine || installingVersionId) return;
@@ -259,7 +318,7 @@ export function Reader() {
   return (
     <div data-testid="reader-screen" className="reader-screen min-h-[calc(100dvh-5.5rem)]">
       <ReaderToolbar bookName={book.name} chapter={chapter} versionName={versionName} previous={previous} next={next} width={readerWidth} displayOpen={displayOpen} onOpenBookPicker={() => openBookPicker()} onOpenChapterPicker={() => openBookPicker("chapters")} onOpenVersionPicker={openVersionPicker} onDisplayToggle={() => setDisplayOpen((open) => !open)} onWidthChange={setReaderWidth} />
-      <div className="reader-content">
+      <div ref={readerContentRef} className="reader-content">
         <OfflineBanner />
         <header className="reader-heading">
           <p className="reader-version">{versionName}</p>
@@ -268,8 +327,25 @@ export function Reader() {
           <p className="reader-count">{verses.length} versículos</p>
         </header>
         <article className={`reader-copy reader-copy-${readerWidth}`}>
-          {verses.map((verse) => <p key={verse.id}><sup>{verse.verse}</sup>{verse.text}</p>)}
+          {verses.map((verse) => (
+            <VerseRow
+              key={verse.id}
+              verse={verse}
+              selected={selectedVerseIds.includes(verse.id)}
+              onToggle={toggleVerse}
+            />
+          ))}
         </article>
+        {book && selectedVerses.length > 0 ? (
+          <VerseSelectionPopover
+            book={book}
+            chapter={chapter}
+            selectedVerses={selectedVerses}
+            versionName={versionName}
+            anchor={selectionAnchor ?? { top: 0, centerX: 0, placement: "bottom" }}
+            onClose={() => setSelectedVerseIds([])}
+          />
+        ) : null}
       </div>
       <BookChapterPicker open={bookPickerOpen} books={books} selectedBookId={bookId || null} selectedChapter={chapter || null} initialView={pickerInitialView} onClose={() => setBookPickerOpen(false)} onSelectBook={selectBook} onSelectChapter={selectChapter} />
       <VersionPicker open={versionPickerOpen} versionId={versionId} installedVersions={installedVersions} availableVersions={availableVersions} loading={availableLoading} error={versionPickerError ?? installError} installingId={installingVersionId} progress={installProgress} onClose={() => setVersionPickerOpen(false)} onSelect={selectVersion} onInstall={installVersion} onCancel={cancelInstall} onRetry={openVersionPicker} />

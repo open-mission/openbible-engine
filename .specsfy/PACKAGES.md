@@ -35,16 +35,17 @@
 | npm | produção | @openbible/sync-core | workspace:* | Finalidade não descrita nos metadados locais. |  |
 | npm | produção | better-auth | 1.7.2 | The most comprehensive authentication framework for TypeScript. | https://github.com/better-auth/better-auth |
 | npm | produção | kysely | ^0.29.5 | Type safe SQL query builder | https://github.com/kysely-org/kysely |
-| npm | produção | next | ^15.4.0 | The React Framework | vercel/next.js |
-| npm | produção | react | ^19.0.0 | React is a JavaScript library for building user interfaces. | https://github.com/facebook/react |
-| npm | produção | react-dom | ^19.0.0 | React package for working with the DOM. | https://github.com/react/react |
+| npm | produção | next | 16.3.3 | The React Framework | vercel/next.js |
+| npm | produção | react | 19.2.8 | React is a JavaScript library for building user interfaces. | https://github.com/facebook/react |
+| npm | produção | react-dom | 19.2.8 | React package for working with the DOM. | https://github.com/react/react |
 | npm | produção | sonner | 2.0.7 | An opinionated toast component for React. | https://github.com/emilkowalski/sonner |
 | npm | produção | tailwind-merge | ^2.5.0 | Merge Tailwind CSS classes without style conflicts | https://github.com/dcastil/tailwind-merge |
 | npm | desenvolvimento | @playwright/test | catalog: | A high-level API to automate web browsers | https://github.com/microsoft/playwright |
 | npm | desenvolvimento | @tailwindcss/postcss | ^4.0.0 | PostCSS plugin for Tailwind CSS, a utility-first CSS framework for rapidly building custom user interfaces | https://github.com/tailwindlabs/tailwindcss |
 | npm | desenvolvimento | @testing-library/jest-dom | ^6.4.0 | Custom jest matchers to test the state of the DOM | https://github.com/testing-library/jest-dom |
 | npm | desenvolvimento | @testing-library/react | ^16.0.0 | Simple and complete React DOM testing utilities that encourage good testing practices. | https://github.com/testing-library/react-testing-library |
-| npm | desenvolvimento | @types/react-dom | ^19.0.0 | TypeScript definitions for react-dom | https://github.com/DefinitelyTyped/DefinitelyTyped |
+| npm | desenvolvimento | @types/react | 19.2.18 | TypeScript definitions for react | https://github.com/DefinitelyTyped/DefinitelyTyped |
+| npm | desenvolvimento | @types/react-dom | 19.2.5 | TypeScript definitions for react-dom | https://github.com/DefinitelyTyped/DefinitelyTyped |
 | npm | desenvolvimento | @vitejs/plugin-react | ^4.3.0 | The default Vite plugin for React projects | https://github.com/vitejs/vite-plugin-react |
 | npm | desenvolvimento | jsdom | ^25.0.0 | A JavaScript implementation of many web standards | https://github.com/jsdom/jsdom |
 | npm | desenvolvimento | tailwindcss | ^4.0.0 | A utility-first CSS framework for rapidly building custom user interfaces. | https://github.com/tailwindlabs/tailwindcss |

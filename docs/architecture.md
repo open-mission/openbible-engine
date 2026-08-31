@@ -5,8 +5,8 @@
 
 | Tipo | Quantidade |
 | --- | --- |
-| Código | 360 |
-| Testes | 98 |
+| Código | 430 |
+| Testes | 100 |
 
 ## Diagramas
 

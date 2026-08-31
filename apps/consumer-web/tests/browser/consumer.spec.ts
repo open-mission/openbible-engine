@@ -11,7 +11,7 @@ test("baixa ARA da origem remota, reabre e lê offline", async ({ page }) => {
   await expect(page.getByText("Instalada", { exact: true })).toBeVisible({ timeout: 30_000 });
   await page.getByRole("link", { name: "Leitura" }).click();
   await expect(page.getByRole("heading", { name: "Gênesis 1", exact: true })).toBeVisible({ timeout: 30_000 });
-  await expect(page.locator("p").filter({ hasText: "No princípio, criou Deus os céus e a terra." }).first()).toBeVisible();
+  await expect(page.getByRole("button", { name: /Versículo 1: No princípio, criou Deus os céus e a terra\./ })).toBeVisible();
 
   await page.getByRole("button", { name: "Livro" }).click();
   const bookPicker = page.getByRole("dialog", { name: "Selecionar livro e capítulo" });
@@ -43,7 +43,7 @@ test("baixa ARA da origem remota, reabre e lê offline", async ({ page }) => {
   }
   await page.reload();
   await expect(page.getByRole("heading", { name: "Gênesis 2", exact: true })).toBeVisible({ timeout: 30_000 });
-  await expect(page.locator("article p").first()).toBeVisible();
+  await expect(page.locator("article [data-verse-row]").first()).toBeVisible();
 });
 
 test("publica manifest instalável", async ({ request }) => {

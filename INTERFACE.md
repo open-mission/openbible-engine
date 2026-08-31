@@ -11,7 +11,7 @@ registra componentes, blocos e telas locais; as regras globais de SaaS vivem em
 
 ## Base observada
 
-- Stack: TypeScript, Next.js App Router 15, React 19, Tailwind CSS 4, pnpm e
+- Stack: TypeScript, Next.js App Router 16.3.3, React 19.2.8, Tailwind CSS 4, pnpm e
   Turborepo para Web; OpenTUI React 0.5.8 em Node.js 26.4+ com
   `--experimental-ffi` para a TUI.
 - Política: **Há interface para pessoas: Sim** — `apps/consumer-web` é o
@@ -69,6 +69,8 @@ vazio, upload ou ação em lote.
 | ResponsivePicker | overlay React | `apps/consumer-web/src/features/reader/ResponsivePicker.tsx` | Fornece a moldura comum dos pickers, com modal central no desktop e drawer inferior no mobile | `role=dialog`, `aria-modal`, título nomeado, Escape e fechamento pelo backdrop | BookChapterPicker, VersionPicker | Manter somente comportamento de overlay; não colocar regra da engine |
 | BookChapterPicker | picker React de domínio | `apps/consumer-web/src/features/reader/BookChapterPicker.tsx` | Filtra livros retornados pela engine, separa AT/NT e seleciona capítulo válido com tokens neutros do tema legado | busca, livros vazios, seleção, capítulos numéricos, retorno, Escape e foco visível | Reader | Reutilizar para seleção de contexto; não duplicar catálogo bíblico |
 | VersionPicker | picker React de domínio | `apps/consumer-web/src/features/reader/VersionPicker.tsx` | Lista versões instaladas/disponíveis, filtra, seleciona e delega instalação com tokens neutros do tema legado | abas, vazio, loading, erro/retry, progresso, cancelar e ações nomeadas | Reader | Reutilizar para versões; aquisição continua na fachada pública da engine |
+| VerseRow | controle React de domínio | `apps/consumer-web/src/features/reader/VerseRow.tsx` | Renderiza um versículo como botão alternável, preservando a leitura serifada e expondo seu estado | selecionado/não selecionado, foco visível, `aria-pressed`, teclado e texto selecionável | Reader | Reutilizar somente no Reader; não adicionar regra ou persistência de engine |
+| VerseSelectionPopover | popover React de domínio | `apps/consumer-web/src/features/reader/VerseSelectionPopover.tsx` | Ancora ações contextuais para copiar referência/texto e limpar versículos selecionados | dialog nomeado, ações focáveis, feedback `aria-live`, fallback de clipboard, Escape e clique fora | Reader | Reutilizar no Reader; manter cópia e seleção efêmeras |
 | SearchForm | shadcn/ui Input + Button | `apps/consumer-web/src/features/search/SearchForm.tsx` | Valida termo não vazio e dispara busca | vazio, foco, submit por teclado | Busca | Reutilizar para busca local |
 | SearchResults | List de domínio + Badge | `apps/consumer-web/src/features/search/SearchResults.tsx` | Lista resultados com versão e link contextual | vazio, resultados, `aria-live` | Busca | Preservar origem da versão |
 | OfflineBanner / EmptyState / ErrorState | shadcn/ui-style feedback | `apps/consumer-web/src/components/ui/feedback.tsx` | Estados transversais do app | empty, error, retry e informação offline | Biblioteca, Leitor, Busca | Reutilizar antes de criar estado novo |
@@ -88,9 +90,9 @@ vazio, upload ou ação em lote.
 
 | Tela ou rota | Arquivo | Componentes React usados | Dados e ações | Estados |
 | --- | --- | --- | --- | --- |
-| Leitor `/` | `apps/consumer-web/src/app/page.tsx` + `src/features/reader/Reader.tsx` | AppShell, NavigationDock, ReaderToolbar, ResponsivePicker, BookChapterPicker, VersionPicker, OfflineBanner, feedback | primeira versão instalada, livros, capítulo e versículos pela engine; seleção e largura do texto | loading, empty, error, offline, conteúdo, limites, pickers |
+| Leitor `/` | `apps/consumer-web/src/app/page.tsx` + `src/features/reader/Reader.tsx` | AppShell, NavigationDock, ReaderToolbar, ResponsivePicker, BookChapterPicker, VersionPicker, VerseRow, VerseSelectionPopover, OfflineBanner, feedback | primeira versão instalada, livros, capítulo e versículos pela engine; seleção, cópia e largura do texto | loading, empty, error, offline, conteúdo, seleção, clipboard, limites, pickers |
 | Biblioteca `/biblioteca` | `apps/consumer-web/src/app/biblioteca/page.tsx` + `src/features/library/AppLibrary.tsx` | AppShell, NavigationDock, page-frame, Breadcrumbs, OfflineBanner, VersionCard, feedback | catálogo e registry; instalar/remover/ler | loading, empty, error, installed/available/installing/removing |
-| Leitor `/ler/[versao]/[livro]/[capitulo]` | `apps/consumer-web/src/app/ler/[versao]/[livro]/[capitulo]/page.tsx` + `src/features/reader/Reader.tsx` | AppShell, NavigationDock, ReaderToolbar, ResponsivePicker, BookChapterPicker, VersionPicker, OfflineBanner, feedback | livros, capítulo e versículos pela engine; seleção e largura do texto | loading, empty, error, offline, conteúdo, limites, pickers |
+| Leitor `/[version]/[book]/[chapter]` | `apps/consumer-web/src/app/[version]/[book]/[chapter]/page.tsx` + `src/features/reader/Reader.tsx` | AppShell, NavigationDock, ReaderToolbar, ResponsivePicker, BookChapterPicker, VersionPicker, VerseRow, VerseSelectionPopover, OfflineBanner, feedback | livros, capítulo e versículos pela engine; seleção, cópia e largura do texto | loading, empty, error, offline, conteúdo, seleção, clipboard, limites, pickers |
 | Busca `/busca` | `apps/consumer-web/src/app/busca/page.tsx` + `src/features/search/Search.tsx` | AppShell, NavigationDock, page-frame, Breadcrumbs, SearchForm, SearchResults, feedback | busca agregada em todas as versões instaladas | sem termo, loading, empty, error, resultados |
 | Conformance CLI | `apps/conformance-cli/src/index.ts` | Nenhum (CLI Node) | comandos via `process.argv`, saída JSON | success, empty, error |
 | Native desktop consumer | `apps/consumer-native/src/app.native` + `src/core.ts` | Native markup, uma janela GPU/software | tabs Biblioteca/Leitor/Busca; instalar via R2 em ranges, remover, ler, buscar, retry e navegação | loading/download, ready, empty, failed; snapshot Native confirma foco e labels |
