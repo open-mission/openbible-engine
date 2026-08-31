@@ -3,7 +3,7 @@ import tsPlugin from "@typescript-eslint/eslint-plugin";
 
 export default [
   {
-    ignores: ["**/dist/**", "**/node_modules/**", "**/coverage/**", "specs/**", ".specsfy/**", ".agents/**"],
+    ignores: ["**/.next/**", "**/dist/**", "**/node_modules/**", "**/coverage/**", "specs/**", ".specsfy/**", ".agents/**"],
   },
   {
     files: ["**/*.ts", "**/*.tsx"],

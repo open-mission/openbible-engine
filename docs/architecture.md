@@ -5,7 +5,7 @@
 
 | Tipo | Quantidade |
 | --- | --- |
-| Código | 430 |
+| Código | 262 |
 | Testes | 100 |
 
 ## Diagramas

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import type { BibleBook, BibleVersion, CancellationToken, InstalledBible, InstallationProgress, Verse } from "@openbible/engine-core";
 import type { InstallationObserver } from "@openbible/engine";
@@ -20,8 +20,10 @@ import { bookRouteSegment, findBookByRouteSegment, readerPath } from "@/features
 import { getEngineErrorMessage } from "@/lib/engine-error";
 
 type ReaderReference = { versionId: string; bookId: string; chapter: number };
+type ReaderRouteParams = { version: string; book: string; chapter: string };
+type ReaderProps = { routeParams?: ReaderRouteParams };
 
-function ReaderLoadingSkeleton() {
+export function ReaderLoadingSkeleton() {
   const verseLines = ["w-full", "w-[92%]", "w-full", "w-[84%]", "w-[96%]", "w-[88%]"];
 
   return (
@@ -48,15 +50,10 @@ function ReaderLoadingSkeleton() {
   );
 }
 
-function param(value: string | string[] | undefined): string {
-  return Array.isArray(value) ? value[0] ?? "" : value ?? "";
-}
-
-export function Reader() {
-  const params = useParams<{ version?: string | string[]; book?: string | string[]; chapter?: string | string[] }>();
-  const requestedVersionId = param(params?.version);
-  const requestedBookSegment = param(params?.book);
-  const requestedChapterValue = param(params?.chapter);
+export function Reader({ routeParams }: ReaderProps = {}) {
+  const requestedVersionId = routeParams?.version ?? "";
+  const requestedBookSegment = routeParams?.book ?? "";
+  const requestedChapterValue = routeParams?.chapter ?? "";
   const requestedChapter = requestedChapterValue ? Number.parseInt(requestedChapterValue, 10) : undefined;
   const isRoot = !requestedVersionId && !requestedBookSegment && !requestedChapterValue;
   const router = useRouter();

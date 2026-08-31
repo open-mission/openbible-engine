@@ -2,6 +2,7 @@ import nextPwa from "@ducanh2912/next-pwa";
 
 const nextConfig = {
   reactStrictMode: true,
+  cacheComponents: true,
   turbopack: {},
 };
 

@@ -94,7 +94,7 @@ describe("Leitor", () => {
   it("não cria navegação além do último livro e capítulo", async () => {
     readerMocks.params = { version: "ara", book: "ex", chapter: "1" };
     mockReaderData([gen, exo], [{ id: "exo-1-1", bookId: "exo", chapter: 1, verse: 1, text: "Êxodo" }]);
-    render(<Reader />);
+    render(<Reader routeParams={readerMocks.params} />);
     await screen.findByRole("heading", { name: "Êxodo 1" });
 
     expect(screen.queryByRole("link", { name: /Capítulo anterior/ })).not.toBeInTheDocument();

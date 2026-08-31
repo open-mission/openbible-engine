@@ -34,6 +34,9 @@ uma. Preserve decisões humanas nas seções livres deste arquivo.
   script `copy-web-assets.mjs` expõe somente os bundles oficiais do Worker e
   `sqlite3.wasm` como overrides públicos do adapter; `pnpm --filter
   @openbible/consumer-web run check` valida a app completa.
+- A preparação de Instant Navigation habilita `cacheComponents: true` em
+  `apps/consumer-web/next.config.mjs`; a adoção de rotas e
+  `partialPrefetching` permanece separada para a próxima etapa.
 - `@openbible/adapter-http` implementa a origem remota de pacotes: usa
   `NEXT_PUBLIC_BIBLE_API_URL` para catálogo/proxy CORS e
   `NEXT_PUBLIC_BIBLE_BUCKET_URL` para arquivos SQLite diretos no R2 `/bibles`,
